@@ -50,11 +50,7 @@ cc_library_host_static {
 //##########################################
 
 cc_binary_host {
-    // This isn't usable as-is from the installed directory, so name it
-    // something else so it doesn't match with the prebuilt_build_tool and the
-    // stem will rename it back to bison on the filesystem.
-    name: "bison_bin",
-    stem: "bison",
+    name: "bison",
     defaults: [
         "bison_defaults",
         "bison_linux_defaults",
