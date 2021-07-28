@@ -78,7 +78,7 @@
 /* With glibc-2.1 or newer, we don't need any canonicalization,
    because glibc has iconv and both glibc and libiconv support all
    GNU canonical names directly.  */
-# if !((defined __GNU_LIBRARY__ && __GLIBC__ >= 2) || defined __UCLIBC__)
+# if !((defined __GNU_LIBRARY__ && __GLIBC__ >= 2) || defined __UCLIBC__ || defined MUSL)
 
 struct table_entry
 {

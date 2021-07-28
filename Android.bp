@@ -40,11 +40,18 @@ cc_defaults {
                 "-mmacosx-version-min=10.13",
             ],
         },
-        linux: {
+        glibc: {
             local_include_dirs: [
-                "linux-lib",
+                "linux_glibc-lib",
                 "lib",
             ],
+        },
+        musl: {
+            local_include_dirs: [
+                "linux_musl-lib",
+                "lib",
+            ],
+            cflags: ["-DMUSL"],
         },
     },
 }
@@ -53,7 +60,8 @@ cc_library_host_static {
     name: "libbison",
     defaults: [
         "bison_defaults",
-        "libbison_linux_defaults",
+        "libbison_linux_glibc_defaults",
+        "libbison_linux_musl_defaults",
         "libbison_darwin_defaults",
     ],
 }
@@ -68,7 +76,8 @@ cc_binary_host {
     stem: "bison",
     defaults: [
         "bison_defaults",
-        "bison_linux_defaults",
+        "bison_linux_glibc_defaults",
+        "bison_linux_musl_defaults",
         "bison_darwin_defaults",
     ],
 
