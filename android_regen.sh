@@ -23,21 +23,27 @@ ANDROID_BUILD_TOP=$(cd ../..; pwd)
 UNAME=$(uname | tr 'A-Z' 'a-z')
 NAME=linux_glibc
 TARGET=glibc
+config_opts=()
 if [ $UNAME == "darwin" ]; then
   NAME=darwin
   TARGET=darwin
+  # vfork is deprecated on Mac, so always fallback to fork
+  config_opts+=("ac_cv_func_vfork=no")
+  # we'd need to link to libiconv
+  config_opts+=("am_cv_func_iconv=no")
+else
+  export CC="$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/$(cd $ANDROID_BUILD_TOP; build/soong/scripts/get_clang_version.py)/bin/clang"
 fi
 
-if [ "$1" = "--musl_sysroot" ]; then
+if [ "$1" = "--musl" ]; then
   NAME=linux_musl
   TARGET=musl
-  sysroot=$2
-  export CC="${sysroot}/bin/musl-clang"
+  sysroot="${ANDROID_BUILD_TOP}/prebuilts/build-tools/sysroots/x86_64-linux-musl"
+  export CFLAGS="--sysroot=${sysroot} -target x86_64-linux-musl -fuse-ld=lld"
   export LDFLAGS="--rtlib=compiler-rt"
 fi
 
 if [ $NAME == "linux_glibc" ]; then
-  export CC="$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/$(cd $ANDROID_BUILD_TOP; build/soong/scripts/get_clang_version.py)/bin/clang"
   export CFLAGS="--sysroot=$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot"
   export LDFLAGS="--sysroot=$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot -B$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/lib/gcc/x86_64-linux/4.8.3 -L$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/lib/gcc/x86_64-linux/4.8.3 -L$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/x86_64-linux/lib64"
 fi
@@ -55,12 +61,26 @@ cd tmp
   --enable-relocatable \
   --prefix=/nonexistent \
   --exec-prefix=/nonexistent/$NAME-x86 \
-  --datarootdir=/nonexistent/common
+  --datarootdir=/nonexistent/common \
+  "${config_opts[@]}"
 
+# Don't try to use aclocal/automake/etc
+touch ../../aclocal.m4
+touch ../../configure
+touch ../../Makefile.in
+
+# Don't attempt to update source timestamps
+touch ../../doc/stamp-vti
+
+make -fMakefile Makefile
 echo 'gensrcs: $(BUILT_SOURCES)' >>Makefile
 make -fMakefile gensrcs
 make -fMakefile src/bison
+
+mkdir -p ../malloc
+rm -rf ../*.h ../malloc/*.h
 mv lib/*.h ../
+mv lib/malloc/*.h ../malloc/
 
 GENBP=../Android.bp
 rm -f $GENBP
