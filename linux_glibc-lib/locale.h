@@ -1,6 +1,5 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
-/* A more-standard <time.h>.
-
+/* A POSIX <locale.h>.
    Copyright (C) 2007-2021 Free Software Foundation, Inc.
 
    This file is free software: you can redistribute it and/or modify
@@ -21,33 +20,38 @@
 #endif
 
 
-/* Don't get in the way of glibc when it includes time.h merely to
-   declare a few standard symbols, rather than to declare all the
-   symbols.  (However, skip this for MinGW as it treats __need_time_t
-   incompatibly.)  Also, Solaris 8 <time.h> eventually includes itself
-   recursively; if that is happening, just include the system <time.h>
-   without adding our own declarations.  */
-#if (((defined __need_time_t || defined __need_clock_t \
-       || defined __need_timespec)                     \
-      && !defined __MINGW32__)                         \
-     || defined _GL_TIME_H)
+#if (defined _WIN32 && !defined __CYGWIN__ && defined __need_locale_t) \
+    || defined _GL_ALREADY_INCLUDING_LOCALE_H
 
-# include_next <time.h>
+/* Special invocation convention:
+   - Inside mingw header files,
+   - To handle Solaris header files (through Solaris 10) when combined
+     with gettext's libintl.h.  */
+
+#include_next <locale.h>
 
 #else
+/* Normal invocation convention.  */
 
-# define _GL_TIME_H
+#ifndef _GL_LOCALE_H
 
-/* mingw's <time.h> provides the functions asctime_r, ctime_r, gmtime_r,
-   localtime_r only if <unistd.h> or <pthread.h> has been included before.  */
-# if defined __MINGW32__
-#  include <unistd.h>
-# endif
+#define _GL_ALREADY_INCLUDING_LOCALE_H
 
-# include_next <time.h>
+/* The include_next requires a split double-inclusion guard.  */
+#include_next <locale.h>
+
+#undef _GL_ALREADY_INCLUDING_LOCALE_H
+
+#ifndef _GL_LOCALE_H
+#define _GL_LOCALE_H
 
 /* NetBSD 5.0 mis-defines NULL.  */
-# include <stddef.h>
+#include <stddef.h>
+
+/* Mac OS X 10.5 defines the locale_t type in <xlocale.h>.  */
+#if 1
+# include <xlocale.h>
+#endif
 
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 /* C++ compatible function declaration macros.
@@ -561,388 +565,248 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 # endif
 #endif
 
-/* Some systems don't define struct timespec (e.g., AIX 4.1).
-   Or they define it with the wrong member names or define it in <sys/time.h>
-   (e.g., FreeBSD circa 1997).  Stock Mingw prior to 3.0 does not define it,
-   but the pthreads-win32 library defines it in <pthread.h>.  */
-# if ! 1
-#  if 0
-#   include <sys/time.h>
-#  elif 0
-#   include <pthread.h>
-#  elif 0
-#   include <unistd.h>
-#  else
-
-#   ifdef __cplusplus
-extern "C" {
-#   endif
-
-#   if !GNULIB_defined_struct_timespec
-#    undef timespec
-#    define timespec rpl_timespec
-struct timespec
-{
-  time_t tv_sec;
-  long int tv_nsec;
-};
-#    define GNULIB_defined_struct_timespec 1
-#   endif
-
-#   ifdef __cplusplus
-}
-#   endif
-
-#  endif
-# endif
-
-# if !GNULIB_defined_struct_time_t_must_be_integral
-/* https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_types.h.html
-   requires time_t to be an integer type, even though C99 permits floating
-   point.  We don't know of any implementation that uses floating
-   point, and it is much easier to write code that doesn't have to
-   worry about that corner case, so we force the issue.  */
-struct __time_t_must_be_integral {
-  unsigned int __floating_time_t_unsupported : (time_t) 1;
-};
-#  define GNULIB_defined_struct_time_t_must_be_integral 1
-# endif
-
-/* Define TIME_UTC, a positive integer constant used for timespec_get().  */
-# if ! 1
-#  if !GNULIB_defined_TIME_UTC
-#   define TIME_UTC 1
-#   define GNULIB_defined_TIME_UTC 1
-#  endif
-# endif
-
-/* Set *TS to the current time, and return BASE.
-   Upon failure, return 0.  */
-# if 0
-#  if ! 1
-_GL_FUNCDECL_SYS (timespec_get, int, (struct timespec *ts, int base)
-                                     _GL_ARG_NONNULL ((1)));
-#  endif
-_GL_CXXALIAS_SYS (timespec_get, int, (struct timespec *ts, int base));
-_GL_CXXALIASWARN (timespec_get);
-# endif
-
-/* Sleep for at least RQTP seconds unless interrupted,  If interrupted,
-   return -1 and store the remaining time into RMTP.  See
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/nanosleep.html>.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    define nanosleep rpl_nanosleep
-#   endif
-_GL_FUNCDECL_RPL (nanosleep, int,
-                  (struct timespec const *__rqtp, struct timespec *__rmtp)
-                  _GL_ARG_NONNULL ((1)));
-_GL_CXXALIAS_RPL (nanosleep, int,
-                  (struct timespec const *__rqtp, struct timespec *__rmtp));
-#  else
-#   if ! 1
-_GL_FUNCDECL_SYS (nanosleep, int,
-                  (struct timespec const *__rqtp, struct timespec *__rmtp)
-                  _GL_ARG_NONNULL ((1)));
-#   endif
-_GL_CXXALIAS_SYS (nanosleep, int,
-                  (struct timespec const *__rqtp, struct timespec *__rmtp));
-#  endif
-_GL_CXXALIASWARN (nanosleep);
-# endif
-
-/* Initialize time conversion information.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef tzset
-#    define tzset rpl_tzset
-#   endif
-_GL_FUNCDECL_RPL (tzset, void, (void));
-_GL_CXXALIAS_RPL (tzset, void, (void));
-#  elif defined _WIN32 && !defined __CYGWIN__
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef tzset
-#    define tzset _tzset
-#   endif
-_GL_CXXALIAS_MDA (tzset, void, (void));
-#  else
-_GL_CXXALIAS_SYS (tzset, void, (void));
-#  endif
-_GL_CXXALIASWARN (tzset);
-# elif 1
-/* On native Windows, map 'tzset' to '_tzset', so that -loldnames is not
-   required.  In C++ with GNULIB_NAMESPACE, avoid differences between
-   platforms by defining GNULIB_NAMESPACE::tzset always.  */
-#  if defined _WIN32 && !defined __CYGWIN__
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef tzset
-#    define tzset _tzset
-#   endif
-_GL_CXXALIAS_MDA (tzset, void, (void));
-#  else
-_GL_CXXALIAS_SYS (tzset, void, (void));
-#  endif
-_GL_CXXALIASWARN (tzset);
-# endif
-
-/* Return the 'time_t' representation of TP and normalize TP.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    define mktime rpl_mktime
-#   endif
-_GL_FUNCDECL_RPL (mktime, time_t, (struct tm *__tp) _GL_ARG_NONNULL ((1)));
-_GL_CXXALIAS_RPL (mktime, time_t, (struct tm *__tp));
-#  else
-_GL_CXXALIAS_SYS (mktime, time_t, (struct tm *__tp));
-#  endif
-#  if __GLIBC__ >= 2
-_GL_CXXALIASWARN (mktime);
-#  endif
-# endif
-
-/* Convert TIMER to RESULT, assuming local time and UTC respectively.  See
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/localtime_r.html> and
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/gmtime_r.html>.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef localtime_r
-#    define localtime_r rpl_localtime_r
-#   endif
-_GL_FUNCDECL_RPL (localtime_r, struct tm *, (time_t const *restrict __timer,
-                                             struct tm *restrict __result)
-                                            _GL_ARG_NONNULL ((1, 2)));
-_GL_CXXALIAS_RPL (localtime_r, struct tm *, (time_t const *restrict __timer,
-                                             struct tm *restrict __result));
-#  else
-#   if ! 1
-_GL_FUNCDECL_SYS (localtime_r, struct tm *, (time_t const *restrict __timer,
-                                             struct tm *restrict __result)
-                                            _GL_ARG_NONNULL ((1, 2)));
-#   endif
-_GL_CXXALIAS_SYS (localtime_r, struct tm *, (time_t const *restrict __timer,
-                                             struct tm *restrict __result));
-#  endif
-#  if 1
-_GL_CXXALIASWARN (localtime_r);
-#  endif
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef gmtime_r
-#    define gmtime_r rpl_gmtime_r
-#   endif
-_GL_FUNCDECL_RPL (gmtime_r, struct tm *, (time_t const *restrict __timer,
-                                          struct tm *restrict __result)
-                                         _GL_ARG_NONNULL ((1, 2)));
-_GL_CXXALIAS_RPL (gmtime_r, struct tm *, (time_t const *restrict __timer,
-                                          struct tm *restrict __result));
-#  else
-#   if ! 1
-_GL_FUNCDECL_SYS (gmtime_r, struct tm *, (time_t const *restrict __timer,
-                                          struct tm *restrict __result)
-                                         _GL_ARG_NONNULL ((1, 2)));
-#   endif
-_GL_CXXALIAS_SYS (gmtime_r, struct tm *, (time_t const *restrict __timer,
-                                          struct tm *restrict __result));
-#  endif
-#  if 1
-_GL_CXXALIASWARN (gmtime_r);
-#  endif
-# endif
-
-/* Convert TIMER to RESULT, assuming local time and UTC respectively.  See
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/localtime.html> and
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/gmtime.html>.  */
-# if 0 || 0
-#  if 0
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef localtime
-#    define localtime rpl_localtime
-#   endif
-_GL_FUNCDECL_RPL (localtime, struct tm *, (time_t const *__timer)
-                                          _GL_ARG_NONNULL ((1)));
-_GL_CXXALIAS_RPL (localtime, struct tm *, (time_t const *__timer));
-#  else
-_GL_CXXALIAS_SYS (localtime, struct tm *, (time_t const *__timer));
-#  endif
-#  if __GLIBC__ >= 2
-_GL_CXXALIASWARN (localtime);
-#  endif
-# endif
-
-# if 0 || 0
-#  if 0
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef gmtime
-#    define gmtime rpl_gmtime
-#   endif
-_GL_FUNCDECL_RPL (gmtime, struct tm *, (time_t const *__timer)
-                                       _GL_ARG_NONNULL ((1)));
-_GL_CXXALIAS_RPL (gmtime, struct tm *, (time_t const *__timer));
-#  else
-_GL_CXXALIAS_SYS (gmtime, struct tm *, (time_t const *__timer));
-#  endif
-_GL_CXXALIASWARN (gmtime);
-# endif
-
-/* Parse BUF as a timestamp, assuming FORMAT specifies its layout, and store
-   the resulting broken-down time into TM.  See
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/strptime.html>.  */
-# if 0
-#  if ! 1
-_GL_FUNCDECL_SYS (strptime, char *, (char const *restrict __buf,
-                                     char const *restrict __format,
-                                     struct tm *restrict __tm)
-                                    _GL_ARG_NONNULL ((1, 2, 3)));
-#  endif
-_GL_CXXALIAS_SYS (strptime, char *, (char const *restrict __buf,
-                                     char const *restrict __format,
-                                     struct tm *restrict __tm));
-_GL_CXXALIASWARN (strptime);
-# endif
-
-/* Convert *TP to a date and time string.  See
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/ctime.html>.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    define ctime rpl_ctime
-#   endif
-_GL_FUNCDECL_RPL (ctime, char *, (time_t const *__tp)
-                                 _GL_ARG_NONNULL ((1)));
-_GL_CXXALIAS_RPL (ctime, char *, (time_t const *__tp));
-#  else
-_GL_CXXALIAS_SYS (ctime, char *, (time_t const *__tp));
-#  endif
-#  if __GLIBC__ >= 2
-_GL_CXXALIASWARN (ctime);
-#  endif
-# endif
-
-/* Convert *TP to a date and time string.  See
-   <https://pubs.opengroup.org/onlinepubs/9699919799/functions/strftime.html>.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    define strftime rpl_strftime
-#   endif
-_GL_FUNCDECL_RPL (strftime, size_t,
-                  (char *restrict __buf, size_t __bufsize,
-                   const char *restrict __fmt, const struct tm *restrict __tp)
-                  _GL_ARG_NONNULL ((1, 3, 4)));
-_GL_CXXALIAS_RPL (strftime, size_t,
-                  (char *restrict __buf, size_t __bufsize,
-                   const char *restrict __fmt, const struct tm *restrict __tp));
-#  else
-_GL_CXXALIAS_SYS (strftime, size_t,
-                  (char *restrict __buf, size_t __bufsize,
-                   const char *restrict __fmt, const struct tm *restrict __tp));
-#  endif
-#  if __GLIBC__ >= 2
-_GL_CXXALIASWARN (strftime);
-#  endif
-# endif
-
-# if defined _GNU_SOURCE && 0 && ! 0
-/* Functions that use a first-class time zone data type, instead of
-   relying on an implicit global time zone.
-   Inspired by NetBSD.  */
-
-/* Represents a time zone.
-   (timezone_t) NULL stands for UTC.  */
-typedef struct tm_zone *timezone_t;
-
-/* tzalloc (name)
-   Returns a time zone object for the given time zone NAME.  This object
-   represents the time zone that other functions would use it the TZ
-   environment variable was set to NAME.
-   If NAME is NULL, the result represents the time zone that other functions
-   would use it the TZ environment variable was unset.
-   May return NULL if NAME is invalid (this is platform dependent) or
-   upon memory allocation failure.  */
-_GL_FUNCDECL_SYS (tzalloc, timezone_t, (char const *__name));
-_GL_CXXALIAS_SYS (tzalloc, timezone_t, (char const *__name));
-
-/* tzfree (tz)
-   Frees a time zone object.
-   The argument must have been returned by tzalloc().  */
-_GL_FUNCDECL_SYS (tzfree, void, (timezone_t __tz));
-_GL_CXXALIAS_SYS (tzfree, void, (timezone_t __tz));
-
-/* localtime_rz (tz, &t, &result)
-   Converts an absolute time T to a broken-down time RESULT, assuming the
-   time zone TZ.
-   This function is like 'localtime_r', but relies on the argument TZ instead
-   of an implicit global time zone.  */
-_GL_FUNCDECL_SYS (localtime_rz, struct tm *,
-                  (timezone_t __tz, time_t const *restrict __timer,
-                   struct tm *restrict __result) _GL_ARG_NONNULL ((2, 3)));
-_GL_CXXALIAS_SYS (localtime_rz, struct tm *,
-                  (timezone_t __tz, time_t const *restrict __timer,
-                   struct tm *restrict __result));
-
-/* mktime_z (tz, &tm)
-   Normalizes the broken-down time TM and converts it to an absolute time,
-   assuming the time zone TZ.  Returns the absolute time.
-   This function is like 'mktime', but relies on the argument TZ instead
-   of an implicit global time zone.  */
-_GL_FUNCDECL_SYS (mktime_z, time_t,
-                  (timezone_t __tz, struct tm *restrict __tm)
-                  _GL_ARG_NONNULL ((2)));
-_GL_CXXALIAS_SYS (mktime_z, time_t,
-                  (timezone_t __tz, struct tm *restrict __tm));
-
-/* Time zone abbreviation strings (returned by 'localtime_rz' or 'mktime_z'
-   in the 'tm_zone' member of 'struct tm') are valid as long as
-     - the 'struct tm' argument is not destroyed or overwritten,
-   and
-     - the 'timezone_t' argument is not freed through tzfree().  */
-
-# endif
-
-/* Convert TM to a time_t value, assuming UTC.  */
-# if 0
-#  if GNULIB_PORTCHECK
-#   if !(defined __cplusplus && defined GNULIB_NAMESPACE)
-#    undef timegm
-#    define timegm rpl_timegm
-#   endif
-_GL_FUNCDECL_RPL (timegm, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
-_GL_CXXALIAS_RPL (timegm, time_t, (struct tm *__tm));
-#  else
-#   if ! 1
-_GL_FUNCDECL_SYS (timegm, time_t, (struct tm *__tm) _GL_ARG_NONNULL ((1)));
-#   endif
-_GL_CXXALIAS_SYS (timegm, time_t, (struct tm *__tm));
-#  endif
-_GL_CXXALIASWARN (timegm);
-# endif
-
-/* Encourage applications to avoid unsafe functions that can overrun
-   buffers when given outlandish struct tm values.  Portable
-   applications should use strftime (or even sprintf) instead.  */
-# if defined GNULIB_POSIXCHECK
-#  undef asctime
-_GL_WARN_ON_USE (asctime, "asctime can overrun buffers in some cases - "
-                 "better use strftime (or even sprintf) instead");
-# endif
-# if defined GNULIB_POSIXCHECK
-#  undef asctime_r
-_GL_WARN_ON_USE (asctime_r, "asctime_r can overrun buffers in some cases - "
-                 "better use strftime (or even sprintf) instead");
-# endif
-# if defined GNULIB_POSIXCHECK
-#  undef ctime
-_GL_WARN_ON_USE (ctime, "ctime can overrun buffers in some cases - "
-                 "better use strftime (or even sprintf) instead");
-# endif
-# if defined GNULIB_POSIXCHECK
-#  undef ctime_r
-_GL_WARN_ON_USE (ctime_r, "ctime_r can overrun buffers in some cases - "
-                 "better use strftime (or even sprintf) instead");
-# endif
-
+/* The LC_MESSAGES locale category is specified in POSIX, but not in ISO C.
+   On systems that don't define it, use the same value as GNU libintl.  */
+#if !defined LC_MESSAGES
+# define LC_MESSAGES 1729
 #endif
+
+/* On native Windows with MSVC, 'struct lconv' lacks the members int_p_* and
+   int_n_*.  Instead of overriding 'struct lconv', merely define these member
+   names as macros.  This avoids trouble in C++ mode.  */
+#if defined _MSC_VER
+# define int_p_cs_precedes   p_cs_precedes
+# define int_p_sign_posn     p_sign_posn
+# define int_p_sep_by_space  p_sep_by_space
+# define int_n_cs_precedes   n_cs_precedes
+# define int_n_sign_posn     n_sign_posn
+# define int_n_sep_by_space  n_sep_by_space
+#endif
+
+/* Bionic libc's 'struct lconv' is just a dummy.  */
+#if 0
+# define lconv rpl_lconv
+struct lconv
+{
+  /* All 'char *' are actually 'const char *'.  */
+
+  /* Members that depend on the LC_NUMERIC category of the locale.  See
+     <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html#tag_07_03_04> */
+
+  /* Symbol used as decimal point.  */
+  char *decimal_point;
+  /* Symbol used to separate groups of digits to the left of the decimal
+     point.  */
+  char *thousands_sep;
+  /* Definition of the size of groups of digits to the left of the decimal
+     point.  */
+  char *grouping;
+
+  /* Members that depend on the LC_MONETARY category of the locale.  See
+     <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html#tag_07_03_03> */
+
+  /* Symbol used as decimal point.  */
+  char *mon_decimal_point;
+  /* Symbol used to separate groups of digits to the left of the decimal
+     point.  */
+  char *mon_thousands_sep;
+  /* Definition of the size of groups of digits to the left of the decimal
+     point.  */
+  char *mon_grouping;
+  /* Sign used to indicate a value >= 0.  */
+  char *positive_sign;
+  /* Sign used to indicate a value < 0.  */
+  char *negative_sign;
+
+  /* For formatting local currency.  */
+  /* Currency symbol (3 characters) followed by separator (1 character).  */
+  char *currency_symbol;
+  /* Number of digits after the decimal point.  */
+  char frac_digits;
+  /* For values >= 0: 1 if the currency symbol precedes the number, 0 if it
+     comes after the number.  */
+  char p_cs_precedes;
+  /* For values >= 0: Position of the sign.  */
+  char p_sign_posn;
+  /* For values >= 0: Placement of spaces between currency symbol, sign, and
+     number.  */
+  char p_sep_by_space;
+  /* For values < 0: 1 if the currency symbol precedes the number, 0 if it
+     comes after the number.  */
+  char n_cs_precedes;
+  /* For values < 0: Position of the sign.  */
+  char n_sign_posn;
+  /* For values < 0: Placement of spaces between currency symbol, sign, and
+     number.  */
+  char n_sep_by_space;
+
+  /* For formatting international currency.  */
+  /* Currency symbol (3 characters) followed by separator (1 character).  */
+  char *int_curr_symbol;
+  /* Number of digits after the decimal point.  */
+  char int_frac_digits;
+  /* For values >= 0: 1 if the currency symbol precedes the number, 0 if it
+     comes after the number.  */
+  char int_p_cs_precedes;
+  /* For values >= 0: Position of the sign.  */
+  char int_p_sign_posn;
+  /* For values >= 0: Placement of spaces between currency symbol, sign, and
+     number.  */
+  char int_p_sep_by_space;
+  /* For values < 0: 1 if the currency symbol precedes the number, 0 if it
+     comes after the number.  */
+  char int_n_cs_precedes;
+  /* For values < 0: Position of the sign.  */
+  char int_n_sign_posn;
+  /* For values < 0: Placement of spaces between currency symbol, sign, and
+     number.  */
+  char int_n_sep_by_space;
+};
+#endif
+
+#if 0
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef localeconv
+#   define localeconv rpl_localeconv
+#  endif
+_GL_FUNCDECL_RPL (localeconv, struct lconv *, (void));
+_GL_CXXALIAS_RPL (localeconv, struct lconv *, (void));
+# else
+_GL_CXXALIAS_SYS (localeconv, struct lconv *, (void));
+# endif
+# if __GLIBC__ >= 2
+_GL_CXXALIASWARN (localeconv);
+# endif
+#elif 0
+# undef localeconv
+# define localeconv localeconv_used_without_requesting_gnulib_module_localeconv
+#elif defined GNULIB_POSIXCHECK
+# undef localeconv
+# if HAVE_RAW_DECL_LOCALECONV
+_GL_WARN_ON_USE (localeconv,
+                 "localeconv returns too few information on some platforms - "
+                 "use gnulib module localeconv for portability");
+# endif
+#endif
+
+#if 0
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef setlocale
+#   define setlocale rpl_setlocale
+#   define GNULIB_defined_setlocale 1
+#  endif
+_GL_FUNCDECL_RPL (setlocale, char *, (int category, const char *locale));
+_GL_CXXALIAS_RPL (setlocale, char *, (int category, const char *locale));
+# else
+_GL_CXXALIAS_SYS (setlocale, char *, (int category, const char *locale));
+# endif
+# if __GLIBC__ >= 2
+_GL_CXXALIASWARN (setlocale);
+# endif
+#elif defined GNULIB_POSIXCHECK
+# undef setlocale
+# if HAVE_RAW_DECL_SETLOCALE
+_GL_WARN_ON_USE (setlocale, "setlocale works differently on native Windows - "
+                 "use gnulib module setlocale for portability");
+# endif
+#endif
+
+#if 1
+/* Included here for convenience.  */
+# include "setlocale_null.h"
+#endif
+
+#if /*@GNULIB_NEWLOCALE@ ||*/ (0 && 0 && 1)
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef newlocale
+#   define newlocale rpl_newlocale
+#   define GNULIB_defined_newlocale 1
+#  endif
+_GL_FUNCDECL_RPL (newlocale, locale_t,
+                  (int category_mask, const char *name, locale_t base)
+                  _GL_ARG_NONNULL ((2)));
+_GL_CXXALIAS_RPL (newlocale, locale_t,
+                  (int category_mask, const char *name, locale_t base));
+# else
+#  if 1
+_GL_CXXALIAS_SYS (newlocale, locale_t,
+                  (int category_mask, const char *name, locale_t base));
+#  endif
+# endif
+# if 1
+_GL_CXXALIASWARN (newlocale);
+# endif
+# if 1 || 0
+#  ifndef HAVE_WORKING_NEWLOCALE
+#   define HAVE_WORKING_NEWLOCALE 1
+#  endif
+# endif
+#elif defined GNULIB_POSIXCHECK
+# undef newlocale
+# if HAVE_RAW_DECL_NEWLOCALE
+_GL_WARN_ON_USE (newlocale, "newlocale is not portable");
+# endif
+#endif
+
+#if 0 || (0 && 0 && 1)
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef duplocale
+#   define duplocale rpl_duplocale
+#   define GNULIB_defined_duplocale 1
+#  endif
+_GL_FUNCDECL_RPL (duplocale, locale_t, (locale_t locale) _GL_ARG_NONNULL ((1)));
+_GL_CXXALIAS_RPL (duplocale, locale_t, (locale_t locale));
+# else
+#  if 1
+_GL_CXXALIAS_SYS (duplocale, locale_t, (locale_t locale));
+#  endif
+# endif
+# if 1
+_GL_CXXALIASWARN (duplocale);
+# endif
+# if 1 || 0
+#  ifndef HAVE_WORKING_DUPLOCALE
+#   define HAVE_WORKING_DUPLOCALE 1
+#  endif
+# endif
+#elif defined GNULIB_POSIXCHECK
+# undef duplocale
+# if HAVE_RAW_DECL_DUPLOCALE
+_GL_WARN_ON_USE (duplocale, "duplocale is buggy on some glibc systems - "
+                 "use gnulib module duplocale for portability");
+# endif
+#endif
+
+#if /*@GNULIB_FREELOCALE@ ||*/ (0 && 0 && 1)
+# if 0
+#  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
+#   undef freelocale
+#   define freelocale rpl_freelocale
+#   define GNULIB_defined_freelocale 1
+#  endif
+_GL_FUNCDECL_RPL (freelocale, void, (locale_t locale) _GL_ARG_NONNULL ((1)));
+_GL_CXXALIAS_RPL (freelocale, void, (locale_t locale));
+# else
+#  if 1
+/* Need to cast, because on FreeBSD and Mac OS X 10.13, the return type is
+                                   int.  */
+_GL_CXXALIAS_SYS_CAST (freelocale, void, (locale_t locale));
+#  endif
+# endif
+# if 1
+_GL_CXXALIASWARN (freelocale);
+# endif
+#elif defined GNULIB_POSIXCHECK
+# undef freelocale
+# if HAVE_RAW_DECL_FREELOCALE
+_GL_WARN_ON_USE (freelocale, "freelocale is not portable");
+# endif
+#endif
+
+#endif /* _GL_LOCALE_H */
+#endif /* _GL_LOCALE_H */
+#endif /* !(__need_locale_t || _GL_ALREADY_INCLUDING_LOCALE_H) */
