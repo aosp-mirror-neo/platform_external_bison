@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 3.0.0.6062.a6b16\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2011-09-02 18:39+0900\n"
 "Last-Translator: Yasuaki Taniguchi <yasuakit@gmail.com>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
@@ -36,71 +36,71 @@ msgstr "%2$s に対する引数 %1$s が曖昧です"
 msgid "Valid arguments are:"
 msgstr "有効な引数:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 #, fuzzy
 msgid "cannot read stats file"
 msgstr "パイプを作成できません"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr ""
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 #, fuzzy
 msgid "cannot write stats file"
 msgstr "パイプを作成できません"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 #, fuzzy
 msgid "cannot open stats file for writing"
 msgstr "書込み用バックアップファイル\"%s\"を開くことができません"
@@ -112,6 +112,12 @@ msgstr "書き込みエラー"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "不明なシステムエラー"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s サブプロセスが失敗しました"
 
 #: lib/getopt.c:278
 #, fuzzy, c-format
@@ -148,9 +154,29 @@ msgstr "%s: 無効なオプション -- '%c'\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: オプションには引数が必要です -- '%c'\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "メモリを使い果たしました"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "現在の作業ディレクトリを記録することができません"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "初期作業ディレクトリに戻るのに失敗しました"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle に失敗しました"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "ファイル記述子 (fd) %d をリストアできません: dup2 に失敗しました"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -173,25 +199,19 @@ msgstr "メモリを使い果たしました"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "`"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "'"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "パイプを作成できません"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "%s サブプロセスが失敗しました"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -210,22 +230,34 @@ msgstr ""
 msgid "wall clock"
 msgstr "Alarm clock"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "_open_osfhandle に失敗しました"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "iconv 関数が使えません"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "ファイル記述子 (fd) %d をリストアできません: dup2 に失敗しました"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "iconv 関数が有効ではありません"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "範囲外の文字"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "U+%04X をローカル文字セットに変換できません"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "U+%04X をローカル文字セットに変換できません: %s "
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "%s 子プロセス"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "%s 子プロセスが致命的なシグナル %d を受信しました"
@@ -601,12 +633,6 @@ msgstr "%s 子プロセスが致命的なシグナル %d を受信しました"
 #~ msgid "cannot create directory %s"
 #~ msgstr "ディレクトリ %s を作成できません"
 
-#~ msgid "unable to record current working directory"
-#~ msgstr "現在の作業ディレクトリを記録することができません"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "初期作業ディレクトリに戻るのに失敗しました"
-
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "/dev/zeroを読込み用に開けません"
 
@@ -807,21 +833,6 @@ msgstr "%s 子プロセスが致命的なシグナル %d を受信しました"
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "不明なシグナル %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "iconv 関数が使えません"
-
-#~ msgid "iconv function not available"
-#~ msgstr "iconv 関数が有効ではありません"
-
-#~ msgid "character out of range"
-#~ msgstr "範囲外の文字"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "U+%04X をローカル文字セットに変換できません"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "U+%04X をローカル文字セットに変換できません: %s "
 
 #~ msgid "invalid user"
 #~ msgstr "無効なユーザ"

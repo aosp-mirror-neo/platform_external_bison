@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mailutils 0.6.90\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2005-05-21 04:10+0200\n"
 "Last-Translator: Jordi Mallach <jordi@gnu.org>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -34,72 +34,72 @@ msgstr "l'argument %s és ambigu per %s"
 msgid "Valid arguments are:"
 msgstr "Els arguments vàlids són:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 #, fuzzy
 msgid "cannot read stats file"
 msgstr "No es pot crear la llista"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr ""
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 #, fuzzy
 msgid "cannot write stats file"
 msgstr "No es pot crear la llista"
 
 # Usa quote().  ivb
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 #, fuzzy
 msgid "cannot open stats file for writing"
 msgstr "no s'ha pogut obrir %s per a escriure"
@@ -111,6 +111,12 @@ msgstr "error d'escriptura"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "S'ha produït un error desconegut del sistema"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, fuzzy, c-format
+msgid "%s subprocess failed"
+msgstr "%s: ha fallat el desplaçament"
 
 #: lib/getopt.c:278
 #, fuzzy, c-format
@@ -147,9 +153,29 @@ msgstr "%s: l'opció no és vàlida -- %c\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: l'opció requereix un argument -- %c\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "la memòria s'ha exhaurit"
+
+#: lib/openat-die.c:38
+#, fuzzy, c-format
+msgid "unable to record current working directory"
+msgstr "openat: no s'ha pogut registrar el directori de treball actual"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "no s'ha pogut tornar al directori inicial de treball"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr ""
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr ""
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -172,25 +198,19 @@ msgstr "la memòria s'ha exhaurit"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "«"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "»"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, fuzzy, c-format
 msgid "cannot create pipe"
 msgstr "No es pot crear la llista"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, fuzzy, c-format
-msgid "%s subprocess failed"
-msgstr "%s: ha fallat el desplaçament"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -208,22 +228,34 @@ msgstr ""
 msgid "wall clock"
 msgstr ""
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr ""
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "la funció iconv() no és útil"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr ""
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "la funció iconv() no es troba disponible"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "el caràcter es troba fora del rang"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "no s'ha pogut convertir U+%04X al joc de caràcters local"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "no s'ha pogut convertir U+%04X al joc de caràcters local: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, fuzzy, c-format
 msgid "%s subprocess"
 msgstr "%s: ha fallat el desplaçament"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, fuzzy, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "%s: ha fallat el desplaçament"
@@ -503,13 +535,6 @@ msgstr "%s: ha fallat el desplaçament"
 #~ msgstr "no s'han pogut canviar els permisos de %s"
 
 #, fuzzy
-#~ msgid "unable to record current working directory"
-#~ msgstr "openat: no s'ha pogut registrar el directori de treball actual"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "no s'ha pogut tornar al directori inicial de treball"
-
-#, fuzzy
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "%s: no s'ha pogut obrir per a escriure"
 
@@ -558,21 +583,6 @@ msgstr "%s: ha fallat el desplaçament"
 
 #~ msgid "^[nN]"
 #~ msgstr "^[nN]"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "la funció iconv() no és útil"
-
-#~ msgid "iconv function not available"
-#~ msgstr "la funció iconv() no es troba disponible"
-
-#~ msgid "character out of range"
-#~ msgstr "el caràcter es troba fora del rang"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "no s'ha pogut convertir U+%04X al joc de caràcters local"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "no s'ha pogut convertir U+%04X al joc de caràcters local: %s"
 
 #~ msgid "invalid user"
 #~ msgstr "l'usuari no és vàlid"

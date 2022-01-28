@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: textutils 2.0.14\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2001-06-08 22:10 +02:00\n"
 "Last-Translator: Stanislav Meduna <stano@trillian.eunet.sk>\n"
 "Language-Team: Slovak <sk-i18n@rak.isternet.sk>\n"
@@ -30,71 +30,71 @@ msgstr "nejednoznaèný argument %s pre `%s'"
 msgid "Valid arguments are:"
 msgstr "Platné argumenty sú:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 #, fuzzy
 msgid "cannot read stats file"
 msgstr "nie je mo¾né vytvori» adresár %s"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr ""
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 #, fuzzy
 msgid "cannot write stats file"
 msgstr "nie je mo¾né vytvori» adresár %s"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 #, fuzzy
 msgid "cannot open stats file for writing"
 msgstr "nie je mo¾né otvori» %s pre èítanie"
@@ -106,6 +106,12 @@ msgstr "chyba pri zápise"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Neznáma systémová chyba"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, fuzzy, c-format
+msgid "%s subprocess failed"
+msgstr "%s: chybný vzor"
 
 #: lib/getopt.c:278
 #, fuzzy, c-format
@@ -142,9 +148,29 @@ msgstr "%s: chybný prepínaè -- %c\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: prepínaè vy¾aduje argument -- %c\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "vyèerpaná pamä»"
+
+#: lib/openat-die.c:38
+#, fuzzy, c-format
+msgid "unable to record current working directory"
+msgstr "nie je mo¾né vytvori» adresár %s"
+
+#: lib/openat-die.c:57
+#, fuzzy, c-format
+msgid "failed to return to initial working directory"
+msgstr "nie je mo¾né vytvori» adresár %s"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr ""
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr ""
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -167,25 +193,19 @@ msgstr "vyèerpaná pamä»"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "`"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "'"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, fuzzy, c-format
 msgid "cannot create pipe"
 msgstr "nie je mo¾né vytvori» adresár %s"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, fuzzy, c-format
-msgid "%s subprocess failed"
-msgstr "%s: chybný vzor"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -203,22 +223,37 @@ msgstr ""
 msgid "wall clock"
 msgstr ""
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr ""
+#: lib/unicodeio.c:102
+#, fuzzy
+msgid "iconv function not usable"
+msgstr "nie je mo¾né vypísa» U+%04X: funkcia iconv nie je pou¾iteµná"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr ""
+#: lib/unicodeio.c:104
+#, fuzzy
+msgid "iconv function not available"
+msgstr "nie je mo¾né vypísa» U+%04X: funkcia iconv nie je dostupná"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+#, fuzzy
+msgid "character out of range"
+msgstr "U+%04X: znak je mimo rozsah"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "nie je mo¾né konvertova» U+%04X do lokálnej znakovej sady"
+
+#: lib/unicodeio.c:200
+#, fuzzy, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "nie je mo¾né konvertova» U+%04X do lokálnej znakovej sady"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, fuzzy, c-format
 msgid "%s subprocess"
 msgstr "%s: chybný vzor"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, fuzzy, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "%s: chybný vzor"
@@ -418,10 +453,6 @@ msgstr "%s: chybný vzor"
 #~ msgstr "nie je mo¾né zmeni» práva %s"
 
 #, fuzzy
-#~ msgid "unable to record current working directory"
-#~ msgstr "nie je mo¾né vytvori» adresár %s"
-
-#, fuzzy
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "nie je mo¾né zmeni» práva %s"
 
@@ -458,25 +489,6 @@ msgstr "%s: chybný vzor"
 
 #~ msgid "^[nN]"
 #~ msgstr "^[nN]"
-
-#, fuzzy
-#~ msgid "iconv function not usable"
-#~ msgstr "nie je mo¾né vypísa» U+%04X: funkcia iconv nie je pou¾iteµná"
-
-#, fuzzy
-#~ msgid "iconv function not available"
-#~ msgstr "nie je mo¾né vypísa» U+%04X: funkcia iconv nie je dostupná"
-
-#, fuzzy
-#~ msgid "character out of range"
-#~ msgstr "U+%04X: znak je mimo rozsah"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "nie je mo¾né konvertova» U+%04X do lokálnej znakovej sady"
-
-#, fuzzy
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "nie je mo¾né konvertova» U+%04X do lokálnej znakovej sady"
 
 #~ msgid "invalid user"
 #~ msgstr "neplatný pou¾ívateµ"

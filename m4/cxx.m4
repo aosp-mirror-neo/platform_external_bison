@@ -1,7 +1,7 @@
 # -*- Autoconf -*-
 # Sanity-test a C++ compiler.
 #
-# Copyright (C) 2004, 2006, 2009-2015, 2018-2019 Free Software
+# Copyright (C) 2004, 2006, 2009-2015, 2018-2021 Free Software
 # Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Written by Paul Eggert.
 
@@ -27,12 +27,13 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
     bison_cv_cxx_works=no
     AC_COMPILE_IFELSE(
       [AC_LANG_PROGRAM(
-         [#include <cstdlib>
+         [[
+          #include <cstdlib>
           #include <iostream>
           #include <map>
           #include <string>
-          using namespace std;],
-         [std::cerr << "";
+          using namespace std;]],
+         [[std::cerr << "";
           cout << "";
           typedef std::pair<unsigned, int> uipair;
           std::map<unsigned, int> m;
@@ -40,7 +41,7 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
           m.insert (uipair (4, -4));
           for (i = m.begin (); i != m.end (); ++i)
             if (i->first != 4)
-              return 1;])],
+              return 1;]])],
       [AS_IF([AC_TRY_COMMAND([$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_objext $LIBS >&AS_MESSAGE_LOG_FD])],
          [AS_IF([test "$cross_compiling" = yes],
             [bison_cv_cxx_works=cross],
