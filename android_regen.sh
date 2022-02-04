@@ -37,7 +37,7 @@ if [ "$1" = "--musl_sysroot" ]; then
 fi
 
 if [ $NAME == "linux_glibc" ]; then
-  export CC="$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/clang-r370808/bin/clang"
+  export CC="$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/$(cd $ANDROID_BUILD_TOP; build/soong/scripts/get_clang_version.py)/bin/clang"
   export CFLAGS="--sysroot=$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot"
   export LDFLAGS="--sysroot=$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot -B$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/lib/gcc/x86_64-linux/4.8.3 -L$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/lib/gcc/x86_64-linux/4.8.3 -L$ANDROID_BUILD_TOP/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/x86_64-linux/lib64"
 fi
