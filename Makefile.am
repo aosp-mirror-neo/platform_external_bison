@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2021 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
@@ -42,7 +42,7 @@ dependencies = $(BISON_IN) $(src_bison_SOURCES) $(dist_skeletons_DATA)
 BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
 YACC = $(BISON) -o y.tab.c
-AM_YFLAGS_WITH_LINES = --defines -Werror -Wall --report=all
+AM_YFLAGS_WITH_LINES = --defines -Werror -Wall,dangling-alias --report=all
 AM_YFLAGS = $(AM_YFLAGS_WITH_LINES) --no-lines
 
 # Initialization before completion by local.mk's.
@@ -75,6 +75,13 @@ include tests/local.mk
 
 clean-local:
 	rm -rf $(CLEANDIRS)
+
+.PHONY: gitsort
+gitsort:
+	cd $(srcdir)							\
+	&& for i in $$(git ls-files '*.gitignore' | grep -v doc); do	\
+	  LC_ALL=C sort $$i -o $$i;					\
+	done
 
 # See comments in build-aux/git-version-gen.  However, we make .version depend
 # on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the
@@ -127,3 +134,16 @@ gen-ChangeLog:
 	    --since=$(gen_start_date) > $$cl.tmp &&	\
 	  mv -f $$cl.tmp $$cl;				\
 	fi
+
+# Useful to debug.
+.c.i:
+	$(CC) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -o $@ -E $<
+
+.PHONY: codespell
+CODESPELL = codespell
+codespell:
+	$(AM_V_GEN) cd $(srcdir) \
+	&& $(CODESPELL) \
+	     --regex "[\\w\\-'’\`]+\+*" \
+	     --ignore-words-list "ba,circularly,cloneable,copyable,define'd,dout,froms,iff,ifset,od,ois" \
+	     $$(git ls-files data doc lib src tests)

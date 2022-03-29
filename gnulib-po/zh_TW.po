@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the gnulib package.
 #
 # # Merged from textutils, sh-utils and fileutils translation:
+#
 # # Yip Chi Lap <clyip@cs.hku.hk>, 1998.
 # # Yuan-Chung Cheng <platin@ms.ccafps.khc.edu.tw>, 1998.
 # # Abel Cheung <abelcheung@gmail.com>, 2002.
 # # Pofeng Lee <pofeng@linux.org.tw>, 1998, 2002.
 # Abel Cheung <abelcheung@gmail.com>, 2005.
 # pan93412 <pan93412@gmail.com>, 2019.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 4.0.0.2567\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
-"PO-Revision-Date: 2019-12-06 23:21+0800\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
+"PO-Revision-Date: 2019-12-15 13:01+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@lists.linux.org.tw>\n"
 "Language: zh_TW\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Lokalize 19.12.0\n"
 
 #: lib/argmatch.c:132
 #, c-format
@@ -40,44 +40,44 @@ msgstr "傳入 %2$s 之參數 %1$s 不明確"
 msgid "Valid arguments are:"
 msgstr "有效的參數為："
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitset_allocs，已釋放 %u (%.2f%%)。\n"
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_sets，已快取 %u (%.2f%%)\n"
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_resets，已快取 %u (%.2f%%)\n"
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitset_tests，%u 已快取 (%.2f%%)\n"
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset_lists\n"
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
@@ -86,25 +86,25 @@ msgstr ""
 "Bitset 統計：\n"
 "\n"
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "累積執行次數 = %u\n"
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 msgid "cannot read stats file"
 msgstr "無法讀取統計檔案"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr "統計檔案大小無效\n"
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 msgid "cannot write stats file"
 msgstr "無法寫入統計檔案"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 msgid "cannot open stats file for writing"
 msgstr "無法開啟統計檔案寫入"
 
@@ -115,6 +115,12 @@ msgstr "寫入時發生錯誤"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "未知系統錯誤"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s 子執行程序執行失敗"
 
 #: lib/getopt.c:278
 #, c-format
@@ -151,9 +157,29 @@ msgstr "%s：無效選項 -- '%c'\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s：選項需要參數 -- '%c'\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "記憶體用盡"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "無法記錄目前工作目錄"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "無法回到初始工作目錄"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle 失敗"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "無法復原 fd %d：dup2 失敗"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -176,25 +202,19 @@ msgstr "記憶體用盡"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "「"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "」"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "無法建立管線"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "%s 子執行程序執行失敗"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -212,22 +232,34 @@ msgstr "CPU 系統"
 msgid "wall clock"
 msgstr "掛鐘"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "_open_osfhandle 失敗"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "iconv 功能沒有用"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "無法復原 fd %d：dup2 失敗"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "iconv 功能不能使用"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "字元超出範圍"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "無法將 U+%04X 轉換至使用者的字元集"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "無法將 U+%04X 轉換至使用者的字元集：%s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "%s 子執行程序"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "%s 子執行程序收到嚴重錯誤信號 %d"
@@ -490,7 +522,7 @@ msgstr "%s 子執行程序收到嚴重錯誤信號 %d"
 #~ msgstr "所有請求完成"
 
 #~ msgid "Interrupted by a signal"
-#~ msgstr "遭信號中止"
+#~ msgstr "遭信號中斷"
 
 #~ msgid "Parameter string not correctly encoded"
 #~ msgstr "未正確編碼參數字串"
@@ -527,12 +559,6 @@ msgstr "%s 子執行程序收到嚴重錯誤信號 %d"
 
 #~ msgid "cannot create directory %s"
 #~ msgstr "無法建立 %s 目錄"
-
-#~ msgid "unable to record current working directory"
-#~ msgstr "無法記錄目前工作目錄"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "無法回到初始工作目錄"
 
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "無法開啟 /dev/zero 讀取"
@@ -628,10 +654,10 @@ msgstr "%s 子執行程序收到嚴重錯誤信號 %d"
 #~ msgstr "掛斷"
 
 #~ msgid "Interrupt"
-#~ msgstr "中止"
+#~ msgstr "中斷"
 
 #~ msgid "Quit"
-#~ msgstr "結束"
+#~ msgstr "退出"
 
 #~ msgid "Illegal instruction"
 #~ msgstr "無效指令"
@@ -640,10 +666,10 @@ msgstr "%s 子執行程序收到嚴重錯誤信號 %d"
 #~ msgstr "追蹤 / 斷點陷阱"
 
 #~ msgid "Aborted"
-#~ msgstr "取消"
+#~ msgstr "中止"
 
 #~ msgid "Floating point exception"
-#~ msgstr "期望浮點數"
+#~ msgstr "浮點數例外"
 
 #~ msgid "Killed"
 #~ msgstr "強制結束"
@@ -734,21 +760,6 @@ msgstr "%s 子執行程序收到嚴重錯誤信號 %d"
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "未知信號 %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "iconv 功能沒有用"
-
-#~ msgid "iconv function not available"
-#~ msgstr "iconv 功能不能使用"
-
-#~ msgid "character out of range"
-#~ msgstr "字元超出範圍"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "無法將 U+%04X 轉換至使用者的字元集"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "無法將 U+%04X 轉換至使用者的字元集：%s"
 
 #~ msgid "invalid user"
 #~ msgstr "使用者無效"

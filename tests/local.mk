@@ -1,6 +1,6 @@
 ## Makefile for Bison testsuite.
 
-## Copyright (C) 2000-2015, 2018-2019 Free Software Foundation, Inc.
+## Copyright (C) 2000-2015, 2018-2021 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -13,9 +13,11 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-EXTRA_DIST += %D%/linear $(TESTSUITE_AT) %D%/testsuite %D%/testsuite.h
+EXTRA_DIST +=					\
+  %D%/README.md %D%/linear			\
+  $(TESTSUITE_AT) %D%/testsuite %D%/testsuite.h
 
 DISTCLEANFILES       += %D%/atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES += $(TESTSUITE)
@@ -36,6 +38,14 @@ $(top_srcdir)/%D%/package.m4: $(top_srcdir)/configure
 	} >$@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
+
+# Update the test cases.  Consider the latest test results to be the
+# correct expectations, and change the test cases to match them.
+.PHONY: update-tests
+update-tests:
+	$(AM_V_GEN)cd $(top_srcdir) \
+	  && build-aux/update-test $(abs_builddir)/%D%/testsuite.dir/*/testsuite.log
+
 ## ------------------------- ##
 ## Generate the test suite.  ##
 ## ------------------------- ##
@@ -47,7 +57,9 @@ TESTSUITE_AT =                                \
   %D%/c++.at                                  \
   %D%/calc.at                                 \
   %D%/conflicts.at                            \
+  %D%/counterexample.at                       \
   %D%/cxx-type.at                             \
+  %D%/d.at                                    \
   %D%/diagnostics.at                          \
   %D%/existing.at                             \
   %D%/glr-regression.at                       \
@@ -56,6 +68,7 @@ TESTSUITE_AT =                                \
   %D%/java.at                                 \
   %D%/javapush.at                             \
   %D%/local.at                                \
+  %D%/m4.at                                   \
   %D%/named-refs.at                           \
   %D%/output.at                               \
   %D%/package.m4                              \
@@ -96,12 +109,15 @@ clean-local-tests:
 
 .PHONY: recheck
 recheck: $(RUN_TESTSUITE_deps)
-	$(RUN_TESTSUITE)							\
-	  $$(perl -n								\
-	     -e 'if (/Summary of the failures/../Detailed failed tests/)'	\
-	     -e '{ /^ *[0-9]+:/ && s/:.*//s && print }' %D%/testsuite.log)
+	$(RUN_TESTSUITE)					\
+	  $$(perl -n						\
+	     -e 'eof && /^(\d+).*: FAILED/ && print "$$1 "'	\
+		%D%/testsuite.dir/*/testsuite.log)
 
-check-local: $(RUN_TESTSUITE_deps)
+check-local: check-tests
+
+.PHONY: check-tests
+check-tests: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)
 
 # Run the test suite on the *installed* tree.
@@ -121,7 +137,7 @@ maintainer-check-posix: $(RUN_TESTSUITE_deps)
 VALGRIND_OPTS = --leak-check=full --show-reachable=yes --gen-suppressions=all \
   $(VALGRIND_OPTS_SUPPRESSION)
 maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
-	test 'x$(VALGRIND)' == x ||					\
+	test 'x$(VALGRIND)' = x ||					\
 	  $(RUN_TESTSUITE)						\
 	    PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'	\
 	    VALGRIND_OPTS="$(VALGRIND_OPTS)"
