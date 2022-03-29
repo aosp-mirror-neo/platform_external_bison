@@ -1,5 +1,5 @@
 ## Customize maint.mk                           -*- makefile -*-
-## Copyright (C) 2008-2015, 2018-2019 Free Software Foundation, Inc.
+## Copyright (C) 2008-2015, 2018-2021 Free Software Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 ## GNU General Public License for more details.
 
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Update version, then recompile so that tests/bison --version be
 # up-to-date, then compile our parser again with our up-to-date bison.
@@ -42,7 +42,7 @@ url_dir_list = \
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =			\
   sc_immutable_NEWS			\
-  sc_prohibit_atoi_atof
+  sc_indent
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.
@@ -51,7 +51,7 @@ gnulib_dir = $(srcdir)/gnulib
 bootstrap-tools = autoconf,automake,flex,gettext,gnulib
 
 announcement_Cc_ = \
-  bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org, \
+  bug-bison@gnu.org, bison-announce@gnu.org, \
   coordinator@translationproject.org
 
 update-copyright: update-b4-copyright update-package-copyright-year
@@ -126,7 +126,7 @@ _sed_rm_comments_q = $(subst ','\'',$(_sed_remove_comments))
 
 _space_before_paren_exempt =? \\n\\$$
 _space_before_paren_exempt = \
-  (^ *\#|(LA)?LR\([01]\)|percent_(code|define)|b4_syncline|m4_(define|init)|symbol)
+  (^ *\#|(LA)?LR\([01]\)|percent_(code|define)|b4_syncline|m4_(define|init))
 # Ensure that there is a space before each open parenthesis in C code.
 sc_space_before_open_paren:
 	@if $(VC_LIST_EXCEPT) | grep -l '\.[ch]$$' > /dev/null; then	\
@@ -156,16 +156,19 @@ exclude = \
 $(call exclude,                                                                 \
   bindtextdomain=^lib/main.c$$                                                  \
   cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
-  po_check=(^po/POTFILES.in|.md)$$		                                \
+  error_message_uppercase=etc/bench.pl.in$$                                     \
+  file_system=^doc/Doxyfile.in$$                                                \
+  po_check=^tests|(^po/POTFILES.in|.md)$$                                       \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
   program_name=^lib/main.c$$                                                    \
   prohibit_always-defined_macros=^data/skeletons/yacc.c$$                       \
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$              \
   prohibit_always-defined_macros+=?|^tests/regression.at$$                      \
+  prohibit_atoi_atof=^(doc|etc|examples|tests)/                                 \
   prohibit_doubled_word=^tests/named-refs.at$$                                  \
   prohibit_magic_number_exit=^doc/bison.texi$$                                  \
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$              \
-  prohibit_strcmp=^doc/bison\.texi|examples|tests/local\.at$$                   \
+  prohibit_strcmp=^doc/bison\.texi|examples|tests                               \
   prohibit_tab_based_indentation=install-icc.sh|\.(am|mk)$$|^\.git|tests/input.at|Makefile$$   \
   require_config_h=^(lib/yyerror|data/skeletons/(glr|yacc))\.c$$                \
   require_config_h_first=^(lib/yyerror|data/skeletons/(glr|yacc))\.c$$          \

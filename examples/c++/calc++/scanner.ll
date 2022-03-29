@@ -1,3 +1,22 @@
+/* Scanner for calc++.   -*- C++ -*-
+
+   Copyright (C) 2005-2015, 2018-2021 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+
 %{ /* -*- C++ -*- */
 # include <cerrno>
 # include <climits>
@@ -24,7 +43,7 @@
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 
-// This example uses Flex's C backend, yet compiles it as C++.
+// This example uses Flex's C back end, yet compiles it as C++.
 // So expect warnings about C style casts and NULL.
 #if defined CLANG_VERSION && 500 <= CLANG_VERSION
 # pragma clang diagnostic ignored "-Wold-style-cast"
@@ -69,6 +88,14 @@
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 # endif
 #endif
+
+// Flex 2.6.4, GCC 9
+// warning: useless cast to type 'int' [-Wuseless-cast]
+// 1361 |   YY_CURRENT_BUFFER_LVALUE->yy_buf_size = (int) (new_size - 2);
+//      |                                                 ^
+#if defined GCC_VERSION && 900 <= GCC_VERSION
+# pragma GCC diagnostic ignored "-Wuseless-cast"
+#endif
 %}
 
 %option noyywrap nounput noinput batch debug
@@ -111,7 +138,7 @@ blank [ \t\r]
              throw yy::parser::syntax_error
                (loc, "invalid character: " + std::string(yytext));
 }
-<<EOF>>    return yy::parser::make_END (loc);
+<<EOF>>    return yy::parser::make_YYEOF (loc);
 %%
 
 yy::parser::symbol_type
@@ -132,7 +159,7 @@ driver::scan_begin ()
     yyin = stdin;
   else if (!(yyin = fopen (file.c_str (), "r")))
     {
-      std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';
+      std::cerr << "cannot open " << file << ": " << strerror (errno) << '\n';
       exit (EXIT_FAILURE);
     }
 }
