@@ -1,31 +1,48 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Definitions for POSIX spawn interface.
-   Copyright (C) 2000, 2003-2004, 2008-2019 Free Software Foundation, Inc.
+   Copyright (C) 2000, 2003-2004, 2008-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
-
-#ifndef _GL_SPAWN_H
 
 #if __GNUC__ >= 3
 #pragma GCC system_header
 #endif
 
 
+#if defined _GL_ALREADY_INCLUDING_SPAWN_H
+/* Special invocation convention:
+   On OS/2 kLIBC, <spawn.h> includes <signal.h>. Then <signal.h> ->
+   <pthread.h> -> <sched.h> -> <spawn.h> are included by GNULIB.
+   In this situation, struct sched_param is not yet defined.  */
+
+#include_next <spawn.h>
+
+#else
+
+#ifndef _GL_SPAWN_H
+/* Normal invocation convention.  */
+
 /* The include_next requires a split double-inclusion guard.  */
 #if 1
+
+# define _GL_ALREADY_INCLUDING_SPAWN_H
+
 # include_next <spawn.h>
+
+# define _GL_ALREADY_INCLUDING_SPAWN_H
+
 #endif
 
 #ifndef _GL_SPAWN_H
@@ -44,28 +61,35 @@
 # define __THROW
 #endif
 
-/* GCC 2.95 and later have "__restrict"; C99 compilers have
+/* For plain 'restrict', use glibc's __restrict if defined.
+   Otherwise, GCC 2.95 and later have "__restrict"; C99 compilers have
    "restrict", and "configure" may have defined "restrict".
    Other compilers use __restrict, __restrict__, and _Restrict, and
    'configure' might #define 'restrict' to those words, so pick a
    different name.  */
 #ifndef _Restrict_
-# if 199901L <= __STDC_VERSION__
-#  define _Restrict_ restrict
-# elif 2 < __GNUC__ || (2 == __GNUC__ && 95 <= __GNUC_MINOR__)
+# if defined __restrict \
+     || 2 < __GNUC__ + (95 <= __GNUC_MINOR__) \
+     || __clang_major__ >= 3
 #  define _Restrict_ __restrict
+# elif 199901L <= __STDC_VERSION__ || defined restrict
+#  define _Restrict_ restrict
 # else
 #  define _Restrict_
 # endif
 #endif
-/* gcc 3.1 and up support the [restrict] syntax.  Don't trust
-   sys/cdefs.h's definition of __restrict_arr, though, as it
-   mishandles gcc -ansi -pedantic.  */
+/* For the ISO C99 syntax
+     array_name[restrict]
+   use glibc's __restrict_arr if available.
+   Otherwise, GCC 3.1 and clang support this syntax (but not in C++ mode).
+   Other ISO C99 compilers support it as well.  */
 #ifndef _Restrict_arr_
-# if ((199901L <= __STDC_VERSION__                                      \
-       || ((3 < __GNUC__ || (3 == __GNUC__ && 1 <= __GNUC_MINOR__))     \
-           && !defined __STRICT_ANSI__))                                        \
-      && !defined __GNUG__)
+# ifdef __restrict_arr
+#  define _Restrict_arr_ __restrict_arr
+# elif ((199901L <= __STDC_VERSION__ \
+         || 3 < __GNUC__ + (1 <= __GNUC_MINOR__) \
+         || __clang_major__ >= 3) \
+        && !defined __cplusplus)
 #  define _Restrict_arr_ _Restrict_
 # else
 #  define _Restrict_arr_
@@ -74,19 +98,19 @@
 
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 /* C++ compatible function declaration macros.
-   Copyright (C) 2010-2019 Free Software Foundation, Inc.
+   Copyright (C) 2010-2021 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef _GL_CXXDEFS_H
@@ -221,6 +245,16 @@
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
 
+/* _GL_CXXALIAS_MDA (func, rettype, parameters);
+   is to be used when func is a Microsoft deprecated alias, on native Windows.
+   It declares a C++ alias called GNULIB_NAMESPACE::func
+   that redirects to _func, if GNULIB_NAMESPACE is defined.
+   Example:
+     _GL_CXXALIAS_MDA (open, int, (const char *filename, int flags, ...));
+ */
+#define _GL_CXXALIAS_MDA(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_1 (func, _##func, rettype, parameters)
+
 /* _GL_CXXALIAS_RPL_CAST_1 (func, rpl_func, rettype, parameters);
    is like  _GL_CXXALIAS_RPL_1 (func, rpl_func, rettype, parameters);
    except that the C function rpl_func may have a slightly different
@@ -245,6 +279,14 @@
 # define _GL_CXXALIAS_RPL_CAST_1(func,rpl_func,rettype,parameters) \
     _GL_EXTERN_C int _gl_cxxalias_dummy
 #endif
+
+/* _GL_CXXALIAS_MDA_CAST (func, rettype, parameters);
+   is like  _GL_CXXALIAS_MDA (func, rettype, parameters);
+   except that the C function func may have a slightly different declaration.
+   A cast is used to silence the "invalid conversion" error that would
+   otherwise occur.  */
+#define _GL_CXXALIAS_MDA_CAST(func,rettype,parameters) \
+  _GL_CXXALIAS_RPL_CAST_1 (func, _##func, rettype, parameters)
 
 /* _GL_CXXALIAS_SYS (func, rettype, parameters);
    declares a C++ alias called GNULIB_NAMESPACE::func
@@ -343,7 +385,7 @@
    _GL_CXXALIASWARN_2 (func, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN_2(func,namespace) \
     _GL_WARN_ON_USE (func, \
                      "The symbol ::" #func " refers to the system function. " \
@@ -371,14 +413,11 @@
    _GL_CXXALIASWARN1_2 (func, rettype, parameters_and_attributes, namespace)
 /* To work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43881>,
    we enable the warning only when not optimizing.  */
-# if !__OPTIMIZE__
+# if !(defined __GNUC__ && !defined __clang__ && __OPTIMIZE__)
 #  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
-    _GL_WARN_ON_USE_CXX (func, rettype, parameters_and_attributes, \
+    _GL_WARN_ON_USE_CXX (func, rettype, rettype, parameters_and_attributes, \
                          "The symbol ::" #func " refers to the system function. " \
                          "Use " #namespace "::" #func " instead.")
-# elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
-#  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
-     extern __typeof__ (func) func
 # else
 #  define _GL_CXXALIASWARN1_2(func,rettype,parameters_and_attributes,namespace) \
      _GL_EXTERN_C int _gl_cxxalias_dummy
@@ -392,26 +431,26 @@
 
 /* The definition of _GL_ARG_NONNULL is copied here.  */
 /* A C macro for declaring that specific arguments must not be NULL.
-   Copyright (C) 2009-2019 Free Software Foundation, Inc.
+   Copyright (C) 2009-2021 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_ARG_NONNULL((n,...,m)) tells the compiler and static analyzer tools
    that the values passed as arguments n, ..., m must be non-NULL pointers.
    n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 #ifndef _GL_ARG_NONNULL
-# if (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || __GNUC__ > 3
+# if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 3) || defined __clang__
 #  define _GL_ARG_NONNULL(params) __attribute__ ((__nonnull__ params))
 # else
 #  define _GL_ARG_NONNULL(params)
@@ -420,19 +459,19 @@
 
 /* The definition of _GL_WARN_ON_USE is copied here.  */
 /* A C macro for emitting warnings if a function is used.
-   Copyright (C) 2010-2019 Free Software Foundation, Inc.
+   Copyright (C) 2010-2021 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
+   under the terms of the GNU Lesser General Public License as published
+   by the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
+   Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
+   You should have received a copy of the GNU Lesser General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* _GL_WARN_ON_USE (function, "literal string") issues a declaration
@@ -508,6 +547,13 @@
 extern __typeof__ (function) function __attribute__ ((__warning__ (message)))
 #  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
   __attribute__ ((__warning__ (message)))
+# elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#  define _GL_WARN_ON_USE(function, message) \
+extern __typeof__ (function) function \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
+#  define _GL_WARN_ON_USE_ATTRIBUTE(message) \
+  __attribute__ ((__diagnose_if__ (1, message, "warning")))
 # elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
 #  define _GL_WARN_ON_USE(function, message) \
@@ -520,24 +566,35 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 # endif
 #endif
 
-/* _GL_WARN_ON_USE_CXX (function, rettype, parameters_and_attributes, "string")
-   is like _GL_WARN_ON_USE (function, "string"), except that the function is
-   declared with the given prototype, consisting of return type, parameters,
-   and attributes.
+/* _GL_WARN_ON_USE_CXX (function, rettype_gcc, rettype_clang, parameters_and_attributes, "message")
+   is like _GL_WARN_ON_USE (function, "message"), except that in C++ mode the
+   function is declared with the given prototype, consisting of return type,
+   parameters, and attributes.
    This variant is useful for overloaded functions in C++. _GL_WARN_ON_USE does
    not work in this case.  */
 #ifndef _GL_WARN_ON_USE_CXX
-# if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes \
-     __attribute__ ((__warning__ (msg)))
-# elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
+# if !defined __cplusplus
+#  define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+     _GL_WARN_ON_USE (function, msg)
+# else
+#  if 4 < __GNUC__ || (__GNUC__ == 4 && 3 <= __GNUC_MINOR__)
+/* A compiler attribute is available in gcc versions 4.3.0 and later.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes \
+  __attribute__ ((__warning__ (msg)))
+#  elif __clang_major__ >= 4
+/* Another compiler attribute is available in clang.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_clang function parameters_and_attributes \
+  __attribute__ ((__diagnose_if__ (1, msg, "warning")))
+#  elif __GNUC__ >= 3 && GNULIB_STRICT_CHECKING
 /* Verify the existence of the function.  */
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
-extern rettype function parameters_and_attributes
-# else /* Unsupported.  */
-#  define _GL_WARN_ON_USE_CXX(function,rettype,parameters_and_attributes,msg) \
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
+extern rettype_gcc function parameters_and_attributes
+#  else /* Unsupported.  */
+#   define _GL_WARN_ON_USE_CXX(function,rettype_gcc,rettype_clang,parameters_and_attributes,msg) \
 _GL_WARN_EXTERN_C int _gl_warn_on_use
+#  endif
 # endif
 #endif
 
@@ -553,10 +610,10 @@ _GL_WARN_EXTERN_C int _gl_warn_on_use
 
 
 /* Data structure to contain attributes for thread creation.  */
-#if 0 || (1 && !1)
+#if 1 || (1 && !1)
 # define posix_spawnattr_t rpl_posix_spawnattr_t
 #endif
-#if 0 || !1 || !1
+#if 1 || !1 || !1
 # if !GNULIB_defined_posix_spawnattr_t
 typedef struct
 {
@@ -575,10 +632,10 @@ typedef struct
 
 /* Data structure to contain information about the actions to be
    performed in the new process with respect to file descriptors.  */
-#if 0 || (1 && !1)
+#if 1 || (1 && !1)
 # define posix_spawn_file_actions_t rpl_posix_spawn_file_actions_t
 #endif
-#if 0 || !1 || !1
+#if 1 || !1 || !1
 # if !GNULIB_defined_posix_spawn_file_actions_t
 typedef struct
 {
@@ -602,7 +659,7 @@ typedef struct
 #  define POSIX_SPAWN_SETSCHEDULER 0
 # endif
 #else
-# if 0
+# if 1
 /* Use the values from the system, for better compatibility.  */
 /* But this implementation does not support AIX extensions.  */
 #  undef POSIX_SPAWN_FORK_HANDLERS
@@ -640,13 +697,13 @@ typedef int verify_POSIX_SPAWN_USEVFORK_no_overlap
 #endif
 
 
-#if 0
+#if 1
 /* Spawn a new process executing PATH with the attributes describes in *ATTRP.
    Before running the process perform the actions described in FILE-ACTIONS.
 
    This function is a possible cancellation points and therefore not
    marked with __THROW. */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawn rpl_posix_spawn
 #  endif
@@ -698,7 +755,7 @@ _GL_WARN_ON_USE (posix_spawn, "posix_spawn is unportable - "
 
    This function is a possible cancellation points and therefore not
    marked with __THROW.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnp rpl_posix_spawnp
 #  endif
@@ -740,7 +797,7 @@ _GL_WARN_ON_USE (posix_spawnp, "posix_spawnp is unportable - "
 
 #if 1
 /* Initialize data structure with attributes for 'spawn' to default values.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_init rpl_posix_spawnattr_init
 #  endif
@@ -765,7 +822,7 @@ _GL_WARN_ON_USE (posix_spawnattr_init, "posix_spawnattr_init is unportable - "
 
 #if 1
 /* Free resources associated with ATTR.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_destroy rpl_posix_spawnattr_destroy
 #  endif
@@ -792,7 +849,7 @@ _GL_WARN_ON_USE (posix_spawnattr_destroy,
 #if 0
 /* Store signal mask for signals with default handling from ATTR in
    SIGDEFAULT.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_getsigdefault rpl_posix_spawnattr_getsigdefault
 #  endif
@@ -826,7 +883,7 @@ _GL_WARN_ON_USE (posix_spawnattr_getsigdefault,
 
 #if 0
 /* Set signal mask for signals with default handling in ATTR to SIGDEFAULT.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_setsigdefault rpl_posix_spawnattr_setsigdefault
 #  endif
@@ -860,7 +917,7 @@ _GL_WARN_ON_USE (posix_spawnattr_setsigdefault,
 
 #if 0
 /* Store signal mask for the new process from ATTR in SIGMASK.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_getsigmask rpl_posix_spawnattr_getsigmask
 #  endif
@@ -894,7 +951,7 @@ _GL_WARN_ON_USE (posix_spawnattr_getsigmask,
 
 #if 1
 /* Set signal mask for the new process in ATTR to SIGMASK.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_setsigmask rpl_posix_spawnattr_setsigmask
 #  endif
@@ -928,7 +985,7 @@ _GL_WARN_ON_USE (posix_spawnattr_setsigmask,
 
 #if 0
 /* Get flag word from the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_getflags rpl_posix_spawnattr_getflags
 #  endif
@@ -962,7 +1019,7 @@ _GL_WARN_ON_USE (posix_spawnattr_getflags,
 
 #if 1
 /* Store flags in the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_setflags rpl_posix_spawnattr_setflags
 #  endif
@@ -992,7 +1049,7 @@ _GL_WARN_ON_USE (posix_spawnattr_setflags,
 
 #if 0
 /* Get process group ID from the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_getpgroup rpl_posix_spawnattr_getpgroup
 #  endif
@@ -1024,9 +1081,9 @@ _GL_WARN_ON_USE (posix_spawnattr_getpgroup,
 # endif
 #endif
 
-#if 0
+#if 1
 /* Store process group ID in the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_setpgroup rpl_posix_spawnattr_setpgroup
 #  endif
@@ -1056,7 +1113,7 @@ _GL_WARN_ON_USE (posix_spawnattr_setpgroup,
 
 #if 0
 /* Get scheduling policy from the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_getschedpolicy rpl_posix_spawnattr_getschedpolicy
 #  endif
@@ -1078,7 +1135,9 @@ _GL_CXXALIAS_SYS (posix_spawnattr_getschedpolicy, int,
                   (const posix_spawnattr_t *_Restrict_ __attr,
                    int *_Restrict_ __schedpolicy));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (posix_spawnattr_getschedpolicy);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef posix_spawnattr_getschedpolicy
 # if HAVE_RAW_DECL_POSIX_SPAWNATTR_GETSCHEDPOLICY
@@ -1090,7 +1149,7 @@ _GL_WARN_ON_USE (posix_spawnattr_getschedpolicy,
 
 #if 0
 /* Store scheduling policy in the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_setschedpolicy rpl_posix_spawnattr_setschedpolicy
 #  endif
@@ -1108,7 +1167,9 @@ _GL_FUNCDECL_SYS (posix_spawnattr_setschedpolicy, int,
 _GL_CXXALIAS_SYS (posix_spawnattr_setschedpolicy, int,
                   (posix_spawnattr_t *__attr, int __schedpolicy));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (posix_spawnattr_setschedpolicy);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef posix_spawnattr_setschedpolicy
 # if HAVE_RAW_DECL_POSIX_SPAWNATTR_SETSCHEDPOLICY
@@ -1120,7 +1181,7 @@ _GL_WARN_ON_USE (posix_spawnattr_setschedpolicy,
 
 #if 0
 /* Get scheduling parameters from the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_getschedparam rpl_posix_spawnattr_getschedparam
 #  endif
@@ -1142,7 +1203,9 @@ _GL_CXXALIAS_SYS (posix_spawnattr_getschedparam, int,
                   (const posix_spawnattr_t *_Restrict_ __attr,
                    struct sched_param *_Restrict_ __schedparam));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (posix_spawnattr_getschedparam);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef posix_spawnattr_getschedparam
 # if HAVE_RAW_DECL_POSIX_SPAWNATTR_GETSCHEDPARAM
@@ -1154,7 +1217,7 @@ _GL_WARN_ON_USE (posix_spawnattr_getschedparam,
 
 #if 0
 /* Store scheduling parameters in the attribute structure.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawnattr_setschedparam rpl_posix_spawnattr_setschedparam
 #  endif
@@ -1176,7 +1239,9 @@ _GL_CXXALIAS_SYS (posix_spawnattr_setschedparam, int,
                   (posix_spawnattr_t *_Restrict_ __attr,
                    const struct sched_param *_Restrict_ __schedparam));
 # endif
+# if __GLIBC__ >= 2
 _GL_CXXALIASWARN (posix_spawnattr_setschedparam);
+# endif
 #elif defined GNULIB_POSIXCHECK
 # undef posix_spawnattr_setschedparam
 # if HAVE_RAW_DECL_POSIX_SPAWNATTR_SETSCHEDPARAM
@@ -1189,7 +1254,7 @@ _GL_WARN_ON_USE (posix_spawnattr_setschedparam,
 
 #if 1
 /* Initialize data structure for file attribute for 'spawn' call.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawn_file_actions_init rpl_posix_spawn_file_actions_init
 #  endif
@@ -1219,7 +1284,7 @@ _GL_WARN_ON_USE (posix_spawn_file_actions_init,
 
 #if 1
 /* Free resources associated with FILE-ACTIONS.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawn_file_actions_destroy rpl_posix_spawn_file_actions_destroy
 #  endif
@@ -1250,7 +1315,7 @@ _GL_WARN_ON_USE (posix_spawn_file_actions_destroy,
 #if 1
 /* Add an action to FILE-ACTIONS which tells the implementation to call
    'open' for the given file during the 'spawn' call.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawn_file_actions_addopen rpl_posix_spawn_file_actions_addopen
 #  endif
@@ -1291,7 +1356,7 @@ _GL_WARN_ON_USE (posix_spawn_file_actions_addopen,
 #if 1
 /* Add an action to FILE-ACTIONS which tells the implementation to call
    'close' for the given file descriptor during the 'spawn' call.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawn_file_actions_addclose rpl_posix_spawn_file_actions_addclose
 #  endif
@@ -1324,7 +1389,7 @@ _GL_WARN_ON_USE (posix_spawn_file_actions_addclose,
 #if 1
 /* Add an action to FILE-ACTIONS which tells the implementation to call
    'dup2' for the given file descriptors during the 'spawn' call.  */
-# if 0
+# if 1
 #  if !(defined __cplusplus && defined GNULIB_NAMESPACE)
 #   define posix_spawn_file_actions_adddup2 rpl_posix_spawn_file_actions_adddup2
 #  endif
@@ -1358,7 +1423,7 @@ _GL_WARN_ON_USE (posix_spawn_file_actions_adddup2,
 # endif
 #endif
 
-#if 0
+#if 1
 /* Add an action to FILE-ACTIONS which tells the implementation to call
    'chdir' to the given directory during the 'spawn' call.  */
 # if 0
@@ -1373,7 +1438,7 @@ _GL_CXXALIAS_RPL (posix_spawn_file_actions_addchdir, int,
                   (posix_spawn_file_actions_t *_Restrict_ __file_actions,
                    const char *_Restrict_ __path));
 # else
-#  if !1
+#  if !0
 _GL_FUNCDECL_SYS (posix_spawn_file_actions_addchdir, int,
                   (posix_spawn_file_actions_t *_Restrict_ __file_actions,
                    const char *_Restrict_ __path)
@@ -1431,3 +1496,4 @@ _GL_WARN_ON_USE (posix_spawn_file_actions_addfchdir,
 
 #endif /* _GL_SPAWN_H */
 #endif /* _GL_SPAWN_H */
+#endif

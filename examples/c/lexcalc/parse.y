@@ -1,3 +1,22 @@
+/* Parser for lexcalc.   -*- C -*-
+
+   Copyright (C) 2018-2021 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+
 // Prologue (directives).
 %expect 0
 
@@ -6,10 +25,10 @@
 {
   // Tell Flex the expected prototype of yylex.
 #define YY_DECL                                 \
-  enum yytokentype yylex (YYSTYPE* yylval, int *nerrs)
+  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
   YY_DECL;
 
-  void yyerror (int *nerrs, const char *msg);
+  void yyerror (const YYLTYPE *loc, int *nerrs, const char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -17,14 +36,33 @@
 {
 #include <stdio.h>  // printf.
 #include <stdlib.h> // getenv.
+#include <string.h> // strcmp.
 }
 
+// Include the header in the implementation rather than duplicating it.
+%define api.header.include {"parse.h"}
+
+// Don't share global variables between the scanner and the parser.
 %define api.pure full
+
+// To avoid name clashes (e.g., with C's EOF) prefix token definitions
+// with TOK_ (e.g., TOK_EOF).
 %define api.token.prefix {TOK_}
+
+// %token and %type use genuine types (e.g., "%token <int>").  Let
+// %bison define YYSTYPE as a union of all these types.
 %define api.value.type union
-%define parse.error verbose
+
+// Generate detailed error messages.
+%define parse.error detailed
+
+// with locations.
+%locations
+
+// Enable debug traces (see yydebug in main).
 %define parse.trace
- // Error count, exchanged between main, yyparse and yylex.
+
+// Error count, exchanged between main, yyparse and yylex.
 %param {int *nerrs}
 
 %token
@@ -34,8 +72,7 @@
   SLASH  "/"
   LPAREN "("
   RPAREN ")"
-  EOL    "end-of-line"
-  EOF 0  "end-of-file"
+  EOL    "end of line"
 ;
 
 %token <int> NUM "number"
@@ -66,7 +103,7 @@ exp:
   {
     if ($3 == 0)
       {
-        yyerror (nerrs, "invalid division by zero");
+        yyerror (&@$, nerrs, "error: division by zero");
         YYERROR;
       }
     else
@@ -77,17 +114,24 @@ exp:
 ;
 %%
 // Epilogue (C code).
-void yyerror (int *nerrs, const char *msg)
+
+void yyerror (const YYLTYPE *loc, int *nerrs, const char *msg)
 {
-  fprintf (stderr, "%s\n", msg);
+  YYLOCATION_PRINT (stderr, loc);
+  fprintf (stderr, ": %s\n", msg);
   ++*nerrs;
 }
 
-int main (void)
+int main (int argc, const char *argv[])
 {
-  int nerrs = 0;
   // Possibly enable parser runtime debugging.
   yydebug = !!getenv ("YYDEBUG");
+  // Enable parse traces on option -p.
+  for (int i = 1; i < argc; ++i)
+    if (strcmp (argv[i], "-p") == 0)
+      yydebug = 1;
+
+  int nerrs = 0;
   yyparse (&nerrs);
   // Exit on failure if there were errors.
   return !!nerrs;

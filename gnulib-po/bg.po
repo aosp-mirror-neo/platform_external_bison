@@ -4,10 +4,10 @@
 # Alexander Shopov <ash@kambanaria.org>, 2019.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnulib 4.0.0.2412\n"
+"Project-Id-Version: gnulib 4.0.0.2567\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
-"PO-Revision-Date: 2019-05-15 07:06+0200\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
+"PO-Revision-Date: 2020-03-10 09:45+0100\n"
 "Last-Translator: Alexander Shopov <ash@kambanaria.org>\n"
 "Language-Team: Bulgarian <dict@ludost.net>\n"
 "Language: bg\n"
@@ -31,44 +31,44 @@ msgstr "аргументът „%s“ на опцията „%s“ не е ед�
 msgid "Valid arguments are:"
 msgstr "Възможните аргументи са:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u побитови заделяния, освободени са %u (%.2f%%).\n"
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u побитови задавания, кеширани са %u (%.2f%%)\n"
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u побитови изчиствания, кеширани са %u (%.2f%%)\n"
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u побитови проби, кеширани са %u (%.2f%%)\n"
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u побитови извеждания\n"
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr "логаритмична хистограма по брой\n"
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr "логаритмична хистограма по размер\n"
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr "хистограма по плътност\n"
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
@@ -77,25 +77,25 @@ msgstr ""
 "Побитова статистика:\n"
 "\n"
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Натрупани изпълнения = %u\n"
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 msgid "cannot read stats file"
 msgstr "файлът със статистиките не може да се прочете"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr "неправилен размер на файла със статистиките\n"
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 msgid "cannot write stats file"
 msgstr "файлът със статистиките не може да се запише"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 msgid "cannot open stats file for writing"
 msgstr "файлът със статистиките не може да се отвори за запис"
 
@@ -106,6 +106,12 @@ msgstr "грешка при запис"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Неизвестна системна грешка"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "дъщерният процес „%s“ завърши неуспешно"
 
 #: lib/getopt.c:278
 #, c-format
@@ -142,9 +148,31 @@ msgstr "%s: неправилна опция — „%c“\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: опцията изисква аргумент — „%c“\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "паметта е изчерпана"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "текущата работна директория не може да се запише"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "не може да се върне към първоначалната работна директория"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "неуспешно изпълнение на „_open_osfhandle“"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr ""
+"файловият дескриптор %d не може да се възстанови: неуспешно изпълнение на "
+"функцията „dup2“"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -167,25 +195,19 @@ msgstr "паметта е изчерпана"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "„"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "“"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "не може да се създаде програмен канал"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "дъщерният процес „%s“ завърши неуспешно"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -203,145 +225,37 @@ msgstr "системно време"
 msgid "wall clock"
 msgstr "общо време"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "неуспешно изпълнение на „_open_osfhandle“"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "функцията „iconv“  е неизползваема"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr ""
-"файловият дескриптор %d не може да се възстанови: неуспешно изпълнение на "
-"функцията „dup2“"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "функцията „iconv“ е недостъпна"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "знак извън диапазона"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "„U+%04X“ не може да се конвертира в локалното кодиране"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "„U+%04X“ не може да се конвертира в локалното кодиране: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "дъщерен процес „%s“"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "дъщерният процес „%s“ получи фатален сигнал %d"
-
-#~ msgid "Packaged by %s (%s)\n"
-#~ msgstr "Пакетирано от %s (%s)\n"
-
-#~ msgid "Packaged by %s\n"
-#~ msgstr "Пакетирано от %s\n"
-
-#~ msgid "(C)"
-#~ msgstr "©"
-
-#, fuzzy
-#~| msgid ""
-#~| "\n"
-#~| "License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl."
-#~| "html>.\n"
-#~| "This is free software: you are free to change and redistribute it.\n"
-#~| "There is NO WARRANTY, to the extent permitted by law.\n"
-#~| "\n"
-#~ msgid ""
-#~ "License GPLv3+: GNU GPL version 3 or later <%s>.\n"
-#~ "This is free software: you are free to change and redistribute it.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Лиценз — Общ публичен лиценз на GNU (GNU GPL), както е публикуван от "
-#~ "Фондацията\n"
-#~ "за свободен софтуер — версия 3 на лиценза или (по ваше решение) по-късна "
-#~ "версия.\n"
-#~ "<https://gnu.org/licenses/gpl.html>\n"
-#~ "Тази програма е свободен софтуер. Можете да я разпространявате и/или "
-#~ "променяте.\n"
-#~ "Тя се разпространява БЕЗ НИКАКВИ ГАРАНЦИИ доколкото е позволено от "
-#~ "закона.\n"
-
-#~ msgid "Written by %s.\n"
-#~ msgstr "Създадено от %s.\n"
-
-#~ msgid "Written by %s and %s.\n"
-#~ msgstr "Създадено от %s и %s.\n"
-
-#~ msgid "Written by %s, %s, and %s.\n"
-#~ msgstr "Създадено от %s, %s и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "and %s.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s\n"
-#~ "и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, and %s.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s,\n"
-#~ "%s и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, and %s.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s,\n"
-#~ "%s, %s и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, and %s.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s,\n"
-#~ "%s, %s, %s и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "and %s.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s,\n"
-#~ "%s, %s, %s, %s\n"
-#~ "и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, and %s.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, %s, and others.\n"
-#~ msgstr ""
-#~ "Създадено от %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, %s и др.\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "\n"
-#~| "Report bugs to: %s\n"
-#~ msgid "Report bugs to: %s\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Докладвайте грешки в програмата на адрес: %s\n"
-#~ "Докладвайте грешки в превода на адрес: <dict@ludost.net>\n"
-
-#~ msgid "Report %s bugs to: %s\n"
-#~ msgstr "Докладвайте грешки в „%s“ на адрес: %s\n"
-
-#~ msgid "%s home page: <%s>\n"
-#~ msgstr "Уеб страница на „%s“: <%s>\n"
-
-#, fuzzy
-#~| msgid "General help using GNU software: <https://www.gnu.org/gethelp/>\n"
-#~ msgid "General help using GNU software: <%s>\n"
-#~ msgstr "Обща помощ за програмите на GNU: <https://www.gnu.org/gethelp/>\n"
 
 #~ msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
 #~ msgstr "„ARGP_HELP_FMT“: стойността %s е по-малка или равна на %s"
@@ -401,13 +315,13 @@ msgstr "дъщерният процес „%s“ получи фатален с�
 #~ msgstr "извеждане на версията на програмата"
 
 #~ msgid "(PROGRAM ERROR) No version known!?"
-#~ msgstr "ГРЕШКА: Неизвестна версия!"
+#~ msgstr "(ДЕФЕКТ В ПРОГРАМАТА) Неизвестна версия!"
 
 #~ msgid "%s: Too many arguments\n"
 #~ msgstr "%s: Твърде много аргументи\n"
 
 #~ msgid "(PROGRAM ERROR) Option should have been recognized!?"
-#~ msgstr "ГРЕШКА: Непозната опция, а трябва да се разпознава!"
+#~ msgstr "(ДЕФЕКТ В ПРОГРАМАТА) Опцията би трябвало да е била разпозната!"
 
 #~ msgid "program error"
 #~ msgstr "програмна грешка"
@@ -654,12 +568,6 @@ msgstr "дъщерният процес „%s“ получи фатален с�
 #~ msgid "cannot create directory %s"
 #~ msgstr "директорията „%s“ не може да се създаде"
 
-#~ msgid "unable to record current working directory"
-#~ msgstr "текущата работна директория не може да се запише"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "не може да се върне към първоначалната работна директория"
-
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "„/dev/zero“ не може да се отвори за запис"
 
@@ -863,21 +771,6 @@ msgstr "дъщерният процес „%s“ получи фатален с�
 #~ msgid "Unknown signal %d"
 #~ msgstr "Непознат сигнал %d"
 
-#~ msgid "iconv function not usable"
-#~ msgstr "функцията „iconv“  е неизползваема"
-
-#~ msgid "iconv function not available"
-#~ msgstr "функцията „iconv“ е недостъпна"
-
-#~ msgid "character out of range"
-#~ msgstr "знак извън диапазона"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "„U+%04X“ не може да се конвертира в локалното кодиране"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "„U+%04X“ не може да се конвертира в локалното кодиране: %s"
-
 #~ msgid "invalid user"
 #~ msgstr "несъществуващ потребител"
 
@@ -890,8 +783,107 @@ msgstr "дъщерният процес „%s“ получи фатален с�
 #~ msgid "unable to display error message"
 #~ msgstr "съобщението за грешка не може да се изведе"
 
-#~ msgid "%s home page: <https://www.gnu.org/software/%s/>\n"
-#~ msgstr "Уеб страница на „%s“: <https://www.gnu.org/software/%s/>\n"
+#~ msgid "Packaged by %s (%s)\n"
+#~ msgstr "Пакетирано от %s (%s)\n"
+
+#~ msgid "Packaged by %s\n"
+#~ msgstr "Пакетирано от %s\n"
+
+#~ msgid "(C)"
+#~ msgstr "©"
+
+#~ msgid ""
+#~ "License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+#~ "This is free software: you are free to change and redistribute it.\n"
+#~ "There is NO WARRANTY, to the extent permitted by law.\n"
+#~ msgstr ""
+#~ "Лиценз — Общ публичен лиценз на GNU (GNU GPL), както е публикуван от "
+#~ "Фондацията\n"
+#~ "за свободен софтуер — версия 3 на лиценза или (по ваше решение) по-късна "
+#~ "версия.\n"
+#~ "<%s>\n"
+#~ "Тази програма е свободен софтуер. Можете да я разпространявате и/или "
+#~ "променяте.\n"
+#~ "Тя се разпространява БЕЗ НИКАКВИ ГАРАНЦИИ доколкото е позволено от "
+#~ "закона.\n"
+
+#~ msgid "Written by %s.\n"
+#~ msgstr "Създадено от %s.\n"
+
+#~ msgid "Written by %s and %s.\n"
+#~ msgstr "Създадено от %s и %s.\n"
+
+#~ msgid "Written by %s, %s, and %s.\n"
+#~ msgstr "Създадено от %s, %s и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "and %s.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s\n"
+#~ "и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, and %s.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s,\n"
+#~ "%s и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, and %s.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s,\n"
+#~ "%s, %s и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, and %s.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s,\n"
+#~ "%s, %s, %s и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "and %s.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s,\n"
+#~ "%s, %s, %s, %s\n"
+#~ "и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, and %s.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, %s, and others.\n"
+#~ msgstr ""
+#~ "Създадено от %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, %s и др.\n"
+
+#~ msgid "Report bugs to: %s\n"
+#~ msgstr ""
+#~ "Докладвайте грешки в програмата на адрес: %s\n"
+#~ "Докладвайте грешки в превода на адрес: <dict@ludost.net>\n"
+
+#~ msgid "Report %s bugs to: %s\n"
+#~ msgstr "Докладвайте грешки в „%s“ на адрес: %s\n"
+
+#~ msgid "%s home page: <%s>\n"
+#~ msgstr "Уеб страница на „%s“: <%s>\n"
+
+#~ msgid "General help using GNU software: <%s>\n"
+#~ msgstr "Обща помощ за програмите на GNU: <%s>\n"
 
 #~ msgid "failed to set file descriptor text/binary mode"
 #~ msgstr "неуспешно задаване на вид на файла като текстов/двоичен"

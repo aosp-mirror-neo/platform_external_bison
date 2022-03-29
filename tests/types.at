@@ -1,6 +1,6 @@
 # Value type.                                     -*- Autotest -*-
 
-# Copyright (C) 2013-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2013-2015, 2018-2021 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[Value type tests.]])
 
@@ -105,6 +105,7 @@ start: $3;
 ]])
 
 AT_LANG_FOR_EACH_STD([
+  AT_GLR2_CC_IF([AT_REQUIRE_CXX_STD(11, [echo "$at_std not supported"; continue])])
   $7
   AT_FULL_COMPILE([[test]])
   AT_PARSER_CHECK([[test]], 0, [[$6
@@ -123,7 +124,7 @@ AT_CLEANUP
 #         $6: RESULT,
 #         $7: REQUIREMENT)
 # --------------------------------------
-# Check with and without %defines, to avoid regressions.  It turns out
+# Check with and without %header, to avoid regressions.  It turns out
 # that in that case yacc.c calls the set-up of the %union twice,
 # because YYSTYPE is defined once in the header, and once in the
 # implementation file (eventually it'd be better to include the header
@@ -131,11 +132,11 @@ AT_CLEANUP
 # a second time doubled the side-effects and resulted in a double
 # definition of the union members.
 m4_pushdef([AT_TEST],
-[_AT_TEST([$1],          [$2], [$3], [$4], [$5], [$6], [$7])
- _AT_TEST([$1 %defines], [$2], [$3], [$4], [$5], [$6], [$7])
+[_AT_TEST([$1],         [$2], [$3], [$4], [$5], [$6], [$7])
+ _AT_TEST([$1 %header], [$2], [$3], [$4], [$5], [$6], [$7])
 ])
 
-m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
+m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc]],
  [# A built-in type.
   AT_TEST([%skeleton "]b4_skel["
            %define api.value.type {double}],
@@ -235,8 +236,8 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
             [10 0.2])])
 
   # A Bison-defined union.
-  # The tokens names are not available directly in C++, we use their
-  # user number to keep it simple between C and C++.
+  # The token names are not available directly in C++, we use their
+  # codes to keep it simple between C and C++.
   AT_TEST([%skeleton "]b4_skel["
            %define api.value.type union],
           [%token <int> ONE 101;

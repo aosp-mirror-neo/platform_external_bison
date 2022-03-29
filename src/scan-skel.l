@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+   Copyright (C) 2001-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -15,7 +15,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 %option nodefault noyywrap noinput nounput never-interactive debug
 %option prefix="skel_" outfile="lex.yy.c"
@@ -26,16 +26,16 @@
 #include <path-join.h>
 #include <quotearg.h>
 
-#include <src/complain.h>
-#include <src/files.h>
-#include <src/getargs.h>
-#include <src/scan-skel.h>
+#include "src/complain.h"
+#include "src/files.h"
+#include "src/getargs.h"
+#include "src/scan-skel.h"
 
 #define FLEX_PREFIX(Id) skel_ ## Id
-#include <src/flex-scanner.h>
+#include "src/flex-scanner.h"
 
 /* Work around a bug in flex 2.5.31.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+   <https://bugs.debian.org/333231>.  */
 #undef skel_wrap
 #define skel_wrap() 1
 
@@ -50,7 +50,11 @@ static void at_output (int argc, char *argv[], char **name, int *lineno);
 static void fail_for_at_directive_too_many_args (char const *at_directive_name);
 static void fail_for_at_directive_too_few_args (char const *at_directive_name);
 static void fail_for_invalid_at (char const *at);
+static void output_mapped_file (char const *name);
 %}
+
+/* Identifiers of our M4 macros.  */
+macro    [bm]4_[a-zA-Z_0-9]*
 
 %x SC_AT_DIRECTIVE_ARGS
 %x SC_AT_DIRECTIVE_SKIP_WS
@@ -77,16 +81,30 @@ static void fail_for_invalid_at (char const *at);
 @\n  continue;
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
-"@ofile@"  fputs (quotearg_style (c_quoting_style, out_name), yyout);
+"@ofile@"  output_mapped_file (out_name);
 
 "@basename("    at_init (&argc, argv, &at_ptr, &at_basename);
 "@complain("    at_init (&argc, argv, &at_ptr, &at_complain);
 "@output("      at_init (&argc, argv, &at_ptr, &at_output);
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}\'(\n]*   fail_for_invalid_at (yytext);
+@[^@{}''(\n]*   fail_for_invalid_at (yytext);
 \n              out_lineno++; ECHO;
-[^@\n]+         ECHO;
+[^bm@\n]+       ECHO;
+
+  /* If there are still identifiers that look like macros, such as
+     b4_synbol, this probably an error, say a typo in M4, or
+     overquotation.  */
+{macro}         {
+                  location loc = empty_loc;
+                  loc.start.file = map_file_name (out_name);
+                  loc.start.line = out_lineno;
+                  loc.end = loc.start;
+                  complain (&loc, Wother,
+                            "suspicious sequence in the output: %s", yytext);
+                  ECHO;
+                }
+.               ECHO;
 
 <INITIAL><<EOF>> {
   if (out_name)
@@ -99,11 +117,11 @@ static void fail_for_invalid_at (char const *at);
 
 <SC_AT_DIRECTIVE_ARGS>
 {
-  [^@]+  STRING_GROW;
+  [^@]+  STRING_GROW ();
 
-  "@@"   obstack_1grow (&obstack_for_string, '@');
-  "@{"   obstack_1grow (&obstack_for_string, '[');
-  "@}"   obstack_1grow (&obstack_for_string, ']');
+  "@@"   STRING_1GROW ('@');
+  "@{"   STRING_1GROW ('[');
+  "@}"   STRING_1GROW (']');
   "@'"   continue; /* For starting an argument that begins with whitespace. */
   @\n    continue;
 
@@ -189,7 +207,7 @@ flag (const char *arg)
   else if (STREQ (arg, "fatal"))
     return fatal;
   else if (STREQ (arg, "note"))
-    return silent | complaint | no_caret;
+    return silent | complaint | no_caret | note;
   else if (STREQ (arg, "warn"))
     return Wother;
   else
@@ -225,14 +243,7 @@ at_complain (int argc, char *argv[], char **out_namep, int *out_linenop)
       boundary_set_from_string (&loc.end, argv[3]);
       locp = &loc;
     }
-  static int indent;
-  if (w & silent)
-    indent += SUB_INDENT;
-  else
-    indent = 0;
-  complain_args (locp, w, &indent, argc - 4, argv + 4);
-  if (w & silent)
-    indent -= SUB_INDENT;
+  complain_args (locp, w, argc - 4, argv + 4);
 }
 
 static void
@@ -270,4 +281,10 @@ static void
 fail_for_invalid_at (char const *at)
 {
   complain (NULL, fatal, "invalid @ in skeleton: %s", at);
+}
+
+static void
+output_mapped_file (char const *name)
+{
+  fputs (quotearg_style (c_quoting_style, map_file_name (name)), yyout);
 }

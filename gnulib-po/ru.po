@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 4.0.0.2567\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2019-05-21 18:46+0300\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <gnu@d07.ru>\n"
@@ -35,44 +35,44 @@ msgstr "неоднозначный аргумент %s для %s"
 msgid "Valid arguments are:"
 msgstr "Верные аргументы:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitset_allocs, %u освобождено (%.2f%%).\n"
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_sets, %u кэшировано (%.2f%%)\n"
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_resets, %u кэшировано (%.2f%%)\n"
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitset_tests, %u кэшировано (%.2f%%)\n"
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset_lists\n"
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr "количественная логарифмическая гистограмма\n"
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr "размерная логарифмическая гистограмма\n"
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr "гистограмма плотности\n"
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
@@ -81,25 +81,25 @@ msgstr ""
 "Статистика bitset:\n"
 "\n"
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Накопленных запусков = %u\n"
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 msgid "cannot read stats file"
 msgstr "невозможно прочитать файл stats"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr "некорректный размер файла stats\n"
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 msgid "cannot write stats file"
 msgstr "невозможно записать файл stats"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 msgid "cannot open stats file for writing"
 msgstr "невозможно открыть файл stats для записи"
 
@@ -110,6 +110,12 @@ msgstr "ошибка записи"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Неизвестная системная ошибка"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "подпроцесс %s завершился с ошибкой"
 
 #: lib/getopt.c:278
 #, c-format
@@ -146,9 +152,29 @@ msgstr "%s: неправильный параметр -- «%c»\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: для параметра требуется аргумент -- «%c»\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "закончилась память"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "не удалось запомнить текущий рабочий каталог"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "не удалось вернуться в первоначальный рабочий каталог"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle завершилась неудачно"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "не удалось восстановить fd %d: dup2 завершилась неудачно"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -171,25 +197,19 @@ msgstr "закончилась память"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "«"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "»"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "не удалось создать канал"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "подпроцесс %s завершился с ошибкой"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -207,22 +227,34 @@ msgstr "системное время на ЦП"
 msgid "wall clock"
 msgstr "настенные часы"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "_open_osfhandle завершилась неудачно"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "функция iconv неприменима"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "не удалось восстановить fd %d: dup2 завершилась неудачно"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "функция iconv недоступна"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "символ вне допустимого диапазона"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "невозможно преобразовать U+%04X в локальную кодировку"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "невозможно преобразовать U+%04X в локальную кодировку: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "подпроцесс %s"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "подпроцесс %s получил сигнал завершения %d"
@@ -624,12 +656,6 @@ msgstr "подпроцесс %s получил сигнал завершения
 #~ msgid "cannot create directory %s"
 #~ msgstr "невозможно создать каталог %s"
 
-#~ msgid "unable to record current working directory"
-#~ msgstr "не удалось запомнить текущий рабочий каталог"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "не удалось вернуться в первоначальный рабочий каталог"
-
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "Не удалось открыть /dev/zero на чтение"
 
@@ -830,21 +856,6 @@ msgstr "подпроцесс %s получил сигнал завершения
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "Неизвестный сигнал %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "функция iconv неприменима"
-
-#~ msgid "iconv function not available"
-#~ msgstr "функция iconv недоступна"
-
-#~ msgid "character out of range"
-#~ msgstr "символ вне допустимого диапазона"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "невозможно преобразовать U+%04X в локальную кодировку"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "невозможно преобразовать U+%04X в локальную кодировку: %s"
 
 #~ msgid "invalid user"
 #~ msgstr "неверный пользователь"

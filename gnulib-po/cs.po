@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 3.0.0.6062.a6b16\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2011-12-04 08:50+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -34,71 +34,71 @@ msgstr "argument %s je pro %s nejednoznačný"
 msgid "Valid arguments are:"
 msgstr "Platné argumenty jsou:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 #, fuzzy
 msgid "cannot read stats file"
 msgstr "nelze vytvořit rouru"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr ""
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 #, fuzzy
 msgid "cannot write stats file"
 msgstr "nelze vytvořit rouru"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 #, fuzzy
 msgid "cannot open stats file for writing"
 msgstr "nelze otevřít záložní soubor „%s“ pro zápis"
@@ -110,6 +110,12 @@ msgstr "chyba při zápisu"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Neznámá chyba systému"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "selhal podřízený proces %s"
 
 #: lib/getopt.c:278
 #, fuzzy, c-format
@@ -146,9 +152,29 @@ msgstr "%s: neplatný přepínač -- „%c“\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: přepínač vyžaduje argument -- „%c“\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "paměť byla vyčerpána"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "nelze zaznamenat aktuální pracovní složku"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "selhalo vrácení počáteční pracovní složky"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "selhala funkce _open_osfhandle"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "nelze obnovit fd %d: selhala funkce dup2"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -171,25 +197,19 @@ msgstr "paměť byla vyčerpána"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "„"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "“"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "nelze vytvořit rouru"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "selhal podřízený proces %s"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -208,22 +228,34 @@ msgstr ""
 msgid "wall clock"
 msgstr "Alarm od hodin"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "selhala funkce _open_osfhandle"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "funkce iconv není použitelná"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "nelze obnovit fd %d: selhala funkce dup2"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "funkce iconv není dostupná"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "znak je mimo rozsah"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "znak U+%04X nelze převést do místní znakové sady"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "znak U+%04X nelze převést do místní znakové sady: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "podřízený proces %s"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "podřízený proces %s obdržel kritický signál %d"
@@ -593,12 +625,6 @@ msgstr "podřízený proces %s obdržel kritický signál %d"
 #~ msgid "cannot create directory %s"
 #~ msgstr "nelze vytvořit složku %s"
 
-#~ msgid "unable to record current working directory"
-#~ msgstr "nelze zaznamenat aktuální pracovní složku"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "selhalo vrácení počáteční pracovní složky"
-
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "Selhalo otevření /dev/zero pro čtení"
 
@@ -799,21 +825,6 @@ msgstr "podřízený proces %s obdržel kritický signál %d"
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "Neznámý signál %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "funkce iconv není použitelná"
-
-#~ msgid "iconv function not available"
-#~ msgstr "funkce iconv není dostupná"
-
-#~ msgid "character out of range"
-#~ msgstr "znak je mimo rozsah"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "znak U+%04X nelze převést do místní znakové sady"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "znak U+%04X nelze převést do místní znakové sady: %s"
 
 #~ msgid "invalid user"
 #~ msgstr "neplatný uživatel"

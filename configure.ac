@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2021 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,31 +13,26 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# In order for some versions of Sun Studio to compile our C++ test cases
-# correctly, we need Autoconf 2.64 or better to handle the restrict
-# keyword in at least string.h from gnulib.  We need Autoconf 2.68 or
-# better to avoid a typo in the 'configure --help' entry for the YACC
-# environment variable.
-AC_PREREQ([2.68])
+AC_PREREQ([2.71])
 m4_pattern_forbid([^_?(gl_[A-Z]|AX_|BISON_)])
 m4_pattern_allow([^BISON_USE_NLS$])
 
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
-        [bug-bison@gnu.org])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2019])
+        [bug-bison@gnu.org],
+        [],
+        [https://www.gnu.org/software/bison/])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2021])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
 
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-# We use Automake 1.14's %D% and %C%.
-#
 # When we move to Automake 1.16, simplify examples/c/reccalc/local.mk.
-# Our CI runs on Xenial, which has only Automake 1.15.
+# Our CI build the packages on Bionic, which has only Automake 1.15.
 #
 # We want gnits strictness only when rolling a stable release.  For
 # release candidates, we use version strings like 2.4.3_rc1, but gnits
@@ -45,7 +40,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # releases, we want to be able run make dist without being required to
 # add a bogus NEWS entry.  In that case, the version string
 # automatically contains a dash, which we also let disable gnits.
-AM_INIT_AUTOMAKE([1.14 dist-xz nostdinc
+AM_INIT_AUTOMAKE([1.15 dist-lzip dist-xz nostdinc
                  color-tests parallel-tests
                  silent-rules]
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],
@@ -54,11 +49,14 @@ AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([lib/config.h:lib/config.in.h])
 
 # Checks for the compiler.
-AC_PROG_CC_STDC
+AC_PROG_CC
 AC_PROG_CXX
 
 # Gnulib (early checks).
 gl_EARLY
+
+# We want ostream_printf and hyperlink support.
+gl_LIBTEXTSTYLE_OPTIONAL([0.20.5])
 
 # Gnulib uses '#pragma GCC diagnostic push' to silence some
 # warnings, but older gcc doesn't support this.
@@ -81,7 +79,8 @@ BISON_CXXSTD([03])
 BISON_CXXSTD([11])
 BISON_CXXSTD([14])
 BISON_CXXSTD([17])
-BISON_CXXSTD([2a])
+BISON_CXXSTD([20])
+BISON_CXXSTD([2b])
 AM_CONDITIONAL([ENABLE_CXX11], [test x"$CXX11_CXXFLAGS" != x])
 AM_CONDITIONAL([ENABLE_CXX14], [test x"$CXX14_CXXFLAGS" != x])
 AC_LANG_POP([C++])
@@ -100,13 +99,44 @@ if test "$enable_gcc_warnings" = yes; then
   # -Wno-tautological-constant-out-of-range-compare for Clang 3.3 and
   # 3.4 on GNU/Linux that choke on intprops.h's INT_MULTIPLY_WRAPV,
   # etc.
-  warn_common='-Wall -Wextra -Wcast-align
+  #
+  # ICC: -wr188
+  #
+  # 1669  warnings warnings_default =
+  # ../src/complain.c(318): error #188: enumerated type mixed with another type
+  # 1670      Wconflicts_sr | Wconflicts_rr | Wdeprecated | Wother;
+  # 1671      ^
+  # 1672
+  # 1673../src/complain.c(393): error #188: enumerated type mixed with another type
+  # 1674          warnings w = 1 << wbit;
+  # 1675                       ^
+  #
+  # ICC: -wr3179
+  #
+  # char const *usefulness
+  #   = rule_useless_in_grammar_p (&rules[r]) ? "useless-in-grammar"
+  #   : rule_useless_in_parser_p (&rules[r])  ? "useless-in-parser"
+  #   :                                         "useful";
+  #
+  # gives
+  #
+  # error #3179: deprecated conversion of string literal to char* (should be const char*)
+  #
+  # ICC: -wr2259 (that's in C, in spite of what the error messages which seems to be about C++).
+  # error #2259: non-pointer conversion from "int" to "yybool={signed char}" may lose significant bits
+  #   yybool yynormal YY_ATTRIBUTE_UNUSED = yystackp->yysplitPoint == YY_NULLPTR;
+  #                                         ^
+  warn_common='-Wall -Wextra
+    -Wcast-align -Wchar-subscripts
     -fparse-all-comments -Wdocumentation
-    -Wformat -Wimplicit-fallthrough -Wnull-dereference
+    -Wformat -Wimplicit-fallthrough -Wmismatched-dealloc -Wnull-dereference
     -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare
-    -Wpointer-arith -Wshadow
-    -Wwrite-strings'
-  warn_c='-Wbad-function-cast -Wstrict-prototypes'
+    -Wpointer-arith -Wshadow -Wstrict-aliasing
+    -Wwrite-strings
+    -wr188 -wr2259 -wr3179'
+  warn_c='-Wbad-function-cast
+    -Wmissing-prototypes
+    -Wstrict-prototypes'
   warn_cxx='-Wextra-semi -Wnoexcept -Wold-style-cast -Wundefined-func-template
     -Wweak-vtables'
   # Warnings for the test suite only.
@@ -217,7 +247,7 @@ AM_CONDITIONAL([ENABLE_JAVA], [test x"$CONF_JAVAC" != x && test x"$CONF_JAVA" !=
 
 
 AC_ARG_ENABLE([yacc],
-  [AC_HELP_STRING([--disable-yacc],
+  [AS_HELP_STRING([--disable-yacc],
      [do not build a yacc command or an -ly library])],
   , [enable_yacc=yes])
 AM_CONDITIONAL([ENABLE_YACC], [test "$enable_yacc" = yes])
@@ -230,9 +260,9 @@ if ! "$LEX_IS_FLEX" || test "X$LEX" = X:; then
   AC_MSG_WARN([bypassing lex because flex is required])
   LEX=:
 fi
-AM_CONDITIONAL([FLEX_WORKS], [$LEX_IS_FLEX])
+AM_CONDITIONAL([FLEX_WORKS], [$LEX_IS_FLEX && $FLEX_SUPPORTS_HEADER_OPT])
 AM_CONDITIONAL([FLEX_CXX_WORKS],
-  [$LEX_IS_FLEX && test $bison_cv_cxx_works = yes])
+  [$LEX_IS_FLEX && $FLEX_SUPPORTS_HEADER_OPT && test $bison_cv_cxx_works = yes])
 AC_PROG_YACC
 AC_PROG_RANLIB
 AC_PROG_GNU_M4
@@ -300,6 +330,13 @@ AC_MSG_RESULT([$suppfile])
 
 # Whether we cannot run the compiled bison.
 AM_CONDITIONAL([CROSS_COMPILING], [test "$cross_compiling" = yes])
+
+# Build bistromathic if we have the lib and both readline/readline.h
+# and readline/history.h.
+AM_CONDITIONAL([ENABLE_BISTROMATHIC],
+[test "$gl_cv_lib_readline" != no &&
+  test "$ac_cv_header_readline_readline_h" = yes &&
+  test "$ac_cv_header_readline_history_h" = yes])
 
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.

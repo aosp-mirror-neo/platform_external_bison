@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 4.0.0.2567\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2019-05-19 20:02+0200\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -37,44 +37,44 @@ msgstr "niejednoznaczny argument %s opcji %s"
 msgid "Valid arguments are:"
 msgstr "Prawidłowe argumenty to:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr "%u bitset_allocs, %u zwolniono (%.2f%%).\n"
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_sets, %u w pamięci podręcznej (%.2f%%)\n"
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr "%u bitset_resets, %u w pamięci podręcznej (%.2f%%)\n"
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr "%u bitset_tests, %u w pamięci podręcznej (%.2f%%)\n"
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset_lists\n"
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr "histogram liczników\n"
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr "histogram rozmiarów\n"
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr "histogram gęstości\n"
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
@@ -83,25 +83,25 @@ msgstr ""
 "Statystyki operacji bitset:\n"
 "\n"
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Uruchomień łącznie = %u\n"
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 msgid "cannot read stats file"
 msgstr "nie można odczytać pliku statystyk"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr "błędny rozmiar pliku statystyk\n"
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 msgid "cannot write stats file"
 msgstr "nie można zapisać pliku statystyk"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 msgid "cannot open stats file for writing"
 msgstr "nie można otworzyć pliku statystyk do zapisu"
 
@@ -112,6 +112,12 @@ msgstr "błąd zapisu"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Nieznany błąd systemowy"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "podproces %s zawiódł"
 
 #: lib/getopt.c:278
 #, c-format
@@ -148,9 +154,29 @@ msgstr "%s: błędna opcja -- '%c'\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: opcja musi mieć argument -- '%c'\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "pamięć wyczerpana"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "nie udało się zapisać bieżącego katalogu roboczego"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "nie udało się wrócić do początkowego katalogu roboczego"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle nie powiodło się"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "nie można odtworzyć fd %d: dup2 nie powiodło się"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -173,25 +199,19 @@ msgstr "pamięć wyczerpana"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "`"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "'"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "nie można utworzyć potoku"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "podproces %s zawiódł"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -209,22 +229,34 @@ msgstr "CPU systemu"
 msgid "wall clock"
 msgstr "zegarowo"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "_open_osfhandle nie powiodło się"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "nie można użyć funkcji iconv"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "nie można odtworzyć fd %d: dup2 nie powiodło się"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "funkcja iconv nie jest dostępna"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "znak spoza zakresu"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "nie można przekształcić U+%04X do lokalnego zestawu znaków"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "nie można przekształcić U+%04X do lokalnego zestawu znaków: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "podproces %s"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "podproces %s dostał krytyczny sygnał %d"
@@ -634,12 +666,6 @@ msgstr "podproces %s dostał krytyczny sygnał %d"
 #~ msgid "cannot create directory %s"
 #~ msgstr "nie można utworzyć katalogu %s"
 
-#~ msgid "unable to record current working directory"
-#~ msgstr "nie udało się zapisać bieżącego katalogu roboczego"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "nie udało się wrócić do początkowego katalogu roboczego"
-
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "Nie udało się otworzyć /dev/zero do odczytu"
 
@@ -840,21 +866,6 @@ msgstr "podproces %s dostał krytyczny sygnał %d"
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "Nieznany sygnał %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "nie można użyć funkcji iconv"
-
-#~ msgid "iconv function not available"
-#~ msgstr "funkcja iconv nie jest dostępna"
-
-#~ msgid "character out of range"
-#~ msgstr "znak spoza zakresu"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "nie można przekształcić U+%04X do lokalnego zestawu znaków"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "nie można przekształcić U+%04X do lokalnego zestawu znaków: %s"
 
 #~ msgid "invalid user"
 #~ msgstr "błędny użytkownik"

@@ -1,20 +1,20 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
-/* Copyright (C) 2001-2002, 2004-2019 Free Software Foundation, Inc.
+/* Copyright (C) 2001-2002, 2004-2021 Free Software Foundation, Inc.
    Written by Paul Eggert, Bruno Haible, Sam Steingold, Peter Burwood.
    This file is part of gnulib.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3, or (at your option)
-   any later version.
+   This file is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Lesser General Public License as
+   published by the Free Software Foundation; either version 2.1 of the
+   License, or (at your option) any later version.
 
-   This program is distributed in the hope that it will be useful,
+   This file is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+   GNU Lesser General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, see <https://www.gnu.org/licenses/>.  */
+   You should have received a copy of the GNU Lesser General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /*
  * ISO C 99 <stdint.h> for platforms that lack it.
@@ -189,7 +189,7 @@ typedef long int gl_int64_t;
 typedef __int64 gl_int64_t;
 #   define int64_t gl_int64_t
 #   define GL_INT64_T
-#  elif 1
+#  else
 #   undef int64_t
 typedef long long int gl_int64_t;
 #   define int64_t gl_int64_t
@@ -210,7 +210,7 @@ typedef unsigned long int gl_uint64_t;
 typedef unsigned __int64 gl_uint64_t;
 #   define uint64_t gl_uint64_t
 #   define GL_UINT64_T
-#  elif 1
+#  else
 #   undef uint64_t
 typedef unsigned long long int gl_uint64_t;
 #   define uint64_t gl_uint64_t
@@ -303,12 +303,11 @@ typedef gl_uint_fast32_t gl_uint_fast16_t;
 /* kLIBC's <stdint.h> defines _INTPTR_T_DECLARED and needs its own
    definitions of intptr_t and uintptr_t (which use int and unsigned)
    to avoid clashes with declarations of system functions like sbrk.
-   Similarly, mingw 5.22 <crtdefs.h> defines _INTPTR_T_DEFINED and
-   _UINTPTR_T_DEFINED and needs its own definitions of intptr_t and
+   Similarly, MinGW WSL-5.4.1 <stdint.h> needs its own intptr_t and
    uintptr_t to avoid conflicting declarations of system functions like
    _findclose in <io.h>.  */
 # if !((defined __KLIBC__ && defined _INTPTR_T_DECLARED) \
-       || (defined __MINGW32__ && defined _INTPTR_T_DEFINED && defined _UINTPTR_T_DEFINED))
+       || defined __MINGW32__)
 #  undef intptr_t
 #  undef uintptr_t
 #  ifdef _WIN64
@@ -334,7 +333,7 @@ typedef unsigned long int gl_uintptr_t;
 # ifndef INTMAX_MAX
 #  undef INTMAX_C
 #  undef intmax_t
-#  if 1 && LONG_MAX >> 30 == 1
+#  if LONG_MAX >> 30 == 1
 typedef long long int gl_intmax_t;
 #   define intmax_t gl_intmax_t
 #  elif defined GL_INT64_T
@@ -348,7 +347,7 @@ typedef long int gl_intmax_t;
 # ifndef UINTMAX_MAX
 #  undef UINTMAX_C
 #  undef uintmax_t
-#  if 1 && ULONG_MAX >> 31 == 1
+#  if ULONG_MAX >> 31 == 1
 typedef unsigned long long int gl_uintmax_t;
 #   define uintmax_t gl_uintmax_t
 #  elif defined GL_UINT64_T
@@ -581,11 +580,6 @@ typedef int _verify_intmax_size[sizeof (intmax_t) == sizeof (uintmax_t)
    <wchar.h> -> <stdio.h> -> <getopt.h> -> <stdlib.h>, and the latter includes
    <stdint.h> and assumes its types are already defined.  */
 # if 1 && ! (defined WCHAR_MIN && defined WCHAR_MAX)
-  /* BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
-     included before <wchar.h>.  */
-#  include <stddef.h>
-#  include <stdio.h>
-#  include <time.h>
 #  define _GL_JUST_INCLUDE_SYSTEM_WCHAR_H
 #  include <wchar.h>
 #  undef _GL_JUST_INCLUDE_SYSTEM_WCHAR_H
@@ -648,21 +642,21 @@ typedef int _verify_intmax_size[sizeof (intmax_t) == sizeof (uintmax_t)
 #  define INT64_C(x) x##L
 # elif defined _MSC_VER
 #  define INT64_C(x) x##i64
-# elif 1
+# else
 #  define INT64_C(x) x##LL
 # endif
 # if ULONG_MAX >> 31 >> 31 >> 1 == 1
 #  define UINT64_C(x) x##UL
 # elif defined _MSC_VER
 #  define UINT64_C(x) x##ui64
-# elif 1
+# else
 #  define UINT64_C(x) x##ULL
 # endif
 
 /* 7.18.4.2. Macros for greatest-width integer constants */
 
 # ifndef INTMAX_C
-#  if 1 && LONG_MAX >> 30 == 1
+#  if LONG_MAX >> 30 == 1
 #   define INTMAX_C(x)   x##LL
 #  elif defined GL_INT64_T
 #   define INTMAX_C(x)   INT64_C(x)
@@ -672,7 +666,7 @@ typedef int _verify_intmax_size[sizeof (intmax_t) == sizeof (uintmax_t)
 # endif
 
 # ifndef UINTMAX_C
-#  if 1 && ULONG_MAX >> 31 == 1
+#  if ULONG_MAX >> 31 == 1
 #   define UINTMAX_C(x)  x##ULL
 #  elif defined GL_UINT64_T
 #   define UINTMAX_C(x)  UINT64_C(x)
