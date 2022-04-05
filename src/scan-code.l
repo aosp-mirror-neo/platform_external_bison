@@ -1,6 +1,6 @@
 /* Bison Action Scanner                             -*- C -*-
 
-   Copyright (C) 2006-2015, 2018-2019 Free Software Foundation, Inc.
+   Copyright (C) 2006-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -15,7 +15,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 %option debug nodefault noinput nounput noyywrap never-interactive
 %option prefix="code_" outfile="lex.yy.c"
@@ -25,20 +25,22 @@
 #include <get-errno.h>
 #include <quote.h>
 
-#include <src/complain.h>
-#include <src/getargs.h>
-#include <src/muscle-tab.h>
-#include <src/reader.h>
-#include <src/scan-code.h>
-#include <src/symlist.h>
+#include "src/complain.h"
+#include "src/getargs.h"
+#include "src/muscle-tab.h"
+#include "src/reader.h"
+#include "src/scan-code.h"
+#include "src/symlist.h"
 
 #define FLEX_PREFIX(Id) code_ ## Id
-#include <src/flex-scanner.h>
+#include "src/flex-scanner.h"
 
 /* Work around a bug in flex 2.5.31.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+   <https://bugs.debian.org/333231>.  */
 #undef code_wrap
 #define code_wrap() 1
+
+struct obstack *obstack_for_actions = &obstack_for_string;
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */
@@ -81,7 +83,7 @@ static bool untyped_var_seen;
    historically almost any character is allowed in a tag.  We disallow
    NUL and newline, as this simplifies our implementation.  We allow
    "->" as a means to dereference a pointer.  */
-tag      ([^\0\n>]|->)+
+tag      ([^\0\n>]|->)*[^-]
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */
@@ -90,8 +92,8 @@ splice   (\\[ \f\t\v]*\n)*
 /* C style identifier. Must start with letter. Will be used for
    named symbol references. Shall be kept synchronized with
    scan-gram.l "letter" and "id". */
-letter    [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id        {letter}({letter}|[-0-9])*
+letter   [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id       {letter}({letter}|[-0-9])*
 ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 %%
@@ -112,7 +114,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_COMMENT>
 {
-  "*"{splice}"/"  STRING_GROW; BEGIN sc_context;
+  "*"{splice}"/"  STRING_GROW (); BEGIN sc_context;
 }
 
 
@@ -122,8 +124,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_LINE_COMMENT>
 {
-  "\n"           STRING_GROW; BEGIN sc_context;
-  {splice}       STRING_GROW;
+  "\n"           STRING_GROW (); BEGIN sc_context;
+  {splice}       STRING_GROW ();
 }
 
 
@@ -133,26 +135,26 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_CHARACTER,SC_STRING>
 {
-  {splice}|\\{splice}.  STRING_GROW;
+  {splice}|\\{splice}.  STRING_GROW ();
 }
 
 <SC_CHARACTER>
 {
-  "'"           STRING_GROW; BEGIN sc_context;
+  "'"           STRING_GROW (); BEGIN sc_context;
 }
 
 <SC_STRING>
 {
-  "\""          STRING_GROW; BEGIN sc_context;
+  "\""          STRING_GROW (); BEGIN sc_context;
 }
 
 
 <SC_RULE_ACTION,SC_SYMBOL_ACTION>
 {
-  "'"              STRING_GROW; BEGIN SC_CHARACTER;
-  "\""             STRING_GROW; BEGIN SC_STRING;
-  "/"{splice}"*"   STRING_GROW; BEGIN SC_COMMENT;
-  "/"{splice}"/"   STRING_GROW; BEGIN SC_LINE_COMMENT;
+  "'"              STRING_GROW (); BEGIN SC_CHARACTER;
+  "\""             STRING_GROW (); BEGIN SC_STRING;
+  "/"{splice}"*"   STRING_GROW (); BEGIN SC_COMMENT;
+  "/"{splice}"/"   STRING_GROW (); BEGIN SC_LINE_COMMENT;
 
   [$@]  {
     complain (loc, Wother, _("stray '%s'"), yytext);
@@ -199,10 +201,10 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   [$@\[\]]    obstack_escape (&obstack_for_string, yytext);
 
   /* By default, grow the string obstack with the input.  */
-  .|\n        STRING_GROW;
+  .|\n        STRING_GROW ();
 
- /* End of processing. */
-  <<EOF>>     STRING_FINISH; return last_string;
+  /* End of processing. */
+  <<EOF>>     STRING_FINISH (); return last_string;
 }
 
 %%
@@ -321,14 +323,14 @@ static void
 show_sub_message (warnings warning,
                   const char* cp, bool explicit_bracketing,
                   int midrule_rhs_index, char dollar_or_at,
-                  int indent, const variant *var)
+                  const variant *var)
 {
   const char *at_spec = get_at_spec (var->symbol_index);
 
   if (var->err == 0)
-    complain_indent (&var->loc, warning, &indent,
-                     _("refers to: %c%s at %s"), dollar_or_at,
-                     var->id, at_spec);
+    subcomplain (&var->loc, warning,
+                 _("refers to: %c%s at %s"), dollar_or_at,
+                 var->id, at_spec);
   else
     {
       const char *id;
@@ -375,8 +377,8 @@ show_sub_message (warnings warning,
                         _(", cannot be accessed from midrule action at $%d"),
                         midrule_rhs_index);
 
-      complain_indent (&id_loc, warning, &indent, "%s",
-                        obstack_finish0 (&msg_buf));
+      subcomplain (&id_loc, warning, "%s",
+                   obstack_finish0 (&msg_buf));
       obstack_free (&msg_buf, 0);
     }
 }
@@ -384,14 +386,13 @@ show_sub_message (warnings warning,
 static void
 show_sub_messages (warnings warning,
                    const char* cp, bool explicit_bracketing,
-                   int midrule_rhs_index, char dollar_or_at,
-                   int indent)
+                   int midrule_rhs_index, char dollar_or_at)
 {
   for (int i = 0; i < variant_count; ++i)
     show_sub_message (warning | silent,
                       cp, explicit_bracketing,
                       midrule_rhs_index, dollar_or_at,
-                      indent, &variant_table[i]);
+                      &variant_table[i]);
 }
 
 /* Returned from "parse_ref" when the reference
@@ -401,6 +402,23 @@ show_sub_messages (warnings warning,
 /* Returned from "parse_ref" when the reference
    points to LHS ($$) of the current rule or midrule. */
 #define LHS_REF (INT_MIN + 1)
+
+/* Parse a positional reference in RULE.  */
+static long
+parse_positional_ref (char *cp, int rule_length,
+                      char *text, const location *text_loc)
+{
+  long num = strtol (cp, &cp, 10);
+  if (1 - INT_MAX + rule_length <= num && num <= rule_length)
+    return num;
+  else
+    {
+      complain (text_loc, complaint, _("integer out of range: %s"),
+                quote (text));
+      return INVALID_REF;
+    }
+}
+
 
 /* Parse named or positional reference. In case of positional
    references, can return negative values for $-n "deep" stack
@@ -413,18 +431,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   if ('$' == *cp)
     return LHS_REF;
 
-  if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (* (cp + 1))))
-    {
-      long num = strtol (cp, &cp, 10);
-      if (1 - INT_MAX + rule_length <= num && num <= rule_length)
-        return num;
-      else
-        {
-          complain (text_loc, complaint, _("integer out of range: %s"),
-                    quote (text));
-          return INVALID_REF;
-        }
-    }
+  if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (cp[1])))
+    return parse_positional_ref (cp, rule_length, text, text_loc);
 
   bool const explicit_bracketing = *cp == '[';
 
@@ -492,47 +500,44 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
       {
         int len = (explicit_bracketing || !ref_tail_fields) ?
           cp_end - cp : ref_tail_fields - cp;
-        int indent = 0;
 
-        complain_indent (text_loc, complaint, &indent,
-                         _("invalid reference: %s"), quote (text));
-        indent += SUB_INDENT;
+        complain (text_loc, complaint,
+                  _("invalid reference: %s"), quote (text));
         if (len == 0)
           {
             location sym_loc = *text_loc;
             sym_loc.start.column += 1;
             sym_loc.end = sym_loc.start;
-            complain_indent (&sym_loc, complaint, &indent,
-                             _("syntax error after '%c', expecting integer, "
-                               "letter, '_', '[', or '$'"),
-                             dollar_or_at);
+            subcomplain (&sym_loc, complaint,
+                         _("syntax error after '%c', expecting integer, "
+                         "letter, '_', '[', or '$'"),
+                         dollar_or_at);
           }
         else if (midrule_rhs_index)
-          complain_indent (&rule->rhs_loc, complaint, &indent,
-                           _("symbol not found in production before $%d: "
-                             "%.*s"),
-                           midrule_rhs_index, len, cp);
+          subcomplain (&rule->rhs_loc, complaint,
+                       _("symbol not found in production before $%d: "
+                       "%.*s"),
+                       midrule_rhs_index, len, cp);
         else
-          complain_indent (&rule->rhs_loc, complaint, &indent,
-                           _("symbol not found in production: %.*s"),
-                           len, cp);
+          subcomplain (&rule->rhs_loc, complaint,
+                       _("symbol not found in production: %.*s"),
+                       len, cp);
 
         if (variant_count > 0)
           show_sub_messages (complaint,
                              cp, explicit_bracketing, midrule_rhs_index,
-                             dollar_or_at, indent);
+                             dollar_or_at);
         return INVALID_REF;
       }
     case 1:
       {
-        int indent = 0;
         if (variant_count > 1)
           {
-            complain_indent (text_loc, Wother, &indent,
-                             _("misleading reference: %s"), quote (text));
+            complain (text_loc, Wother,
+                      _("misleading reference: %s"), quote (text));
             show_sub_messages (Wother,
                                cp, explicit_bracketing, midrule_rhs_index,
-                               dollar_or_at, indent + SUB_INDENT);
+                               dollar_or_at);
           }
         {
           int symbol_index =
@@ -543,12 +548,11 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     case 2:
     default:
       {
-        int indent = 0;
-        complain_indent (text_loc, complaint, &indent,
-                         _("ambiguous reference: %s"), quote (text));
+        complain (text_loc, complaint,
+                  _("ambiguous reference: %s"), quote (text));
         show_sub_messages (complaint,
                            cp, explicit_bracketing, midrule_rhs_index,
-                           dollar_or_at, indent + SUB_INDENT);
+                           dollar_or_at);
         return INVALID_REF;
       }
     }
@@ -590,7 +594,7 @@ fetch_type_name (char *cp, char const **type_name,
 /*------------------------------------------------------------------.
 | TEXT is pointing to a wannabee semantic value (i.e., a '$').      |
 |                                                                   |
-| Possible inputs: $[<TYPENAME>]($|integer)                         |
+| Possible inputs: $[<TYPENAME>]($|INTEGER)                         |
 |                                                                   |
 | Output to OBSTACK_FOR_STRING a reference to this semantic value.  |
 `------------------------------------------------------------------*/
@@ -617,7 +621,7 @@ handle_action_dollar (symbol_list *rule, char *text, const location *dollar_loc)
   char *cp = fetch_type_name (text + 1, &type_name, dollar_loc);
   int n = parse_ref (cp, effective_rule, effective_rule_length,
                      rule->midrule_parent_rhs_index, text, dollar_loc, '$');
-  /* End type_name.  Don't do it ealier: parse_ref depends on TEXT.  */
+  /* End type_name.  Don't do it earlier: parse_ref depends on TEXT.  */
   if (type_name)
     cp[-1] = '\0';
 
@@ -754,19 +758,10 @@ handle_action_at (symbol_list *rule, char *text, const location *at_loc)
 static char const *
 translate_action (code_props *self, int sc_context)
 {
-  static bool initialized = false;
-  if (!initialized)
-    {
-      obstack_init (&obstack_for_string);
-      yy_flex_debug = 0;
-      initialized = true;
-    }
-
   loc->start = loc->end = self->location.start;
   yy_switch_to_buffer (yy_scan_string (self->code));
   char *res = code_lex (self, sc_context);
   yy_delete_buffer (YY_CURRENT_BUFFER);
-
   return res;
 }
 
@@ -840,7 +835,14 @@ code_props_translate_code (code_props *self)
 void
 code_scanner_last_string_free (void)
 {
-  STRING_FREE;
+  STRING_FREE ();
+}
+
+void
+code_scanner_init (void)
+{
+  obstack_init (&obstack_for_string);
+  yy_flex_debug = 0;
 }
 
 void

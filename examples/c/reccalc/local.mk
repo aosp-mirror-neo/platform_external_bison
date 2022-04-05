@@ -1,4 +1,4 @@
-## Copyright (C) 2019 Free Software Foundation, Inc.
+## Copyright (C) 2019-2021 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 reccalcdir = $(docdir)/%D%
 
@@ -26,6 +26,8 @@ if FLEX_WORKS
   BUILT_SOURCES += $(nodist_%C%_reccalc_SOURCES)
   # Don't use gnulib's system headers.
   %C%_reccalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  # Fighting warnings triggered by Flex is just too painful.
+  # %C%_reccalc_CFLAGS = $(TEST_CFLAGS)
 endif FLEX_WORKS
 
 %D%/parse.c: $(dependencies)
@@ -69,7 +71,9 @@ DASH = -
 	$(AM_V_LEX)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
+## --header introduced in 2.5.6, renamed as --header-file in 2.6.4.
+## Backward compatibility ensured since --header is an unambiguous prefix.
+	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header=%D%/scan.h $(srcdir)/%D%/scan.l
 	$(AM_V_at)mv $@.tmp $@
 
 

@@ -1,6 +1,6 @@
 /* Generate the LR(0) parser states for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 2000-2002, 2004-2015, 2018-2019 Free
+   Copyright (C) 1984, 1986, 1989, 2000-2002, 2004-2015, 2018-2021 Free
    Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 
 /* See comments in state.h for the data structures that represent it.
@@ -49,7 +49,7 @@ static state_list *last_state = NULL;
 
 /* Print CORE for debugging. */
 static void
-core_print (size_t core_size, item_number *core, FILE *out)
+core_print (size_t core_size, item_index *core, FILE *out)
 {
   for (int i = 0; i < core_size; ++i)
     {
@@ -58,13 +58,14 @@ core_print (size_t core_size, item_number *core, FILE *out)
     }
 }
 
-/*------------------------------------------------------------------.
-| A state was just discovered from another state.  Queue it for     |
-| later examination, in order to find its transitions.  Return it.  |
-`------------------------------------------------------------------*/
+/*-----------------------------------------------------------------.
+| A state was just discovered by transitioning on SYM from another |
+| state.  Queue this state for later examination, in order to find |
+| its outgoing transitions.  Return it.                            |
+`-----------------------------------------------------------------*/
 
 static state *
-state_list_append (symbol_number sym, size_t core_size, item_number *core)
+state_list_append (symbol_number sym, size_t core_size, item_index *core)
 {
   state_list *node = xmalloc (sizeof *node);
   state *res = state_new (sym, core_size, core);
@@ -85,7 +86,7 @@ state_list_append (symbol_number sym, size_t core_size, item_number *core)
   return res;
 }
 
-/* Symbols that can be "shifted" (including non terminals) from the
+/* Symbols that can be "shifted" (including nonterminals) from the
    current state.  */
 bitset shift_symbol;
 
@@ -97,14 +98,14 @@ static rule **redset;
 static state **shiftset;
 
 
-/* KERNEL_BASE[symbol-number] -> list of item numbers (offsets inside
-   RITEM) of lenngth KERNEL_SIZE[symbol-number]. */
-static item_number **kernel_base;
+/* KERNEL_BASE[symbol-number] -> list of item indices (offsets inside
+   RITEM) of length KERNEL_SIZE[symbol-number]. */
+static item_index **kernel_base;
 static int *kernel_size;
 
 /* A single dimension array that serves as storage for
    KERNEL_BASE.  */
-static item_number *kernel_items;
+static item_index *kernel_items;
 
 
 static void
@@ -256,7 +257,7 @@ new_itemsets (state *s)
 `--------------------------------------------------------------*/
 
 static state *
-get_state (symbol_number sym, size_t core_size, item_number *core)
+get_state (symbol_number sym, size_t core_size, item_index *core)
 {
   if (trace_flag & trace_automaton)
     {
@@ -391,10 +392,15 @@ generate_states (void)
   allocate_storage ();
   closure_new (nritems);
 
-  /* Create the initial state.  The 0 at the lhs is the index of the
-     item of this initial rule.  */
-  item_number initial_core = 0;
-  state_list_append (0, 1, &initial_core);
+  /* Create the initial state, whose accessing symbol (by convention)
+     is 0, aka $end.  */
+  {
+    /* The items of its core: beginning of all the rules of $accept.  */
+    kernel_size[0] = 0;
+    for (rule_number r = 0; r < nrules && rules[r].lhs->symbol == acceptsymbol; ++r)
+      kernel_base[0][kernel_size[0]++] = rules[r].rhs - ritem;
+    state_list_append (0, kernel_size[0], kernel_base[0]);
+  }
 
   /* States are queued when they are created; process them all.  */
   for (state_list *list = first_state; list; list = list->next)

@@ -1,6 +1,6 @@
 /* Open and close files for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2019 Free
+   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2021 Free
    Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -16,19 +16,26 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 #include "system.h"
 
 #include <configmake.h> /* PKGDATADIR */
-#include <error.h>
 #include <dirname.h>
+#include <error.h>
 #include <get-errno.h>
+#include <gl_array_list.h>
+#include <gl_hash_map.h>
+#include <gl_xlist.h>
+#include <gl_xmap.h>
 #include <quote.h>
 #include <quotearg.h>
 #include <relocatable.h> /* relocate2 */
 #include <stdio-safer.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <xstrndup.h>
 
 #include "complain.h"
@@ -50,8 +57,9 @@ char const *spec_name_prefix = NULL;   /* for -p. */
 location spec_name_prefix_loc = EMPTY_LOCATION_INIT;
 char *spec_verbose_file = NULL;  /* for --verbose. */
 char *spec_graph_file = NULL;    /* for -g. */
+char *spec_html_file = NULL;     /* for --html. */
 char *spec_xml_file = NULL;      /* for -x. */
-char *spec_header_file = NULL;  /* for --defines. */
+char *spec_header_file = NULL;   /* for --header. */
 char *parser_file_name;
 
 /* All computed output file names.  */
@@ -70,7 +78,7 @@ static int generated_files_size = 0;
 uniqstr grammar_file = NULL;
 
 /* If --output=dir/foo.c was specified,
-   DIR_PREFIX is 'dir/' and ALL_BUT_EXT and ALL_BUT_TAB_EXT are 'dir/foo'.
+   DIR_PREFIX gis 'dir/' and ALL_BUT_EXT and ALL_BUT_TAB_EXT are 'dir/foo'.
 
    If --output=dir/foo.tab.c was specified, DIR_PREFIX is 'dir/',
    ALL_BUT_EXT is 'dir/foo.tab', and ALL_BUT_TAB_EXT is 'dir/foo'.
@@ -93,6 +101,18 @@ char *dir_prefix;
 static char *src_extension = NULL;
 /* Header file extension (if option '`-d'' is specified).  */
 static char *header_extension = NULL;
+
+struct prefix_map
+{
+  char *oldprefix;
+  char *newprefix;
+};
+
+static gl_list_t prefix_maps = NULL;
+
+/* Map file names to prefix-mapped file names. */
+static gl_map_t mapped_files = NULL;
+
 
 /*-----------------------------------------------------------------.
 | Return a newly allocated string composed of the concatenation of |
@@ -154,6 +174,116 @@ xfdopen (int fd, char const *mode)
               syntax-check. */
            "fdopen");
   return res;
+}
+
+/* The mapped name of FILENAME, allocated, if there are prefix maps.
+   Otherwise NULL.  */
+static char *
+map_file_name_alloc (char const *filename)
+{
+  struct prefix_map const *p = NULL;
+  assert (prefix_maps);
+  {
+    void const *ptr;
+    gl_list_iterator_t iter = gl_list_iterator (prefix_maps);
+    while (gl_list_iterator_next (&iter, &ptr, NULL))
+      {
+        p = ptr;
+        if (strncmp (p->oldprefix, filename, strlen (p->oldprefix)) == 0)
+          break;
+        p = NULL;
+      }
+    gl_list_iterator_free (&iter);
+  }
+
+  if (!p)
+    return xstrdup (filename);
+
+  size_t oldprefix_len = strlen (p->oldprefix);
+  size_t newprefix_len = strlen (p->newprefix);
+  char *res = xmalloc (newprefix_len + strlen (filename) - oldprefix_len + 1);
+
+  char *end = stpcpy (res, p->newprefix);
+  stpcpy (end, filename + oldprefix_len);
+
+  return res;
+}
+
+static bool
+string_equals (const void *x1, const void *x2)
+{
+  const char *s1 = x1;
+  const char *s2 = x2;
+  return STREQ (s1, s2);
+}
+
+/* A hash function for NUL-terminated char* strings using
+   the method described by Bruno Haible.
+   See https://www.haible.de/bruno/hashfunc.html.  */
+static size_t
+string_hash (const void *x)
+{
+#define SIZE_BITS (sizeof (size_t) * CHAR_BIT)
+
+  const char *s = x;
+  size_t h = 0;
+
+  for (; *s; s++)
+    h = *s + ((h << 9) | (h >> (SIZE_BITS - 9)));
+
+  return h;
+}
+
+static void
+string_free (const void *cp)
+{
+  void *p = (void*) cp;
+  free (p);
+}
+
+const char *
+map_file_name (char const *filename)
+{
+  if (!filename || !prefix_maps)
+    return filename;
+  if (!mapped_files)
+    mapped_files
+      = gl_map_nx_create_empty (GL_HASH_MAP,
+                                string_equals, string_hash,
+                                string_free, string_free);
+  const void *res = gl_map_get (mapped_files, filename);
+  if (!res)
+    {
+      res = map_file_name_alloc (filename);
+      gl_map_put (mapped_files, xstrdup (filename), res);
+    }
+  return res;
+}
+
+static void
+prefix_map_free (struct prefix_map *p)
+{
+  free (p->oldprefix);
+  free (p->newprefix);
+  free (p);
+}
+
+void
+add_prefix_map (char const *oldprefix, char const *newprefix)
+{
+  if (!prefix_maps)
+    prefix_maps
+      = gl_list_create_empty (GL_ARRAY_LIST,
+                              /* equals */ NULL,
+                              /* hashcode */ NULL,
+                              (gl_listelement_dispose_fn) prefix_map_free,
+                              true);
+
+  struct prefix_map *p = xmalloc (sizeof (*p));
+  p->oldprefix = xstrdup (oldprefix);
+  p->newprefix = xstrdup (newprefix);
+
+  gl_list_add_last (prefix_maps, p);
 }
 
 /*------------------------------------------------------------------.
@@ -332,7 +462,7 @@ compute_output_file_names (void)
      ? xstrdup (spec_outfile)
      : concat2 (all_but_ext, src_extension));
 
-  if (defines_flag)
+  if (header_flag)
     {
       if (! spec_header_file)
         spec_header_file = concat2 (all_but_ext, header_extension);
@@ -341,9 +471,15 @@ compute_output_file_names (void)
   if (graph_flag)
     {
       if (! spec_graph_file)
-        spec_graph_file = concat2 (all_but_tab_ext,
-                                   304 <= required_version ? ".gv" : ".dot");
+        spec_graph_file = concat2 (all_but_tab_ext, ".gv");
       output_file_name_check (&spec_graph_file, false);
+    }
+
+  if (html_flag)
+    {
+      if (! spec_html_file)
+        spec_html_file = concat2 (all_but_tab_ext, ".html");
+      output_file_name_check (&spec_html_file, false);
     }
 
   if (xml_flag)
@@ -421,12 +557,30 @@ pkgdatadir (void)
     }
 }
 
+char const *
+m4path (void)
+{
+  char const *m4 = getenv ("M4");
+  if (m4)
+    return m4;
+
+  /* We don't use relocate2() to store the temporary buffer and re-use
+     it, because m4path() is only called once.  */
+  char const *m4_relocated = relocate (M4);
+  struct stat buf;
+  if (stat (m4_relocated, &buf) == 0)
+    return m4_relocated;
+
+  return M4;
+}
+
 void
 output_file_names_free (void)
 {
   free (all_but_ext);
   free (spec_verbose_file);
   free (spec_graph_file);
+  free (spec_html_file);
   free (spec_xml_file);
   free (spec_header_file);
   free (parser_file_name);
@@ -435,4 +589,9 @@ output_file_names_free (void)
     free (generated_files[i].name);
   free (generated_files);
   free (relocate_buffer);
+
+  if (prefix_maps)
+    gl_list_free (prefix_maps);
+  if (mapped_files)
+    gl_map_free (mapped_files);
 }

@@ -1,21 +1,21 @@
 # Swedish messages for gnulib.
-# Copyright © 1997, 2002, 2003, 2004, 2005, 2007, 2009, 2010, 2011, 2019 Free Software Foundation, Inc.
+# Copyright © 1997, 2002, 2003, 2004, 2005, 2007, 2009, 2010, 2011, 2019, 2020 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnulib package.
 # Peter Antman <peter.antman@abc.se>, 1997.
 # Thomas Olsson <cid95tho@lustudat.student.lu.se>, 1997.
 # Daniel Resare <daniel@resare.com>, 1999, 2000.
-# Göran Uddeborg <goeran@uddeborg.se>, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009, 2010, 2011, 2019.
+# Göran Uddeborg <goeran@uddeborg.se>, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009, 2010, 2011, 2019, 2020.
 #
-# $Revision: 1.14 $
+# $Revision: 1.19 $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 4.0.0.2567\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
-"PO-Revision-Date: 2019-05-21 10:41+0200\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
+"PO-Revision-Date: 2020-05-28 21:40+0200\n"
 "Last-Translator: Göran Uddeborg <goeran@uddeborg.se>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language-Team: Swedish <tp-sv-list@lists.sourceforge.net>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,44 +37,44 @@ msgstr "tvetydigt argument %s till %s"
 msgid "Valid arguments are:"
 msgstr "Giltiga argument är:"
 
-#: lib/bitset/stats.c:177
-#, c-format
-msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
-msgstr "%u bitset-allokeringar, %u friade (%.2f%%).\n"
-
-#: lib/bitset/stats.c:180
-#, c-format
-msgid "%u bitset_sets, %u cached (%.2f%%)\n"
-msgstr "%u bitset-mängder, %u cachade (%.2f%%)\n"
-
 #: lib/bitset/stats.c:183
 #, c-format
-msgid "%u bitset_resets, %u cached (%.2f%%)\n"
-msgstr "%u bitset-återställningar, %u cachade (%.2f%%)\n"
+msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
+msgstr "%u bitset-allokeringar, %u frigjorda (%.2f %%).\n"
 
 #: lib/bitset/stats.c:186
 #, c-format
-msgid "%u bitset_tests, %u cached (%.2f%%)\n"
-msgstr "%u bitset-tester, %u cachade (%.2f%%)\n"
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
+msgstr "%u bitset-mängder, %u cachade (%.2f %%)\n"
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:189
+#, c-format
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
+msgstr "%u bitset-återställningar, %u cachade (%.2f %%)\n"
+
+#: lib/bitset/stats.c:192
+#, c-format
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
+msgstr "%u bitset-tester, %u cachade (%.2f %%)\n"
+
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr "%u bitset-listor\n"
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr "antalsloggshistogram\n"
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr "storleksloggshistogram\n"
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr "densitetshistogram\n"
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
@@ -83,25 +83,25 @@ msgstr ""
 "Bitset-statistik:\n"
 "\n"
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr "Ackumulerade körningar = %u\n"
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 msgid "cannot read stats file"
 msgstr "kan inte läsa statistikfilen"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr "felaktig storlek på statistikfil\n"
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 msgid "cannot write stats file"
 msgstr "kan inte skriva statistikfilen"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 msgid "cannot open stats file for writing"
 msgstr "kan inte öppna statistikfilen för skrivning"
 
@@ -112,6 +112,12 @@ msgstr "skrivfel"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Okänt systemfel"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s-underprocess misslyckades"
 
 #: lib/getopt.c:278
 #, c-format
@@ -141,16 +147,36 @@ msgstr "%s: flaggan ”%s%s” kräver ett argument\n"
 #: lib/getopt.c:621
 #, c-format
 msgid "%s: invalid option -- '%c'\n"
-msgstr "%s: ogiltig flagga -- \"%c\"\n"
+msgstr "%s: ogiltig flagga -- ”%c”\n"
 
 #: lib/getopt.c:636 lib/getopt.c:682
 #, c-format
 msgid "%s: option requires an argument -- '%c'\n"
-msgstr "%s: flaggan kräver ett argument -- \"%c\"\n"
+msgstr "%s: flaggan kräver ett argument -- ”%c”\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "minnet slut"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "kan inte notera aktuell arbetskatalog"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "kunde inte återvända till den ursprungliga arbetskatalogen"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "_open_osfhandle misslyckades"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "kan inte återställa fb %d: dup2 misslyckades"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -173,25 +199,19 @@ msgstr "minnet slut"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "”"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "”"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "kan inte skapa rör"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "%s-underprocess misslyckades"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -209,128 +229,43 @@ msgstr "CPU system"
 msgid "wall clock"
 msgstr "väggklocka"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "_open_osfhandle misslyckades"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "iconv-funktion inte användbar"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "kan inte återställa fb %d: dup2 misslyckades"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "iconv-funktion inte tillgänglig"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "tecken utanför intervall"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "kan inte konvertera U+%04X till lokal teckenuppsättning"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "kan inte konvertera U+%04X till lokal teckenuppsättning: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "%s-underprocess"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "%s-underprocess fick ödesdiger signal %d"
-
-#~ msgid "Packaged by %s (%s)\n"
-#~ msgstr "Paketerat av %s (%s)\n"
-
-#~ msgid "Packaged by %s\n"
-#~ msgstr "Paketerat av %s\n"
-
-#~ msgid "(C)"
-#~ msgstr "©"
-
-#~ msgid ""
-#~ "License GPLv3+: GNU GPL version 3 or later <%s>.\n"
-#~ "This is free software: you are free to change and redistribute it.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Licens GPLv3+: GNU GPL version 3 eller senare <%s>.\n"
-#~ "Detta är fri programvara: du får lov att ändra och vidaredistribuera "
-#~ "den.\n"
-#~ "Det finns INGEN GARANTI, så långt lagen tillåter.\n"
-
-#~ msgid "Written by %s.\n"
-#~ msgstr "Skrivet av %s.\n"
-
-#~ msgid "Written by %s and %s.\n"
-#~ msgstr "Skrivet av %s och %s.\n"
-
-#~ msgid "Written by %s, %s, and %s.\n"
-#~ msgstr "Skrivet av %s, %s och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "and %s.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s\n"
-#~ "och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, and %s.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s,\n"
-#~ "%s och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, and %s.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s,\n"
-#~ "%s, %s och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, and %s.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s,\n"
-#~ "%s, %s, %s och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "and %s.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s,\n"
-#~ "%s, %s, %s, %s\n"
-#~ "och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, and %s.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s och %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, %s, and others.\n"
-#~ msgstr ""
-#~ "Skrivet av %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, %s med flera.\n"
-
-#~ msgid "Report bugs to: %s\n"
-#~ msgstr ""
-#~ "Rapportera fel till: %s\n"
-#~ "Skicka synpunkter på översättningen till: tp-sv@listor.tp-sv.se\n"
-
-#~ msgid "Report %s bugs to: %s\n"
-#~ msgstr "Rapportera %s-fel till: %s\n"
-
-#~ msgid "%s home page: <%s>\n"
-#~ msgstr "%s hemsida: <%s>\n"
-
-#~ msgid "General help using GNU software: <%s>\n"
-#~ msgstr "Allmän hjälp med att använda GNU-program: <%s>\n"
 
 #~ msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
 #~ msgstr "ARGP_HELP_FMT: värdet på %s är mindre än eller lika med %s"
 
 #~ msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
-#~ msgstr "%.*s: ARGP_HELP_FMT parametern kräver ett värde"
+#~ msgstr "%.*s: ARGP_HELP_FMT-parametern kräver ett värde"
 
 #~ msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
 #~ msgstr "%.*s: Okänd ARGP_HELP_FMT-parameter"
@@ -360,7 +295,8 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgid "Report bugs to %s.\n"
 #~ msgstr ""
 #~ "Rapportera fel till %s.\n"
-#~ "Skicka synpunkter på översättningen till <tp-sv@listor.tp-sv.se>.\n"
+#~ "Skicka synpunkter på översättningen till <tp-sv-list@lists.sourceforge."
+#~ "net>.\n"
 
 #~ msgid "give this help list"
 #~ msgstr "ge denna hjälplista"
@@ -420,7 +356,7 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "fel när %s öppnades för läsning"
 
 #~ msgid "cannot open backup file %s for writing"
-#~ msgstr "det går inte att öppna säkerthetskopiefil %s för skrivning"
+#~ msgstr "det går inte att öppna säkerhetskopiefilen %s för skrivning"
 
 #~ msgid "error reading %s"
 #~ msgstr "fel vid läsning av %s"
@@ -438,7 +374,7 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "C#-kompilator hittades inte, försök installera mono"
 
 #~ msgid "C# virtual machine not found, try installing mono"
-#~ msgstr "virtuell C#-maskinen hittades inte, försök installera mono"
+#~ msgstr "den virtuella C#-maskinen hittades inte, försök installera mono"
 
 #~ msgid "unbalanced ["
 #~ msgstr "obalanserad ["
@@ -579,10 +515,10 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "Bearbetar pågående begäran"
 
 #~ msgid "Request canceled"
-#~ msgstr "Begäran annulerad"
+#~ msgstr "Begäran annullerad"
 
 #~ msgid "Request not canceled"
-#~ msgstr "Begäran inte annulerad"
+#~ msgstr "Begäran inte annullerad"
 
 #~ msgid "All requests done"
 #~ msgstr "Alla begäran utförda"
@@ -603,7 +539,7 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "ogiltigt target_version-argument till compile_java_class"
 
 #~ msgid "failed to create \"%s\""
-#~ msgstr "det gick inte att skapa \"%s\""
+#~ msgstr "det gick inte att skapa ”%s”"
 
 #~ msgid "error while writing \"%s\" file"
 #~ msgstr "fel vid skrivning av filen ”%s”"
@@ -627,12 +563,6 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 
 #~ msgid "cannot create directory %s"
 #~ msgstr "kan inte skapa katalogen %s"
-
-#~ msgid "unable to record current working directory"
-#~ msgstr "kan inte notera aktuell arbetskatalog"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "kunde inte återvända till den ursprungliga arbetskatalogen"
 
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "Misslyckades att öppna /dev/zero för läsning"
@@ -690,7 +620,7 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "Ensam ( eller \\("
 
 #~ msgid "Unmatched \\{"
-#~ msgstr "Ensam \\\\{"
+#~ msgstr "Ensam \\{"
 
 #~ msgid "Invalid content of \\{\\}"
 #~ msgstr "Ogiltigt innehåll i \\{\\}"
@@ -795,10 +725,10 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "Begränsning av filstorlek överskriden"
 
 #~ msgid "Virtual timer expired"
-#~ msgstr "Alarmklocka - virtuell tid"
+#~ msgstr "Alarmklocka - virtuell tid gick ut"
 
 #~ msgid "Profiling timer expired"
-#~ msgstr "Profileringsklocka"
+#~ msgstr "Profileringsklocka gick ut"
 
 #~ msgid "Window changed"
 #~ msgstr "Ändrat fönster"
@@ -831,25 +761,10 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgstr "fel vid skrivning till ett stängt rör eller uttag"
 
 #~ msgid "Real-time signal %d"
-#~ msgstr "Realtidsignal %d"
+#~ msgstr "Realtidssignal %d"
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "Okänd signal %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "iconv-funktion inte användbar"
-
-#~ msgid "iconv function not available"
-#~ msgstr "iconv-funktion inte tillgänglig"
-
-#~ msgid "character out of range"
-#~ msgstr "tecken utanför intervall"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "kan inte konvertera U+%04X till lokal teckenuppsättning"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "kan inte konvertera U+%04X till lokal teckenuppsättning: %s"
 
 #~ msgid "invalid user"
 #~ msgstr "ogiltig användare"
@@ -863,8 +778,106 @@ msgstr "%s-underprocess fick ödesdiger signal %d"
 #~ msgid "unable to display error message"
 #~ msgstr "kan inte visa felmeddelande"
 
+#~ msgid "Packaged by %s (%s)\n"
+#~ msgstr "Paketerat av %s (%s)\n"
+
+#~ msgid "Packaged by %s\n"
+#~ msgstr "Paketerat av %s\n"
+
+#~ msgid "(C)"
+#~ msgstr "©"
+
+#~ msgid ""
+#~ "License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+#~ "This is free software: you are free to change and redistribute it.\n"
+#~ "There is NO WARRANTY, to the extent permitted by law.\n"
+#~ msgstr ""
+#~ "Licens GPLv3+: GNU GPL version 3 eller senare <%s>.\n"
+#~ "Detta är fri programvara: du får lov att ändra och vidaredistribuera "
+#~ "den.\n"
+#~ "Det finns INGEN GARANTI, så långt lagen tillåter.\n"
+
+#~ msgid "Written by %s.\n"
+#~ msgstr "Skrivet av %s.\n"
+
+#~ msgid "Written by %s and %s.\n"
+#~ msgstr "Skrivet av %s och %s.\n"
+
+#~ msgid "Written by %s, %s, and %s.\n"
+#~ msgstr "Skrivet av %s, %s och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "and %s.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s\n"
+#~ "och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, and %s.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s,\n"
+#~ "%s och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, and %s.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s,\n"
+#~ "%s, %s och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, and %s.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s,\n"
+#~ "%s, %s, %s och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "and %s.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s,\n"
+#~ "%s, %s, %s, %s\n"
+#~ "och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, and %s.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s och %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, %s, and others.\n"
+#~ msgstr ""
+#~ "Skrivet av %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, %s med flera.\n"
+
+#~ msgid "Report bugs to: %s\n"
+#~ msgstr ""
+#~ "Rapportera fel till: %s\n"
+#~ "Skicka synpunkter på översättningen till: tp-sv-list@lists.sourceforg."
+#~ "net\n"
+
+#~ msgid "Report %s bugs to: %s\n"
+#~ msgstr "Rapportera %s-fel till: %s\n"
+
+#~ msgid "%s home page: <%s>\n"
+#~ msgstr "Webbsida för %s: <%s>\n"
+
+#~ msgid "General help using GNU software: <%s>\n"
+#~ msgstr "Allmän hjälp med att använda GNU-program: <%s>\n"
+
 #~ msgid "failed to set file descriptor text/binary mode"
-#~ msgstr "misslyckades att filbeskrivaren i text-/binärt läge"
+#~ msgstr "misslyckades att sätta filbeskrivaren i text-/binärt läge"
 
 #~ msgid "stdin"
 #~ msgstr "standard in"

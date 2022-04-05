@@ -1,3 +1,23 @@
+/* Parser for mfcalc.   -*- C -*-
+
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2021 Free Software
+   Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+
 %{
   #include <stdio.h>  /* For printf, etc. */
   #include <math.h>   /* For pow, used in the grammar. */
@@ -59,7 +79,7 @@ struct init
   func_t *fun;
 };
 
-struct init const arith_funs[] =
+struct init const funs[] =
 {
   { "atan", atan },
   { "cos",  cos  },
@@ -73,14 +93,14 @@ struct init const arith_funs[] =
 /* The symbol table: a chain of 'struct symrec'. */
 symrec *sym_table;
 
-/* Put arithmetic functions in table. */
+/* Put functions in table. */
 static void
 init_table (void)
 {
-  for (int i = 0; arith_funs[i].name; i++)
+  for (int i = 0; funs[i].name; i++)
     {
-      symrec *ptr = putsym (arith_funs[i].name, FUN);
-      ptr->value.fun = arith_funs[i].fun;
+      symrec *ptr = putsym (funs[i].name, FUN);
+      ptr->value.fun = funs[i].fun;
     }
 }
 
@@ -88,6 +108,7 @@ init_table (void)
    always succeed, and that integer calculations
    never overflow.  Production-quality code should
    not make these assumptions.  */
+#include <assert.h>
 #include <stdlib.h> /* malloc, realloc. */
 #include <string.h> /* strlen. */
 
@@ -125,13 +146,14 @@ yylex (void)
     c = getchar ();
 
   if (c == EOF)
-    return 0;
+    return YYEOF;
 
   /* Char starts a number => parse the number. */
   if (c == '.' || isdigit (c))
     {
       ungetc (c, stdin);
-      scanf ("%lf", &yylval.NUM);
+      if (scanf ("%lf", &yylval.NUM) != 1)
+        abort ();
       return NUM;
     }
 
@@ -147,10 +169,10 @@ yylex (void)
           if (bufsize <= i)
             {
               bufsize = 2 * bufsize + 40;
-              symbuf = realloc (symbuf, bufsize);
+              symbuf = realloc (symbuf, (size_t) bufsize);
             }
           /* Add this character to the buffer. */
-          symbuf[i++] = c;
+          symbuf[i++] = (char) c;
           /* Get another character. */
           c = getchar ();
         }

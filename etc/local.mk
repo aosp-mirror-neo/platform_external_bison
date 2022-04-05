@@ -1,4 +1,4 @@
-## Copyright (C) 2006, 2008-2015, 2018-2019 Free Software Foundation,
+## Copyright (C) 2006, 2008-2015, 2018-2021 Free Software Foundation,
 ## Inc.
 
 ## This program is free software: you can redistribute it and/or modify
@@ -12,6 +12,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-nodist_noinst_SCRIPTS = etc/bench.pl
+dist_noinst_DATA = %D%/README.md
+nodist_noinst_SCRIPTS = %D%/bench.pl
