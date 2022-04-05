@@ -15,9 +15,11 @@
 cc_defaults {
     name: "bison_defaults",
 
+    c_std: "c17",
     cflags: [
         "-Wall",
         "-Werror",
+        "-Wno-unused-parameter",
 
         "-DEXEEXT=\"\"",
     ],
@@ -40,7 +42,10 @@ cc_defaults {
                 "linux_musl-lib",
                 "lib",
             ],
-            cflags: ["-DMUSL"],
+            cflags: [
+                "-Wno-error=unused-const-variable",
+                "-DMUSL_LIBC",
+            ],
         },
     },
 }

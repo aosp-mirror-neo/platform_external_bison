@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnulib 3.0.0.6062.a6b16\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
 "PO-Revision-Date: 2012-05-20 13:08+0200\n"
 "Last-Translator: Primož Peterlin <primozz.peterlin@gmail.com>\n"
 "Language-Team: Slovenian <translation-team-sl@lists.sourceforge.net>\n"
@@ -34,71 +34,71 @@ msgstr "dvoumni argument %s za %s"
 msgid "Valid arguments are:"
 msgstr "Veljavni argumenti so:"
 
-#: lib/bitset/stats.c:177
+#: lib/bitset/stats.c:183
 #, c-format
 msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
 msgstr ""
 
-#: lib/bitset/stats.c:180
+#: lib/bitset/stats.c:186
 #, c-format
 msgid "%u bitset_sets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:183
+#: lib/bitset/stats.c:189
 #, c-format
 msgid "%u bitset_resets, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:186
+#: lib/bitset/stats.c:192
 #, c-format
 msgid "%u bitset_tests, %u cached (%.2f%%)\n"
 msgstr ""
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:196
 #, c-format
 msgid "%u bitset_lists\n"
 msgstr ""
 
-#: lib/bitset/stats.c:192
+#: lib/bitset/stats.c:198
 msgid "count log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:195
+#: lib/bitset/stats.c:201
 msgid "size log histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:198
+#: lib/bitset/stats.c:204
 msgid "density histogram\n"
 msgstr ""
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
 msgstr ""
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 #, fuzzy
 msgid "cannot read stats file"
 msgstr "ni mogoče ustvariti cevovoda"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
 msgstr ""
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 #, fuzzy
 msgid "cannot write stats file"
 msgstr "ni mogoče ustvariti cevovoda"
 
-#: lib/bitset/stats.c:286
+#: lib/bitset/stats.c:292
 #, fuzzy
 msgid "cannot open stats file for writing"
 msgstr "varnostne kopije \"%s\" ni mogoče odpreti za pisanje"
@@ -110,6 +110,12 @@ msgstr "napaka pri pisanju"
 #: lib/error.c:195
 msgid "Unknown system error"
 msgstr "Neznana sistemska napaka"
+
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "podproces %s ni uspel"
 
 #: lib/getopt.c:278
 #, fuzzy, c-format
@@ -147,9 +153,29 @@ msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: izbira zahteva argument -- '%c'\n"
 
 # ! INEXACT
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "zmanjkalo pomnilnika"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "ni mogoče zabeležiti trenutnega delovnega imenika"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "vrnitev v začetni delovni imenik ni uspela"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "klic _open_osfhandle ni uspel"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "ni mogoče obnoviti fd %d: klic dup2 ni uspel"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -172,25 +198,19 @@ msgstr "zmanjkalo pomnilnika"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "»"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "«"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "ni mogoče ustvariti cevovoda"
-
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "podproces %s ni uspel"
 
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
@@ -209,22 +229,34 @@ msgstr ""
 msgid "wall clock"
 msgstr "Budilka"
 
-#: lib/w32spawn.h:49
-#, c-format
-msgid "_open_osfhandle failed"
-msgstr "klic _open_osfhandle ni uspel"
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "funkcija iconv ne deluje"
 
-#: lib/w32spawn.h:90
-#, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "ni mogoče obnoviti fd %d: klic dup2 ni uspel"
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "funkcija iconv ni na voljo"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "koda znaka izven obsega"
+
+#: lib/unicodeio.c:198
+#, c-format
+msgid "cannot convert U+%04X to local character set"
+msgstr "znaka s kodo U+%04X ni mogoče pretvoriti v lokalni nabor znakov"
+
+#: lib/unicodeio.c:200
+#, c-format
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "znaka s kodo U+%04X ni moč pretvoriti v lokalni nabor znakov: %s"
+
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "podproces %s"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "podproces %s je prejel terminalni signal %d"
@@ -597,12 +629,6 @@ msgstr "podproces %s je prejel terminalni signal %d"
 #~ msgid "cannot create directory %s"
 #~ msgstr "imenika %s ni mogoče ustvariti"
 
-#~ msgid "unable to record current working directory"
-#~ msgstr "ni mogoče zabeležiti trenutnega delovnega imenika"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "vrnitev v začetni delovni imenik ni uspela"
-
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "Datoteke /dev/null ni uspelo odpreti za branje"
 
@@ -804,21 +830,6 @@ msgstr "podproces %s je prejel terminalni signal %d"
 
 #~ msgid "Unknown signal %d"
 #~ msgstr "Neznani signal %d"
-
-#~ msgid "iconv function not usable"
-#~ msgstr "funkcija iconv ne deluje"
-
-#~ msgid "iconv function not available"
-#~ msgstr "funkcija iconv ni na voljo"
-
-#~ msgid "character out of range"
-#~ msgstr "koda znaka izven obsega"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "znaka s kodo U+%04X ni mogoče pretvoriti v lokalni nabor znakov"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "znaka s kodo U+%04X ni moč pretvoriti v lokalni nabor znakov: %s"
 
 #~ msgid "invalid user"
 #~ msgstr "neveljavno uporabniško ime"

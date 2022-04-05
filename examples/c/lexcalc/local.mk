@@ -1,4 +1,4 @@
-## Copyright (C) 2018-2019 Free Software Foundation, Inc.
+## Copyright (C) 2018-2021 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 lexcalcdir = $(docdir)/%D%
 
@@ -25,9 +25,18 @@ if FLEX_WORKS
   nodist_%C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
   # Don't use gnulib's system headers.
   %C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  # Fighting warnings triggered by Flex is just too painful.
+  # %C%_lexcalc_CFLAGS = $(TEST_CFLAGS)
 endif FLEX_WORKS
 
 %D%/parse.c: $(dependencies)
+
+# Tell Make scan.o depends on parse.h, except that Make sees only
+# parse.c, not parse.h.  We can't use BUILT_SOURCES to this end, since
+# we use the built bison.
+%D%/lexcalc$(DASH)scan.o: %D%/parse.c
+# Likewise, but for Automake before 1.16.
+%D%/examples_c_lexcalc_lexcalc$(DASH)scan.o: %D%/parse.c
 
 EXTRA_DIST += %D%/lexcalc.test
 dist_lexcalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md

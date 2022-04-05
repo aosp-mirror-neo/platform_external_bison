@@ -1,22 +1,23 @@
 # Serbian translation of gnulib.
-# Copyright (C) 2013 Free Software Foundation, Inc.
+# Copyright © 2020 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnulib package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnulib-3.0.0.6062.a6b16\n"
+"Project-Id-Version: gnulib-4.0.0.2567\n"
 "Report-Msgid-Bugs-To: bug-gnulib@gnu.org\n"
-"POT-Creation-Date: 2019-12-11 07:43+0100\n"
-"PO-Revision-Date: 2013-11-17 16:47+0200\n"
+"POT-Creation-Date: 2021-09-25 07:43+0200\n"
+"PO-Revision-Date: 2020-04-07 08:38+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 
 #: lib/argmatch.c:132
 #, c-format
@@ -32,74 +33,73 @@ msgstr "нејасан аргумент „%s“ за „%s“"
 msgid "Valid arguments are:"
 msgstr "Исправни аргументи су:"
 
-#: lib/bitset/stats.c:177
-#, c-format
-msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
-msgstr ""
-
-#: lib/bitset/stats.c:180
-#, c-format
-msgid "%u bitset_sets, %u cached (%.2f%%)\n"
-msgstr ""
-
 #: lib/bitset/stats.c:183
 #, c-format
-msgid "%u bitset_resets, %u cached (%.2f%%)\n"
-msgstr ""
+msgid "%u bitset_allocs, %u freed (%.2f%%).\n"
+msgstr "%u битсет_доделе, %u ослобођених (%.2f%%).\n"
 
 #: lib/bitset/stats.c:186
 #, c-format
-msgid "%u bitset_tests, %u cached (%.2f%%)\n"
-msgstr ""
+msgid "%u bitset_sets, %u cached (%.2f%%)\n"
+msgstr "%u битсет_поставки, %u кешираних (%.2f%%)\n"
 
-#: lib/bitset/stats.c:190
+#: lib/bitset/stats.c:189
 #, c-format
-msgid "%u bitset_lists\n"
-msgstr ""
+msgid "%u bitset_resets, %u cached (%.2f%%)\n"
+msgstr "%u битсет_повраћаја, %u кешираних (%.2f%%)\n"
 
 #: lib/bitset/stats.c:192
-msgid "count log histogram\n"
-msgstr ""
+#, c-format
+msgid "%u bitset_tests, %u cached (%.2f%%)\n"
+msgstr "%u битсет_тестова, %u кешираних (%.2f%%)\n"
 
-#: lib/bitset/stats.c:195
-msgid "size log histogram\n"
-msgstr ""
+#: lib/bitset/stats.c:196
+#, c-format
+msgid "%u bitset_lists\n"
+msgstr "%u битсет_спискова\n"
 
 #: lib/bitset/stats.c:198
-msgid "density histogram\n"
-msgstr ""
+msgid "count log histogram\n"
+msgstr "број хистограма дневника\n"
 
-#: lib/bitset/stats.c:210
+#: lib/bitset/stats.c:201
+msgid "size log histogram\n"
+msgstr "величина хистограма дневника\n"
+
+#: lib/bitset/stats.c:204
+msgid "density histogram\n"
+msgstr "хистограм густине\n"
+
+#: lib/bitset/stats.c:216
 #, c-format
 msgid ""
 "Bitset statistics:\n"
 "\n"
 msgstr ""
+"Статистике битсета:\n"
+"\n"
 
-#: lib/bitset/stats.c:213
+#: lib/bitset/stats.c:219
 #, c-format
 msgid "Accumulated runs = %u\n"
-msgstr ""
+msgstr "Нагомиланих покретања = %u\n"
 
-#: lib/bitset/stats.c:255 lib/bitset/stats.c:260
-#, fuzzy
+#: lib/bitset/stats.c:261 lib/bitset/stats.c:266
 msgid "cannot read stats file"
-msgstr "не могу да направим спојку"
+msgstr "не могу да читам датотеку стања"
 
-#: lib/bitset/stats.c:257
+#: lib/bitset/stats.c:263
 #, c-format
 msgid "bad stats file size\n"
-msgstr ""
+msgstr "лоша величина датотеке стања\n"
 
-#: lib/bitset/stats.c:281 lib/bitset/stats.c:283
-#, fuzzy
+#: lib/bitset/stats.c:287 lib/bitset/stats.c:289
 msgid "cannot write stats file"
-msgstr "не могу да направим спојку"
+msgstr "не могу да пишем датотеку стања"
 
-#: lib/bitset/stats.c:286
-#, fuzzy
+#: lib/bitset/stats.c:292
 msgid "cannot open stats file for writing"
-msgstr "не могу да отворим датотеку резерве „%s“ за упис"
+msgstr "не могу да отворим датотеку стања за упис"
 
 #: lib/closeout.c:122
 msgid "write error"
@@ -109,30 +109,36 @@ msgstr "грешка записивања"
 msgid "Unknown system error"
 msgstr "Непозната грешка система"
 
+#: lib/execute.c:348 lib/spawn-pipe.c:597 lib/wait-process.c:291
+#: lib/wait-process.c:365
+#, c-format
+msgid "%s subprocess failed"
+msgstr "%s потпроцес није успео"
+
 #: lib/getopt.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous\n"
-msgstr "%s: опција „-W %s“ је нејасна\n"
+msgstr "%s: опција „%s%s“ је нејасна\n"
 
 #: lib/getopt.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' is ambiguous; possibilities:"
-msgstr "%s: опција „%s“ је нејасна; могућности:"
+msgstr "%s: опција „%s%s“ је нејасна; могућности:"
 
 #: lib/getopt.c:319
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized option '%s%s'\n"
-msgstr "%s: непозната опција „%c%s“\n"
+msgstr "%s: непозната опција „%s%s“\n"
 
 #: lib/getopt.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' doesn't allow an argument\n"
-msgstr "%s: опција „%c%s“ не дозвољава аргумент\n"
+msgstr "%s: опција „%s%s“ не дозвољава аргумент\n"
 
 #: lib/getopt.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "%s: option '%s%s' requires an argument\n"
-msgstr "%s: опција „--%s“ захтева аргумент\n"
+msgstr "%s: опција „%s%s“ захтева аргумент\n"
 
 #: lib/getopt.c:621
 #, c-format
@@ -144,9 +150,29 @@ msgstr "%s: неисправна опција -- „%c“\n"
 msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s: опција захтева аргумент -- „%c“\n"
 
-#: lib/obstack.c:338 lib/obstack.c:340 lib/xalloc-die.c:34
+#: lib/obstack.c:337 lib/obstack.c:339 lib/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "меморија је потрошена"
+
+#: lib/openat-die.c:38
+#, c-format
+msgid "unable to record current working directory"
+msgstr "не могу да снимим тренутни радни директоријум"
+
+#: lib/openat-die.c:57
+#, c-format
+msgid "failed to return to initial working directory"
+msgstr "не могу да се вратим у почетни радни директоријум"
+
+#: lib/os2-spawn.c:46
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "„_open_osfhandle“ није успело"
+
+#: lib/os2-spawn.c:83
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "не могу да повратим фд %d: „dup2“ није успело"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
@@ -169,184 +195,73 @@ msgstr "меморија је потрошена"
 #. If you don't know what to put here, please see
 #. <https://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:362
+#: lib/quotearg.c:355
 msgid "`"
 msgstr "„"
 
-#: lib/quotearg.c:363
+#: lib/quotearg.c:356
 msgid "'"
 msgstr "“"
 
-#: lib/spawn-pipe.c:141 lib/spawn-pipe.c:144 lib/spawn-pipe.c:265
-#: lib/spawn-pipe.c:268
+#: lib/spawn-pipe.c:217 lib/spawn-pipe.c:220 lib/spawn-pipe.c:459
+#: lib/spawn-pipe.c:462
 #, c-format
 msgid "cannot create pipe"
 msgstr "не могу да направим спојку"
 
-#: lib/spawn-pipe.c:235 lib/spawn-pipe.c:349 lib/wait-process.c:290
-#: lib/wait-process.c:364
-#, c-format
-msgid "%s subprocess failed"
-msgstr "%s потпроцес није успео"
-
 #: lib/timevar.c:316
 msgid "Execution times (seconds)"
-msgstr ""
+msgstr "Времена извршења (секунди)"
 
 #: lib/timevar.c:318
 msgid "CPU user"
-msgstr ""
+msgstr "ЦПЈ корисник"
 
 #: lib/timevar.c:318
 msgid "CPU system"
-msgstr ""
+msgstr "ЦПЈ систем"
 
 #: lib/timevar.c:318
-#, fuzzy
 msgid "wall clock"
-msgstr "Будилник"
+msgstr "зидни сат"
 
-#: lib/w32spawn.h:49
+#: lib/unicodeio.c:102
+msgid "iconv function not usable"
+msgstr "иконв функција није употребљива"
+
+#: lib/unicodeio.c:104
+msgid "iconv function not available"
+msgstr "иконв функција није доступна"
+
+#: lib/unicodeio.c:111
+msgid "character out of range"
+msgstr "знак је ван опсега"
+
+#: lib/unicodeio.c:198
 #, c-format
-msgid "_open_osfhandle failed"
-msgstr "„_open_osfhandle“ није успело"
+msgid "cannot convert U+%04X to local character set"
+msgstr "не могу да претворим U+%04X у месни скуп знакова"
 
-#: lib/w32spawn.h:90
+#: lib/unicodeio.c:200
 #, c-format
-msgid "cannot restore fd %d: dup2 failed"
-msgstr "не могу да повратим фд %d: „dup2“ није успело"
+msgid "cannot convert U+%04X to local character set: %s"
+msgstr "не могу да претворим U+%04X у месни скуп знакова: %s"
 
-#: lib/wait-process.c:231 lib/wait-process.c:263 lib/wait-process.c:325
+#: lib/wait-process.c:232 lib/wait-process.c:264 lib/wait-process.c:326
 #, c-format
 msgid "%s subprocess"
 msgstr "%s потпроцес"
 
-#: lib/wait-process.c:282 lib/wait-process.c:354
+#: lib/wait-process.c:283 lib/wait-process.c:355
 #, c-format
 msgid "%s subprocess got fatal signal %d"
 msgstr "%s потпроцес је добио кобни сигнал %d"
-
-#~ msgid "Packaged by %s (%s)\n"
-#~ msgstr "Запаковао је %s (%s)\n"
-
-#~ msgid "Packaged by %s\n"
-#~ msgstr "Запаковао је %s\n"
-
-#~ msgid "(C)"
-#~ msgstr "©"
-
-#, fuzzy
-#~| msgid ""
-#~| "\n"
-#~| "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
-#~| "html>.\n"
-#~| "This is free software: you are free to change and redistribute it.\n"
-#~| "There is NO WARRANTY, to the extent permitted by law.\n"
-#~| "\n"
-#~ msgid ""
-#~ "License GPLv3+: GNU GPL version 3 or later <%s>.\n"
-#~ "This is free software: you are free to change and redistribute it.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Лиценца ОЈЛв3+: ГНУ ОЈЛ издање 3 или касније <http://gnu.org/licenses/gpl."
-#~ "html>.\n"
-#~ "Ово је слободан софтвер: слободни сте да га мењате и расподељујете.\n"
-#~ "Не постоји НИКАКВА ГАРАНЦИЈА, у оквирима дозвољеним законом.\n"
-#~ "\n"
-
-#~ msgid "Written by %s.\n"
-#~ msgstr "Написао је %s.\n"
-
-#~ msgid "Written by %s and %s.\n"
-#~ msgstr "Написали су %s и %s.\n"
-
-#~ msgid "Written by %s, %s, and %s.\n"
-#~ msgstr "Написали су %s, %s, и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "and %s.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, and %s.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "%s, и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, and %s.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "%s, %s, и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, and %s.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "%s, %s, %s, и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "and %s.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, and %s.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, и %s.\n"
-
-#~ msgid ""
-#~ "Written by %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, %s, and others.\n"
-#~ msgstr ""
-#~ "Написали су %s, %s, %s,\n"
-#~ "%s, %s, %s, %s,\n"
-#~ "%s, %s, и други.\n"
-
-#, fuzzy
-#~| msgid ""
-#~| "\n"
-#~| "Report bugs to: %s\n"
-#~ msgid "Report bugs to: %s\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Грешке пријавите на: %s\n"
-
-#~ msgid "Report %s bugs to: %s\n"
-#~ msgstr "Грешке програма „%s“ пријавите на: %s\n"
-
-#~ msgid "%s home page: <%s>\n"
-#~ msgstr "%s матична страница: <%s>\n"
-
-#, fuzzy
-#~| msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
-#~ msgid "General help using GNU software: <%s>\n"
-#~ msgstr "Општа помоћ користећи ГНУ софтвер: <http://www.gnu.org/gethelp/>\n"
 
 #~ msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
 #~ msgstr "ARGP_HELP_FMT: %s вредност је мања од или једнака са %s"
 
 #~ msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
 #~ msgstr "%.*s: „ARGP_HELP_FMT“ параметар захтева вредност"
-
-#~ msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
-#~ msgstr "%.*s: „ARGP_HELP_FMT“ параметар мора бити позитиван"
 
 #~ msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
 #~ msgstr "%.*s: Непознат параметар „ARGP_HELP_FMT“"
@@ -370,7 +285,7 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid " [OPTION...]"
 #~ msgstr " [ОПЦИЈА...]"
 
-#~ msgid "Try `%s --help' or `%s --usage' for more information.\n"
+#~ msgid "Try '%s --help' or '%s --usage' for more information.\n"
 #~ msgstr "Покушајте „%s --help“ или „%s --usage“ за више података.\n"
 
 #~ msgid "Report bugs to %s.\n"
@@ -432,26 +347,56 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "preserving permissions for %s"
 #~ msgstr "причувавам овлашћења за %s"
 
-#~ msgid "error while opening \"%s\" for reading"
+#~ msgid "error while opening %s for reading"
 #~ msgstr "грешка приликом отварања „%s“ за читање"
 
-#~ msgid "error reading \"%s\""
+#~ msgid "cannot open backup file %s for writing"
+#~ msgstr "не могу да отворим датотеку резерве „%s“ за упис"
+
+#~ msgid "error reading %s"
 #~ msgstr "грешка читања „%s“"
 
-#~ msgid "error writing \"%s\""
+#~ msgid "error writing %s"
 #~ msgstr "грешка писања „%s“"
 
-#~ msgid "error after reading \"%s\""
+#~ msgid "error after reading %s"
 #~ msgstr "грешка након читања „%s“"
 
 #~ msgid "fdopen() failed"
 #~ msgstr "није успела функција „fdopen()“"
 
-#~ msgid "C# compiler not found, try installing pnet"
-#~ msgstr "нисам нашао Ц# преводиоца, покушајте да инсталирате пнет"
+#~ msgid "C# compiler not found, try installing mono"
+#~ msgstr "нисам нашао Ц# преводиоца, покушајте да инсталирате моно"
 
-#~ msgid "C# virtual machine not found, try installing pnet"
-#~ msgstr "нисам нашао Ц# виртуелну машину, покушајте да инсталирате пнет"
+#~ msgid "C# virtual machine not found, try installing mono"
+#~ msgstr "нисам нашао Ц# виртуелну машину, покушајте да инсталирате моно"
+
+#~ msgid "unbalanced ["
+#~ msgstr "неуравнотежена ["
+
+#~ msgid "invalid character class"
+#~ msgstr "неисправна класа знака"
+
+#~ msgid "character class syntax is [[:space:]], not [:space:]"
+#~ msgstr "синтакса класе знака је [[:space:]], а не [:space:]"
+
+#~ msgid "unfinished \\ escape"
+#~ msgstr "недовршена \\ излаза"
+
+#~ msgid "invalid content of \\{\\}"
+#~ msgstr "неисправан садржај \\{\\}"
+
+#~ msgid "regular expression too big"
+#~ msgstr "регуларни израз је превелик"
+
+#~ msgid "unbalanced ("
+#~ msgstr "неуравнотежена ("
+
+#~ msgid "no syntax specified"
+#~ msgstr "није наведена синтакса"
+
+#~ msgid "unbalanced )"
+#~ msgstr "неуравнотежена )"
 
 #~ msgid "regular empty file"
 #~ msgstr "обична празна датотека"
@@ -462,20 +407,8 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "directory"
 #~ msgstr "директоријум"
 
-#~ msgid "block special file"
-#~ msgstr "посебна датотека блока"
-
-#~ msgid "character special file"
-#~ msgstr "посебна датотека знака"
-
-#~ msgid "fifo"
-#~ msgstr "пупи"
-
 #~ msgid "symbolic link"
 #~ msgstr "симболичка веза"
-
-#~ msgid "socket"
-#~ msgstr "прикључница"
 
 #~ msgid "message queue"
 #~ msgstr "ред порука"
@@ -488,6 +421,39 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 
 #~ msgid "typed memory object"
 #~ msgstr "типски меморијски објекат"
+
+#~ msgid "block special file"
+#~ msgstr "посебна датотека блока"
+
+#~ msgid "character special file"
+#~ msgstr "посебна датотека знака"
+
+#~ msgid "contiguous data"
+#~ msgstr "непрекидни подаци"
+
+#~ msgid "fifo"
+#~ msgstr "пупи"
+
+#~ msgid "door"
+#~ msgstr "врата"
+
+#~ msgid "named file"
+#~ msgstr "именована датотека"
+
+#~ msgid "network special file"
+#~ msgstr "посебна датотека мреже"
+
+#~ msgid "migrated file with data"
+#~ msgstr "премештена датотека са подацима"
+
+#~ msgid "migrated file without data"
+#~ msgstr "премештена датотека без података"
+
+#~ msgid "port"
+#~ msgstr "порт"
+
+#~ msgid "socket"
+#~ msgstr "прикључница"
 
 #~ msgid "weird file"
 #~ msgstr "чудна датотека"
@@ -549,18 +515,6 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "Unknown error"
 #~ msgstr "Непозната грешка"
 
-#~ msgid "%s: option '--%s' doesn't allow an argument\n"
-#~ msgstr "%s: опција „--%s“ не дозвољава аргумент\n"
-
-#~ msgid "%s: unrecognized option '--%s'\n"
-#~ msgstr "%s: непозната опција „--%s“\n"
-
-#~ msgid "%s: option '-W %s' doesn't allow an argument\n"
-#~ msgstr "%s: опција „-W %s“ не дозвољава аргумент\n"
-
-#~ msgid "%s: option '-W %s' requires an argument\n"
-#~ msgstr "%s: опција „-W %s“ захтева аргумент\n"
-
 #~ msgid "invalid source_version argument to compile_java_class"
 #~ msgstr "неисправан аргумент издања_извора за преведи_јава_разред"
 
@@ -586,17 +540,14 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "%s subprocess I/O error"
 #~ msgstr "У/И грешка %s потпроцеса"
 
+#~ msgid "cannot stat %s"
+#~ msgstr "не могу да добавим податке за „%s“"
+
 #~ msgid "cannot change permissions of %s"
 #~ msgstr "не могу да променим овлашћења за „%s“"
 
 #~ msgid "cannot create directory %s"
 #~ msgstr "не могу да направим директоријум „%s“"
-
-#~ msgid "unable to record current working directory"
-#~ msgstr "не могу да снимим тренутни радни директоријум"
-
-#~ msgid "failed to return to initial working directory"
-#~ msgstr "не могу да се вратим у почетни радни директоријум"
 
 #~ msgid "Failed to open /dev/zero for read"
 #~ msgstr "Нисам успео да отворим „/dev/zero“ за читање"
@@ -625,9 +576,6 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "%s subprocess terminated with exit code %d"
 #~ msgstr "%s потпроцес је окончан са излазном шифром %d"
 
-#~ msgid "Franc,ois Pinard"
-#~ msgstr "Франсуа Пинард"
-
 #~ msgid "Success"
 #~ msgstr "Успешно"
 
@@ -649,14 +597,14 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "Invalid back reference"
 #~ msgstr "Неисправна повратна упута"
 
-#~ msgid "Unmatched [ or [^"
-#~ msgstr "Непоклопљено [ или [^"
+#~ msgid "Unmatched [, [^, [:, [., or [="
+#~ msgstr "Неупарено [, [^, [:, [., или [="
 
 #~ msgid "Unmatched ( or \\("
-#~ msgstr "Непоклопљено ( или \\("
+#~ msgstr "Неупарено ( или \\("
 
 #~ msgid "Unmatched \\{"
-#~ msgstr "Непоклопљено \\{"
+#~ msgstr "Неупарено \\{"
 
 #~ msgid "Invalid content of \\{\\}"
 #~ msgstr "Неисправан садржај \\{\\}"
@@ -723,6 +671,9 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 
 #~ msgid "Broken pipe"
 #~ msgstr "Прекинута спојка"
+
+#~ msgid "Alarm clock"
+#~ msgstr "Будилник"
 
 #~ msgid "Terminated"
 #~ msgstr "Окончан"
@@ -799,21 +750,6 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "Unknown signal %d"
 #~ msgstr "Непознати сигнал %d"
 
-#~ msgid "iconv function not usable"
-#~ msgstr "иконв функција није употребљива"
-
-#~ msgid "iconv function not available"
-#~ msgstr "иконв функција није доступна"
-
-#~ msgid "character out of range"
-#~ msgstr "знак је ван опсега"
-
-#~ msgid "cannot convert U+%04X to local character set"
-#~ msgstr "не могу да претворим U+%04X у месни скуп знакова"
-
-#~ msgid "cannot convert U+%04X to local character set: %s"
-#~ msgstr "не могу да претворим U+%04X у месни скуп знакова: %s"
-
 #~ msgid "invalid user"
 #~ msgstr "неисправан корисник"
 
@@ -826,8 +762,102 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "unable to display error message"
 #~ msgstr "не могу да прикажем поруку грешке"
 
-#~ msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
-#~ msgstr "%s матична страница: <http://www.gnu.org/software/%s/>\n"
+#~ msgid "Packaged by %s (%s)\n"
+#~ msgstr "Запаковао је %s (%s)\n"
+
+#~ msgid "Packaged by %s\n"
+#~ msgstr "Запаковао је %s\n"
+
+#~ msgid "(C)"
+#~ msgstr "©"
+
+#~ msgid ""
+#~ "License GPLv3+: GNU GPL version 3 or later <%s>.\n"
+#~ "This is free software: you are free to change and redistribute it.\n"
+#~ "There is NO WARRANTY, to the extent permitted by law.\n"
+#~ msgstr ""
+#~ "Лиценца ОЈЛи3+: ГНУ ОЈЛ издање 3 или новије <%s>.\n"
+#~ "Ово је слободан софтвер: слободни сте да га мењате и расподељујете.\n"
+#~ "Не постоји НИКАКВА ГАРАНЦИЈА, у оквирима дозвољеним законом.\n"
+
+#~ msgid "Written by %s.\n"
+#~ msgstr "Написао је %s.\n"
+
+#~ msgid "Written by %s and %s.\n"
+#~ msgstr "Написали су %s и %s.\n"
+
+#~ msgid "Written by %s, %s, and %s.\n"
+#~ msgstr "Написали су %s, %s, и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "and %s.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, and %s.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "%s, и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, and %s.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "%s, %s, и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, and %s.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "%s, %s, %s, и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "and %s.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, and %s.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, и %s.\n"
+
+#~ msgid ""
+#~ "Written by %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, %s, and others.\n"
+#~ msgstr ""
+#~ "Написали су %s, %s, %s,\n"
+#~ "%s, %s, %s, %s,\n"
+#~ "%s, %s, и други.\n"
+
+#~ msgid "Report bugs to: %s\n"
+#~ msgstr "Грешке пријавите на: %s\n"
+
+#~ msgid "Report %s bugs to: %s\n"
+#~ msgstr "Грешке програма „%s“ пријавите на: %s\n"
+
+#~ msgid "%s home page: <%s>\n"
+#~ msgstr "%s матична страница: <%s>\n"
+
+#~ msgid "General help using GNU software: <%s>\n"
+#~ msgstr "Општа помоћ користећи ГНУ софтвер: <%s>\n"
+
+#~ msgid "failed to set file descriptor text/binary mode"
+#~ msgstr "нисам успео да подесим текстуални/бинарни режим описника датотеке"
 
 #~ msgid "stdin"
 #~ msgstr "стдулаз"
@@ -856,11 +886,35 @@ msgstr "%s потпроцес је добио кобни сигнал %d"
 #~ msgid "cannot perform formatted output"
 #~ msgstr "не могу да извршим обликовани излаз"
 
-#~ msgid "invalid %s%s argument `%s'"
+#~ msgid "standard file descriptors"
+#~ msgstr "стандардни описници датотеке"
+
+#~ msgid "invalid %s%s argument '%s'"
 #~ msgstr "неисправан %s%s аргумент „%s“"
 
-#~ msgid "invalid suffix in %s%s argument `%s'"
+#~ msgid "invalid suffix in %s%s argument '%s'"
 #~ msgstr "неисправан суфикс у %s%s аргумент „%s“"
 
-#~ msgid "%s%s argument `%s' too large"
+#~ msgid "%s%s argument '%s' too large"
 #~ msgstr "%s%s аргумент „%s“ је превелик"
+
+#~ msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
+#~ msgstr "%.*s: „ARGP_HELP_FMT“ параметар мора бити позитиван"
+
+#~ msgid "%s: option '--%s' doesn't allow an argument\n"
+#~ msgstr "%s: опција „--%s“ не дозвољава аргумент\n"
+
+#~ msgid "%s: unrecognized option '--%s'\n"
+#~ msgstr "%s: непозната опција „--%s“\n"
+
+#~ msgid "%s: option '-W %s' doesn't allow an argument\n"
+#~ msgstr "%s: опција „-W %s“ не дозвољава аргумент\n"
+
+#~ msgid "%s: option '-W %s' requires an argument\n"
+#~ msgstr "%s: опција „-W %s“ захтева аргумент\n"
+
+#~ msgid "Franc,ois Pinard"
+#~ msgstr "Франсуа Пинард"
+
+#~ msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+#~ msgstr "%s матична страница: <http://www.gnu.org/software/%s/>\n"

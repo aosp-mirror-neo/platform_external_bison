@@ -1,4 +1,4 @@
-## Copyright (C) 2005, 2008-2015, 2018-2019 Free Software Foundation,
+## Copyright (C) 2005, 2008-2015, 2018-2021 Free Software Foundation,
 ## Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 ## Because some of our examples use
@@ -34,6 +34,9 @@
 
 dist_noinst_SCRIPTS = %D%/extexi %D%/test
 TEST_LOG_COMPILER = $(SHELL) $(top_srcdir)/%D%/test
+
+TEST_CFLAGS =						\
+  $(WARN_CFLAGS) $(WARN_CFLAGS_TEST) $(WERROR_CFLAGS)
 
 AM_CXXFLAGS =							\
   $(WARN_CXXFLAGS) $(WARN_CXXFLAGS_TEST) $(WERROR_CXXFLAGS)
@@ -89,6 +92,9 @@ examplesdir = $(docdir)/examples
 dist_examples_DATA = %D%/README.md
 
 CLEANDIRS += %D%/*.dSYM
+
+.PHONY: check-examples
+check-examples: check-TESTS
 
 include %D%/c/local.mk
 include %D%/c++/local.mk
