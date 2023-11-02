@@ -16,6 +16,7 @@ cc_defaults {
     name: "bison_defaults",
 
     c_std: "c17",
+    stl: "none",
     cflags: [
         "-Wall",
         "-Werror",
