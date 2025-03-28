@@ -1,6 +1,6 @@
 # Bison Parser Headers.                               -*- Autotest -*-
 
-# Copyright (C) 2001-2002, 2006-2007, 2009-2012 Free Software
+# Copyright (C) 2001-2002, 2006-2007, 2009-2015, 2018-2021 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[Parser Headers.]])
 
@@ -41,13 +41,12 @@ AT_DATA_GRAMMAR([$1.y],
 ]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
-dummy:;
+dummy: %empty;
 %%
 #include <$1.h>
 ])
 
 AT_BISON_CHECK([--defines=$1.h --output=$1.c $1.y])
-
 AT_COMPILE([$1.o], [-I. -c $1.c])
 
 AT_BISON_OPTION_POPDEFS
@@ -65,35 +64,28 @@ AT_TEST_CPP_GUARD_H([9foo],        [%glr-parser])
 ## export YYLTYPE.  ##
 ## ---------------- ##
 
-
 AT_SETUP([export YYLTYPE])
 
+AT_BISON_OPTION_PUSHDEFS([%name-prefix "my_"])
 AT_DATA_GRAMMAR([input.y],
-[%locations
+[[%locations
 
 %name-prefix "my_"
 %{
 #include <stdio.h>
 #include <stdlib.h>
 
-static int
-my_lex (void)
-{
-  return EOF;
-}
-
-static void
-my_error (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
 %}
 %%
-exp:;
-])
+exp: %empty;
+]])
 
-AT_BISON_CHECK([--defines -o input.c input.y])
+AT_BISON_CHECK([--header -o input.c input.y], [], [],
+[[input.y:11.1-18: warning: deprecated directive: '%name-prefix "my_"', use '%define api.prefix {my_}' [-Wdeprecated]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
 
 # YYLTYPE should be defined, and MY_LLOC declared.
 AT_DATA([caller.c],
@@ -102,11 +94,7 @@ YYLTYPE *my_llocp = &my_lloc;
 
 int my_parse (void);
 
-int
-main (void)
-{
-  return my_parse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 # Link and execute, just to make sure everything is fine (and in
@@ -114,9 +102,95 @@ main (void)
 AT_COMPILE([caller.o])
 AT_COMPILE([input.o])
 AT_COMPILE([caller], [caller.o input.o])
-AT_PARSER_CHECK([./caller])
+AT_PARSER_CHECK([caller])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
+
+## -------------- ##
+## Sane headers.  ##
+## -------------- ##
+
+# AT_TEST([DIRECTIVES], [COMPILER-FLAGS])
+# ---------------------------------------
+# Check that headers are self-contained and protected against multiple
+# inclusions.
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([Sane headers: $1])
+
+AT_BISON_OPTION_PUSHDEFS([$1])
+AT_DATA_GRAMMAR([input.y],
+[[$1
+%define parse.error verbose
+]AT_VARIANT_IF([%token <int> X],
+[%union {int integer;}
+%token <integer> X])[
+%code {
+#include <stdio.h> /* printf. */
+]AT_PUSH_IF([[
+#if defined __GNUC__ && (7 == __GNUC__ || 9 == __GNUC__)
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
+]])[
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%%
+exp:
+  X { printf ("x\n"); }
+;
+
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([{AT_CXX_IF([yy::parser::token::])X, 0}])[
+]])
+
+AT_BISON_CHECK([-d -o input.AT_LANG_EXT input.y])
+
+AT_LANG_COMPILE([input.o])
+
+AT_DATA([main.cc],
+[AT_DATA_SOURCE_PROLOGUE
+AT_MAIN_DEFINE
+])
+
+# Check that the headers are self-contained, and protected against
+# multiple inclusions.  While at it, check they are sane for C++.
+for h in *.AT_LANG_HDR
+do
+  # No shell expansion with AT_DATA.
+  cat >$h.AT_LANG_EXT <<EOF
+AT_DATA_SOURCE_PROLOGUE
+#include "$h"
+#include "$h"
+EOF
+  AT_LANG_COMPILE([$h.o])
+done
+
+AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
+])# AT_TEST
+
+AT_TEST([])
+AT_TEST([%locations %debug])
+
+AT_TEST([%glr-parser])
+AT_TEST([%locations %debug %glr-parser])
+
+AT_TEST([%define api.pure])
+AT_TEST([%define api.push-pull both])
+AT_TEST([%define api.pure %define api.push-pull both])
+
+AT_TEST([%language "c++"])
+AT_TEST([%locations %debug %language "c++"])
+AT_TEST([%language "c++" %define api.value.type variant %define parse.assert])
+
+AT_TEST([%locations %language "c++" %glr-parser])
+
+
 
 ## ----------------- ##
 ## Several parsers.  ##
@@ -127,24 +201,34 @@ AT_SETUP([Several parsers])
 # AT_TEST([PREFIX], [DIRECTIVES])
 # -------------------------------
 # Generate and compile to *.o.  Make sure there is no (allowed) YY*
-# nor yy* identifiers in the header.  Check that headers are
-# self-contained, and can be compiled by a C++ compiler.
+# nor yy* identifiers in the header after applying api.prefix.  Check
+# that headers can be compiled by a C++ compiler.
+#
+# They should all use parse.assert to make sure that we don't even
+# conflict of YY_ASSERT.
 m4_pushdef([AT_TEST],
-[AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
+[AT_BISON_OPTION_PUSHDEFS([%define api.prefix {$1_} %define parse.assert $2])
 AT_DATA_GRAMMAR([$1.y],
-[[%define api.prefix "$1_"
+[[%define api.prefix {$1_}
+%define parse.assert
 $2
-%error-verbose
-%union
-{
-  int integer;
-}
-%{
-#include <stdio.h>
+%define parse.error verbose
+]AT_VARIANT_IF([],
+[%union {int integer;}])[
+
+%code {
+#include <stdio.h> /* printf. */
+]AT_PUSH_IF([[
+#if defined __GNUC__ && (7 == __GNUC__ || 9 == __GNUC__)
+# pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
+]])[
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-%}
+}
+
 %%
+
 exp:
   'x' '1' { printf ("x1\n"); }
 | 'x' '2' { printf ("x2\n"); }
@@ -154,14 +238,20 @@ exp:
 | 'x' '6' { printf ("x6\n"); }
 | 'x' '7' { printf ("x7\n"); }
 | 'x' '8' { printf ("x8\n"); }
+| 'x' '9' { printf ("x9\n"); }
+| 'x' 'a' { printf ("xa\n"); }
+| 'x' 'b' { printf ("xb\n"); }
+| 'x' 'c' { printf ("xc\n"); }
+| 'x' 'd' { printf ("xd\n"); }
 ;
 
 %%
+
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["$1"])[
 ]])
 
-AT_BISON_CHECK([-d -o $1.AT_SKEL_CC_IF([cc], [c]) $1.y])
+AT_BISON_CHECK([-d -o $1.AT_LANG_EXT $1.y])
 
 AT_LANG_COMPILE([$1.o])
 AT_CHECK([[echo "$1" >>expout]])
@@ -188,13 +278,17 @@ extern "C"
 }
 #endif
 #include "x5.hh"
-//#include "x6.hh"
+#include "x9.hh"
+#include "xa.hh"
+#include "xb.hh"
+#include "xc.hh"
+#include "xd.hh"
 
 #define RUN(S)                                  \
   do {                                          \
     int res = S;                                \
     if (res)                                    \
-      std::cerr << #S": " << res << std::endl;  \
+      std::cerr << #S": " << res << '\n';       \
   } while (false)
 
 int
@@ -209,8 +303,16 @@ main (void)
   RUN(x6_parse());
   RUN(x7_parse());
   RUN(x8_parse());
-//  x6_::parser p6;
-//  RUN(p6.parse());
+  x9_::parser p9;
+  RUN(p9.parse());
+  xa_::parser pa;
+  RUN(pa.parse());
+  xb_::parser pb;
+  RUN(pb.parse());
+  xc_::parser pc;
+  RUN(pc.parse());
+  xd_::parser pd;
+  RUN(pd.parse());
   return 0;
 }
 ]])# main.cc
@@ -223,26 +325,50 @@ AT_TEST([x5], [%locations %debug %language "c++"])
 AT_TEST([x6], [%define api.pure])
 AT_TEST([x7], [%define api.push-pull both])
 AT_TEST([x8], [%define api.pure %define api.push-pull both])
-#AT_TEST([x5], [%locations %language "c++" %glr-parser])
+AT_TEST([x9], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %debug %language "c++"])
+AT_TEST([xa], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %language "c++" %define api.value.type variant])
+AT_TEST([xb], [%locations %define api.location.file none %language "c++" %define api.value.type variant])
+AT_TEST([xc], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %skeleton "glr2.cc"])
+AT_TEST([xd], [%locations %define api.location.file none %skeleton "glr2.cc"])
 
-# Check there is no 'yy' left.
-# C++ output relies on namespaces and still uses yy a lot.
+# Check that api.prefix works properly:
 #
-# Check there is no 'YY' left.
-# Ignore comments, YYChar (template parameter), YYPARSE_PARAM
-# (obsolete), YYPUSH_MORE(_DEFINED)?  (constant definition),
-# YY_\w+_INCLUDED (header guards).
+# - no 'yy' left.
+#   C++ output relies on namespaces and still uses yy a lot.
 #
-# YYDEBUG (not renamed) can be read, but not changed.
-AT_CHECK([[$PERL -n -0777 -e '
+# - no 'YY' left.
+#   Ignore YYPUSH_MORE(_DEFINED)? (constant definition),
+#   YYDEBUG (not renamed) can be read, but not changed.
+AT_PERL_CHECK([[-n -0777 -e '
+  # Ignore comments.
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
-  s{\b(YYChar
-      |YYPARSE_PARAM
-      |YYPUSH_MORE(_DEFINED)?
-      |YY_\w+_INCLUDED
-      |YY_NULL
-      |(defined|if)\ YYDEBUG
+  # Ignore warnings.
+  s{# *pragma .* message ".*"}{}g;
+
+  s{\b((defined|if)\ YYDEBUG
+      |YYChar     # Template parameter.
+      |YYNTOKENS  # This is actually scoped in a C++ class.
+      |YYPUSH_MORE(?:_DEFINED)?
+      |S_(YY(ACCEPT|EMPTY|EOF|error|UNDEF))  # These guys are scoped.
+      |YY(?:_REINTERPRET)?_CAST
+      |YY_ATTRIBUTE(?:_PURE|_UNUSED)
+      |YY_CONSTEXPR
+      |YY_COPY
+      |YY_CPLUSPLUS
+      |YY_IGNORE_(?:MAYBE_UNINITIALIZED|USELESS_CAST)_(?:BEGIN|END)
+      |YY_INITIAL_VALUE
+      |YY_MOVE
+      |YY_MOVE_OR_COPY
+      |YY_MOVE_REF
+      |YY_NOEXCEPT
+      |YY_NOTHROW
+      |YY_NULLPTR
+      |YY_RVREF
+      |YY_USE
+      |YY_\w+_INCLUDED  # Header guards.
+      |FILE\ \*yyo      # Function argument.
+      |const\ yylocp    # Function argument.
       )\b}{}gx;
   while (/^(.*YY.*)$/gm)
   {
@@ -257,24 +383,15 @@ AT_CHECK([[$PERL -n -0777 -e '
   }
 ' -- *.hh *.h]])
 
-# Check that the headers are self-contained, and protected against
-# multiple inclusions.  While at it, check they are sane for C++.
-for h in *.h *.hh
-do
-  # No shell expansion with AT_DATA.
-  cat >$h.cc <<EOF
-AT_DATA_SOURCE_PROLOGUE
-#include "$h"
-#include "$h"
-EOF
-  AT_COMPILE_CXX([$h.o])
-done
-
 # Do this late, so that other checks have been performed.
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
 
-AT_COMPILE_CXX([parser], [[x[1-8].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
-AT_PARSER_CHECK([./parser], [0], [[expout]])
+# The header generated by glr2.cc requires C++11.  Push the options to
+# prepare AT_COMPILE_CXX.
+AT_BISON_OPTION_PUSHDEFS([%skeleton "glr2.cc"])
+AT_COMPILE_CXX([parser], [[x[1-9a-d].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
+AT_BISON_OPTION_POPDEFS
+AT_PARSER_CHECK([parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])
 

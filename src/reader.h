@@ -1,7 +1,7 @@
 /* Input parser for Bison
 
-   Copyright (C) 2000-2003, 2005-2007, 2009-2012 Free Software
-   Foundation, Inc.
+   Copyright (C) 2000-2003, 2005-2007, 2009-2015, 2018-2021 Free
+   Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef READER_H_
 # define READER_H_
@@ -31,39 +31,53 @@ typedef struct merger_list
 {
   struct merger_list* next;
   uniqstr name;
-  uniqstr type;
-  location type_declaration_location;
+  /* One symbol whose type is the one used by all the symbols on which
+     this merging function is used.  */
+  symbol *sym;
+  /* Where SYM was bound to this merging function.  */
+  location type_declaration_loc;
 } merger_list;
 
-/* From the parser.  */
-extern int gram_debug;
-int gram_parse (void);
-char const *token_name (int type);
+void free_merger_functions (void);
+extern merger_list *merge_functions;
 
+/* List of the start symbols.  */
+extern symbol_list *start_symbols;
 
-/* From reader.c. */
-void grammar_start_symbol_set (symbol *sym, location loc);
+/* Fetch (or create) a token "YY_PARSE_foo" for start symbol "foo".
+
+   We don't use the simple "YY_FOO" because (i) we might get clashes
+   with some of our symbols (e.g., cast => YY_CAST), and (ii) upcasing
+   introduces possible clashes between terminal FOO and nonterminal
+   foo.  */
+symbol *switching_token (const symbol *start);
+
+void grammar_start_symbols_add (symbol_list *syms);
+
 void grammar_current_rule_begin (symbol *lhs, location loc,
-				 named_ref *lhs_named_ref);
+                                 named_ref *lhs_named_ref);
 void grammar_current_rule_end (location loc);
 void grammar_midrule_action (void);
+/* Apply %empty to the current rule.  */
+void grammar_current_rule_empty_set (location loc);
 void grammar_current_rule_prec_set (symbol *precsym, location loc);
 void grammar_current_rule_dprec_set (int dprec, location loc);
 void grammar_current_rule_merge_set (uniqstr name, location loc);
+void grammar_current_rule_expect_sr (int count, location loc);
+void grammar_current_rule_expect_rr (int count, location loc);
 void grammar_current_rule_symbol_append (symbol *sym, location loc,
-					 named_ref *nref);
+                                         named_ref *nref);
+/* Attach an ACTION to the current rule.  */
 void grammar_current_rule_action_append (const char *action, location loc,
-					 named_ref *nref);
-void reader (void);
-void free_merger_functions (void);
+                                         named_ref *nref, uniqstr tag);
+/* Attach a PREDICATE to the current rule.  */
+void grammar_current_rule_predicate_append (const char *predicate, location loc);
 
-extern merger_list *merge_functions;
+/* Read in the grammar specification.  */
+void reader (const char *gram);
 
 /* Was %union seen?  */
 extern bool union_seen;
-
-/* Was a tag seen?  */
-extern bool tag_seen;
 
 /* Should rules have a default precedence?  */
 extern bool default_prec;

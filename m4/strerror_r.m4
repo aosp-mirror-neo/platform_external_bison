@@ -1,16 +1,13 @@
-# strerror_r.m4 serial 15
-dnl Copyright (C) 2002, 2007-2012 Free Software Foundation, Inc.
+# strerror_r.m4 serial 23
+dnl Copyright (C) 2002, 2007-2021 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
 
 AC_DEFUN([gl_FUNC_STRERROR_R],
 [
-  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
+  AC_REQUIRE([gl_STRING_H_DEFAULTS])
   AC_REQUIRE([gl_FUNC_STRERROR_R_WORKS])
-
-  dnl Persuade Solaris <string.h> to declare strerror_r().
-  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
 
   dnl Some systems don't declare strerror_r() if _THREAD_SAFE and _REENTRANT
   dnl are not defined.
@@ -40,6 +37,7 @@ AC_DEFUN([gl_FUNC_STRERROR_R],
 
 # Prerequisites of lib/strerror_r.c.
 AC_DEFUN([gl_PREREQ_STRERROR_R], [
+  AC_REQUIRE([AC_FUNC_STRERROR_R])
   dnl glibc >= 2.3.4 and cygwin 1.7.9 have a function __xpg_strerror_r.
   AC_CHECK_FUNCS_ONCE([__xpg_strerror_r])
   AC_CHECK_FUNCS_ONCE([catgets])
@@ -52,6 +50,11 @@ AC_DEFUN([gl_FUNC_STRERROR_R_WORKS],
 [
   AC_REQUIRE([gl_HEADER_ERRNO_H])
   AC_REQUIRE([AC_CANONICAL_HOST]) dnl for cross-compiles
+
+  dnl Persuade Android <string.h> to use the GNU strerror_r API,
+  dnl and Solaris <string.h> to declare strerror_r.
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+
   AC_REQUIRE([gl_FUNC_STRERROR_0])
 
   AC_CHECK_FUNCS_ONCE([strerror_r])
@@ -163,7 +166,7 @@ changequote([,])dnl
                [gl_cv_func_strerror_r_works=no],
                [dnl Guess no on all platforms that have __xpg_strerror_r,
                 dnl at least until fixed glibc and cygwin are more common.
-                gl_cv_func_strerror_r_works="guessing no"
+                gl_cv_func_strerror_r_works="$gl_cross_guess_normal"
                ])
             ])
         fi

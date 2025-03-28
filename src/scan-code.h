@@ -1,6 +1,7 @@
 /* Bison code properties structure and scanner.
 
-   Copyright (C) 2006-2007, 2009-2012 Free Software Foundation, Inc.
+   Copyright (C) 2006-2007, 2009-2015, 2018-2021 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -15,13 +16,14 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef SCAN_CODE_H_
 # define SCAN_CODE_H_
 
 # include "location.h"
 # include "named-ref.h"
+# include "uniqstr.h"
 
 struct symbol_list;
 
@@ -31,6 +33,11 @@ struct symbol_list;
  * actions of this grammar.
  */
 extern int max_left_semantic_context;
+
+/**
+ * The obstack used to store the translated actions.
+ */
+extern struct obstack *obstack_for_actions;
 
 /**
  * A code passage captured from the grammar file and possibly translated,
@@ -66,11 +73,25 @@ typedef struct code_props {
    */
   bool is_value_used;
 
+  /**
+   * \c true iff this code is an action that is not to be deferred in
+   * a non-deterministic parser.
+   */
+  bool is_predicate;
+
+  /**
+   * Whether this is actually used (i.e., not completely masked by
+   * other code props).  */
+  bool is_used;
+
   /** \c NULL iff \c code_props::kind is not \c CODE_PROPS_RULE_ACTION.  */
   struct symbol_list *rule;
 
-  /* Named reference. */
+  /** Named reference. */
   named_ref *named_ref;
+
+  /** Type, for midrule actions.  */
+  uniqstr type;
 } code_props;
 
 /**
@@ -82,11 +103,21 @@ typedef struct code_props {
 void code_props_none_init (code_props *self);
 
 /** Equivalent to \c code_props_none_init.  */
-#define CODE_PROPS_NONE_INIT \
-  {CODE_PROPS_NONE, NULL, EMPTY_LOCATION_INIT, false, NULL, NULL}
+# define CODE_PROPS_NONE_INIT                   \
+  {                                             \
+    /* .kind = */ CODE_PROPS_NONE,              \
+    /* .code = */ NULL,                         \
+    /* .location = */ EMPTY_LOCATION_INIT,      \
+    /* .is_value_used = */ false,               \
+    /* .is_predicate = */ false,                \
+    /* .is_used = */ false,                     \
+    /* .rule = */ NULL,                         \
+    /* .named_ref = */ NULL,                    \
+    /* .type = */ NULL,                         \
+  }
 
 /** Initialized by \c CODE_PROPS_NONE_INIT with no further modification.  */
-extern code_props const code_props_none;
+extern code_props code_props_none;
 
 /**
  * \pre
@@ -119,6 +150,7 @@ void code_props_symbol_action_init (code_props *self, char const *code,
                                     location code_loc);
 
 /**
+ * \param  type   type for midrule actions
  * \pre
  *   - <tt>self != NULL</tt>.
  *   - <tt>code != NULL</tt>.
@@ -137,7 +169,8 @@ void code_props_symbol_action_init (code_props *self, char const *code,
  */
 void code_props_rule_action_init (code_props *self, char const *code,
                                   location code_loc, struct symbol_list *rule,
-                                  named_ref *name);
+                                  named_ref *name, uniqstr type,
+                                  bool is_predicate);
 
 /**
  * \pre
@@ -162,6 +195,8 @@ void code_props_translate_code (code_props *self);
  *     invalid.
  */
 void code_scanner_last_string_free (void);
+
+void code_scanner_init (void);
 
 /**
  * \pre

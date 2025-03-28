@@ -1,7 +1,7 @@
 /* Associativity information.
 
-   Copyright (C) 2002, 2005-2006, 2009-2012 Free Software Foundation,
-   Inc.
+   Copyright (C) 2002, 2005-2006, 2008-2015, 2018-2021 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 #include "system.h"
@@ -29,9 +29,6 @@ assoc_to_string (assoc a)
 {
   switch (a)
     {
-    default:
-      abort ();
-
     case undef_assoc:
       return "undefined associativity";
 
@@ -43,5 +40,9 @@ assoc_to_string (assoc a)
 
     case non_assoc:
       return "%nonassoc";
+
+    case precedence_assoc:
+      return "%precedence";
     }
+  abort ();
 }

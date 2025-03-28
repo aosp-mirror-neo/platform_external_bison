@@ -1,21 +1,22 @@
-/* A Bison parser, made by GNU Bison 2.6.5.63-3ada.  */
+/* A Bison parser, made by GNU Bison 3.8.2.  */
 
 /* Bison interface for Yacc-like parsers in C
-   
-      Copyright (C) 1984, 1989-1990, 2000-2012 Free Software Foundation, Inc.
-   
+
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
+   Inc.
+
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -26,16 +27,20 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-   
+
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED
-# define YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED
-/* Enabling traces.  */
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
+
+#ifndef YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
+# define YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
+/* Debug traces.  */
 #ifndef GRAM_DEBUG
 # if defined YYDEBUG
-#  if YYDEBUG
+#if YYDEBUG
 #   define GRAM_DEBUG 1
 #  else
 #   define GRAM_DEBUG 0
@@ -47,182 +52,185 @@
 #if GRAM_DEBUG
 extern int gram_debug;
 #endif
+/* "%code requires" blocks.  */
+#line 21 "src/parse-gram.y"
 
-/* Tokens.  */
+  #include "symlist.h"
+  #include "symtab.h"
+#line 268 "src/parse-gram.y"
+
+  typedef enum
+  {
+    param_none   = 0,
+    param_lex    = 1 << 0,
+    param_parse  = 1 << 1,
+    param_both   = param_lex | param_parse
+  } param_type;
+#line 737 "src/parse-gram.y"
+
+  #include "muscle-tab.h"
+  typedef struct
+  {
+    char const *chars;
+    muscle_kind kind;
+  } value_type;
+
+#line 79 "src/parse-gram.h"
+
+/* Token kinds.  */
 #ifndef GRAM_TOKENTYPE
 # define GRAM_TOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum gram_tokentype {
-     GRAM_EOF = 0,
-     STRING = 258,
-     INT = 259,
-     PERCENT_TOKEN = 260,
-     PERCENT_NTERM = 261,
-     PERCENT_TYPE = 262,
-     PERCENT_DESTRUCTOR = 263,
-     PERCENT_PRINTER = 264,
-     PERCENT_LEFT = 265,
-     PERCENT_RIGHT = 266,
-     PERCENT_NONASSOC = 267,
-     PERCENT_PREC = 268,
-     PERCENT_DPREC = 269,
-     PERCENT_MERGE = 270,
-     PERCENT_CODE = 271,
-     PERCENT_DEBUG = 272,
-     PERCENT_DEFAULT_PREC = 273,
-     PERCENT_DEFINE = 274,
-     PERCENT_DEFINES = 275,
-     PERCENT_ERROR_VERBOSE = 276,
-     PERCENT_EXPECT = 277,
-     PERCENT_EXPECT_RR = 278,
-     PERCENT_FILE_PREFIX = 279,
-     PERCENT_GLR_PARSER = 280,
-     PERCENT_INITIAL_ACTION = 281,
-     PERCENT_LANGUAGE = 282,
-     PERCENT_LEX_PARAM = 283,
-     PERCENT_LOCATIONS = 284,
-     PERCENT_NAME_PREFIX = 285,
-     PERCENT_NO_DEFAULT_PREC = 286,
-     PERCENT_NO_LINES = 287,
-     PERCENT_NONDETERMINISTIC_PARSER = 288,
-     PERCENT_OUTPUT = 289,
-     PERCENT_PARSE_PARAM = 290,
-     PERCENT_PURE_PARSER = 291,
-     PERCENT_REQUIRE = 292,
-     PERCENT_SKELETON = 293,
-     PERCENT_START = 294,
-     PERCENT_TOKEN_TABLE = 295,
-     PERCENT_VERBOSE = 296,
-     PERCENT_YACC = 297,
-     BRACED_CODE = 298,
-     BRACKETED_ID = 299,
-     CHAR = 300,
-     EPILOGUE = 301,
-     EQUAL = 302,
-     ID = 303,
-     ID_COLON = 304,
-     PERCENT_PERCENT = 305,
-     PIPE = 306,
-     PROLOGUE = 307,
-     SEMICOLON = 308,
-     TYPE = 309,
-     TYPE_TAG_ANY = 310,
-     TYPE_TAG_NONE = 311,
-     PERCENT_UNION = 312
-   };
+  enum gram_tokentype
+  {
+    GRAM_EMPTY = -2,
+    GRAM_EOF = 0,                  /* "end of file"  */
+    GRAM_error = 1,                /* error  */
+    GRAM_UNDEF = 2,                /* "invalid token"  */
+    STRING = 3,                    /* "string"  */
+    TSTRING = 4,                   /* "translatable string"  */
+    PERCENT_TOKEN = 5,             /* "%token"  */
+    PERCENT_NTERM = 6,             /* "%nterm"  */
+    PERCENT_TYPE = 7,              /* "%type"  */
+    PERCENT_DESTRUCTOR = 8,        /* "%destructor"  */
+    PERCENT_PRINTER = 9,           /* "%printer"  */
+    PERCENT_LEFT = 10,             /* "%left"  */
+    PERCENT_RIGHT = 11,            /* "%right"  */
+    PERCENT_NONASSOC = 12,         /* "%nonassoc"  */
+    PERCENT_PRECEDENCE = 13,       /* "%precedence"  */
+    PERCENT_PREC = 14,             /* "%prec"  */
+    PERCENT_DPREC = 15,            /* "%dprec"  */
+    PERCENT_MERGE = 16,            /* "%merge"  */
+    PERCENT_CODE = 17,             /* "%code"  */
+    PERCENT_DEFAULT_PREC = 18,     /* "%default-prec"  */
+    PERCENT_DEFINE = 19,           /* "%define"  */
+    PERCENT_ERROR_VERBOSE = 20,    /* "%error-verbose"  */
+    PERCENT_EXPECT = 21,           /* "%expect"  */
+    PERCENT_EXPECT_RR = 22,        /* "%expect-rr"  */
+    PERCENT_FILE_PREFIX = 23,      /* "%file-prefix"  */
+    PERCENT_FLAG = 24,             /* "%<flag>"  */
+    PERCENT_GLR_PARSER = 25,       /* "%glr-parser"  */
+    PERCENT_HEADER = 26,           /* "%header"  */
+    PERCENT_INITIAL_ACTION = 27,   /* "%initial-action"  */
+    PERCENT_LANGUAGE = 28,         /* "%language"  */
+    PERCENT_NAME_PREFIX = 29,      /* "%name-prefix"  */
+    PERCENT_NO_DEFAULT_PREC = 30,  /* "%no-default-prec"  */
+    PERCENT_NO_LINES = 31,         /* "%no-lines"  */
+    PERCENT_NONDETERMINISTIC_PARSER = 32, /* "%nondeterministic-parser"  */
+    PERCENT_OUTPUT = 33,           /* "%output"  */
+    PERCENT_PURE_PARSER = 34,      /* "%pure-parser"  */
+    PERCENT_REQUIRE = 35,          /* "%require"  */
+    PERCENT_SKELETON = 36,         /* "%skeleton"  */
+    PERCENT_START = 37,            /* "%start"  */
+    PERCENT_TOKEN_TABLE = 38,      /* "%token-table"  */
+    PERCENT_VERBOSE = 39,          /* "%verbose"  */
+    PERCENT_YACC = 40,             /* "%yacc"  */
+    BRACED_CODE = 41,              /* "{...}"  */
+    BRACED_PREDICATE = 42,         /* "%?{...}"  */
+    BRACKETED_ID = 43,             /* "[identifier]"  */
+    CHAR_LITERAL = 44,             /* "character literal"  */
+    COLON = 45,                    /* ":"  */
+    EPILOGUE = 46,                 /* "epilogue"  */
+    EQUAL = 47,                    /* "="  */
+    ID = 48,                       /* "identifier"  */
+    ID_COLON = 49,                 /* "identifier:"  */
+    PERCENT_PERCENT = 50,          /* "%%"  */
+    PIPE = 51,                     /* "|"  */
+    PROLOGUE = 52,                 /* "%{...%}"  */
+    SEMICOLON = 53,                /* ";"  */
+    TAG = 54,                      /* "<tag>"  */
+    TAG_ANY = 55,                  /* "<*>"  */
+    TAG_NONE = 56,                 /* "<>"  */
+    INT_LITERAL = 57,              /* "integer literal"  */
+    PERCENT_PARAM = 58,            /* "%param"  */
+    PERCENT_UNION = 59,            /* "%union"  */
+    PERCENT_EMPTY = 60             /* "%empty"  */
+  };
+  typedef enum gram_tokentype gram_token_kind_t;
 #endif
-/* Tokens.  */
-#define GRAM_EOF 0
-#define STRING 258
-#define INT 259
-#define PERCENT_TOKEN 260
-#define PERCENT_NTERM 261
-#define PERCENT_TYPE 262
-#define PERCENT_DESTRUCTOR 263
-#define PERCENT_PRINTER 264
-#define PERCENT_LEFT 265
-#define PERCENT_RIGHT 266
-#define PERCENT_NONASSOC 267
-#define PERCENT_PREC 268
-#define PERCENT_DPREC 269
-#define PERCENT_MERGE 270
-#define PERCENT_CODE 271
-#define PERCENT_DEBUG 272
-#define PERCENT_DEFAULT_PREC 273
-#define PERCENT_DEFINE 274
-#define PERCENT_DEFINES 275
-#define PERCENT_ERROR_VERBOSE 276
-#define PERCENT_EXPECT 277
-#define PERCENT_EXPECT_RR 278
-#define PERCENT_FILE_PREFIX 279
-#define PERCENT_GLR_PARSER 280
-#define PERCENT_INITIAL_ACTION 281
-#define PERCENT_LANGUAGE 282
-#define PERCENT_LEX_PARAM 283
-#define PERCENT_LOCATIONS 284
-#define PERCENT_NAME_PREFIX 285
-#define PERCENT_NO_DEFAULT_PREC 286
-#define PERCENT_NO_LINES 287
-#define PERCENT_NONDETERMINISTIC_PARSER 288
-#define PERCENT_OUTPUT 289
-#define PERCENT_PARSE_PARAM 290
-#define PERCENT_PURE_PARSER 291
-#define PERCENT_REQUIRE 292
-#define PERCENT_SKELETON 293
-#define PERCENT_START 294
-#define PERCENT_TOKEN_TABLE 295
-#define PERCENT_VERBOSE 296
-#define PERCENT_YACC 297
-#define BRACED_CODE 298
-#define BRACKETED_ID 299
-#define CHAR 300
-#define EPILOGUE 301
-#define EQUAL 302
-#define ID 303
-#define ID_COLON 304
-#define PERCENT_PERCENT 305
-#define PIPE 306
-#define PROLOGUE 307
-#define SEMICOLON 308
-#define TYPE 309
-#define TYPE_TAG_ANY 310
-#define TYPE_TAG_NONE 311
-#define PERCENT_UNION 312
 
-
-
+/* Value type.  */
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
-typedef union GRAM_STYPE
+union GRAM_STYPE
 {
-/* Line 2042 of yacc.c  */
-#line 115 "parse-gram.y"
+  assoc precedence_declarator;             /* precedence_declarator  */
+  char* STRING;                            /* "string"  */
+  char* TSTRING;                           /* "translatable string"  */
+  char* BRACED_CODE;                       /* "{...}"  */
+  char* BRACED_PREDICATE;                  /* "%?{...}"  */
+  char* EPILOGUE;                          /* "epilogue"  */
+  char* PROLOGUE;                          /* "%{...%}"  */
+  char* yykind_75;                         /* string.opt  */
+  code_props_type code_props_type;         /* code_props_type  */
+  int INT_LITERAL;                         /* "integer literal"  */
+  int yykind_84;                           /* int.opt  */
+  named_ref* yykind_97;                    /* named_ref.opt  */
+  param_type PERCENT_PARAM;                /* "%param"  */
+  symbol* token_decl;                      /* token_decl  */
+  symbol* alias;                           /* alias  */
+  symbol* token_decl_for_prec;             /* token_decl_for_prec  */
+  symbol* id;                              /* id  */
+  symbol* id_colon;                        /* id_colon  */
+  symbol* symbol;                          /* symbol  */
+  symbol* string_as_id;                    /* string_as_id  */
+  symbol_list* generic_symlist;            /* generic_symlist  */
+  symbol_list* generic_symlist_item;       /* generic_symlist_item  */
+  symbol_list* nterm_decls;                /* nterm_decls  */
+  symbol_list* token_decls;                /* token_decls  */
+  symbol_list* yykind_82;                  /* token_decl.1  */
+  symbol_list* token_decls_for_prec;       /* token_decls_for_prec  */
+  symbol_list* yykind_87;                  /* token_decl_for_prec.1  */
+  symbol_list* symbol_decls;               /* symbol_decls  */
+  symbol_list* yykind_90;                  /* symbols.1  */
+  uniqstr PERCENT_ERROR_VERBOSE;           /* "%error-verbose"  */
+  uniqstr PERCENT_FILE_PREFIX;             /* "%file-prefix"  */
+  uniqstr PERCENT_FLAG;                    /* "%<flag>"  */
+  uniqstr PERCENT_NAME_PREFIX;             /* "%name-prefix"  */
+  uniqstr PERCENT_PURE_PARSER;             /* "%pure-parser"  */
+  uniqstr BRACKETED_ID;                    /* "[identifier]"  */
+  uniqstr ID;                              /* "identifier"  */
+  uniqstr ID_COLON;                        /* "identifier:"  */
+  uniqstr TAG;                             /* "<tag>"  */
+  uniqstr yykind_76;                       /* tag.opt  */
+  uniqstr tag;                             /* tag  */
+  uniqstr variable;                        /* variable  */
+  unsigned char CHAR_LITERAL;              /* "character literal"  */
+  value_type value;                        /* value  */
 
-  symbol *symbol;
-  symbol_list *list;
-  int integer;
-  char const *chars;
-  char *code;
-  assoc assoc;
-  uniqstr uniqstr;
-  unsigned char character;
-  named_ref *named_ref;
+#line 200 "src/parse-gram.h"
 
-
-/* Line 2042 of yacc.c  */
-#line 194 "parse-gram.h"
-} GRAM_STYPE;
+};
+typedef union GRAM_STYPE GRAM_STYPE;
 # define GRAM_STYPE_IS_TRIVIAL 1
-# define gram_stype GRAM_STYPE /* obsolescent; will be withdrawn */
 # define GRAM_STYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
 #if ! defined GRAM_LTYPE && ! defined GRAM_LTYPE_IS_DECLARED
-typedef struct GRAM_LTYPE
+typedef struct GRAM_LTYPE GRAM_LTYPE;
+struct GRAM_LTYPE
 {
   int first_line;
   int first_column;
   int last_line;
   int last_column;
-} GRAM_LTYPE;
-# define gram_ltype GRAM_LTYPE /* obsolescent; will be withdrawn */
+};
 # define GRAM_LTYPE_IS_DECLARED 1
 # define GRAM_LTYPE_IS_TRIVIAL 1
 #endif
 
 
-#ifdef YYPARSE_PARAM
-#if defined __STDC__ || defined __cplusplus
-int gram_parse (void *YYPARSE_PARAM);
-#else
-int gram_parse ();
-#endif
-#else /* ! YYPARSE_PARAM */
-#if defined __STDC__ || defined __cplusplus
-int gram_parse (void);
-#else
-int gram_parse ();
-#endif
-#endif /* ! YYPARSE_PARAM */
 
-#endif /* !YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED  */
+
+int gram_parse (void);
+
+/* "%code provides" blocks.  */
+#line 27 "src/parse-gram.y"
+
+  /* Initialize unquote.  */
+  void parser_init (void);
+  /* Deallocate storage for unquote.  */
+  void parser_free (void);
+
+#line 235 "src/parse-gram.h"
+
+#endif /* !YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED  */
