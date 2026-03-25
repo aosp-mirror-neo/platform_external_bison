@@ -31,6 +31,20 @@ if [ $UNAME == "darwin" ]; then
   config_opts+=("ac_cv_func_vfork=no")
   # we'd need to link to libiconv
   config_opts+=("am_cv_func_iconv=no")
+  # for old mac os versions, could probably remove after updating our CI
+  config_opts+=("ac_cv_func_closedir=yes")
+  config_opts+=("ac_cv_func_fchdir=yes")
+  config_opts+=("ac_cv_func_fdopendir=yes")
+  config_opts+=("ac_cv_func_fstatat=yes")
+  config_opts+=("ac_cv_func_memrchr=no")
+  config_opts+=("ac_cv_func_openat=yes")
+  config_opts+=("ac_cv_func_opendir=yes")
+  config_opts+=("ac_cv_func_readdir=yes")
+  config_opts+=("ac_cv_func_rewinddir=yes")
+  config_opts+=("ac_cv_func_strchrnul=no")
+  config_opts+=("ac_cv_have_decl_wcwidth=yes")
+  config_opts+=("gl_cv_func_wcwidth_works=no")
+  config_opts+=("gl_cv_func_getcwd_path_max=no, but it is partly working")
 else
   export CC="$ANDROID_BUILD_TOP/prebuilts/clang/host/linux-x86/$(cd $ANDROID_BUILD_TOP; build/soong/scripts/get_clang_version.py)/bin/clang"
 fi
