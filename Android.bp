@@ -79,8 +79,14 @@ cc_binary_host {
     static_libs: ["libbison"],
 
     target: {
-        linux: {
+        linux_glibc: {
             cflags: ["-DINSTALLDIR=\"/nonexistent/linux-x86/bin\""],
+        },
+        linux_musl_x86_64: {
+            cflags: ["-DINSTALLDIR=\"/nonexistent/linux_musl-x86/bin\""],
+        },
+        linux_musl_arm64: {
+            cflags: ["-DINSTALLDIR=\"/nonexistent/linux-arm64/bin\""],
         },
         darwin: {
             cflags: ["-DINSTALLDIR=\"/nonexistent/darwin-x86/bin\""],
