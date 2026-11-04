@@ -59,6 +59,10 @@ cc_library_host_static {
         "libbison_linux_musl_defaults",
         "libbison_darwin_defaults",
     ],
+    extra_include_dir_deps: [
+        "lib/at-func.c",
+        "lib/printf-frexp.c",
+    ],
 }
 
 //##########################################
@@ -74,6 +78,11 @@ cc_binary_host {
         "bison_linux_glibc_defaults",
         "bison_linux_musl_defaults",
         "bison_darwin_defaults",
+    ],
+    extra_include_dir_deps: [
+        "src/scan-code.c",
+        "src/scan-gram.c",
+        "src/scan-skel.c",
     ],
 
     static_libs: ["libbison"],
